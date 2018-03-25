@@ -1,13 +1,12 @@
 from django.conf.urls import url
-from stockapi.views import BMAPIView
 
 from stockapi.views import (
-    BMAPIView,
+    BenchmarkAPIView,
     TickerAPIView,
-    # KospiOHLCVAPIView,
-    # KosdaqOHLCVAPIView,
-    # RecentKospiOHLCVAPIView,
-    # RecentKosdaqOHLCVAPIView,
+    KospiOHLCVAPIView,
+    KosdaqOHLCVAPIView,
+    RecentKospiOHLCVAPIView,
+    RecentKosdaqOHLCVAPIView,
     # InfoAPIView,
     # SpecsAPIView,
     # FinancialAPIView,
@@ -26,6 +25,10 @@ from stockapi.views import (
 
 
 urlpatterns = [
-    url(r'^bm/$', BMAPIView.as_view(), name='bm'),
+    url(r'^bm/$', BenchmarkAPIView.as_view(), name='bm'),
     url(r'^ticker/$', TickerAPIView.as_view(), name='ticker'),
+    url(r'^kospi/$', KospiOHLCVAPIView.as_view(), name='kospi-ohlcv'),
+    url(r'^kosdaq/$', KosdaqOHLCVAPIView.as_view(), name='kosdaq-ohlcv'),
+    url(r'^recent-kospi/$', RecentKospiOHLCVAPIView.as_view(), name='recent-kospi-ohlcv'),
+    url(r'^recent-kosdaq/$', RecentKosdaqOHLCVAPIView.as_view(), name='recent-kosdaq-ohlcv'),
 ]

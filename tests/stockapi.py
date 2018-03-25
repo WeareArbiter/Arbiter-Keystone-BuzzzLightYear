@@ -5,7 +5,7 @@ from rest_framework.test import APIClient
 from rest_framework import status
 
 from stockapi.models import (
-    BM,
+    Benchmark,
     Ticker,
     KospiOHLCV,
     KosdaqOHLCV,
@@ -52,15 +52,15 @@ class StockapiTestCase(TestCase):
 
     def test_BM_save(self):
         # BM does not need ForeignKey Ticker data
-        bm, created = BM.objects.get_or_create(date='20180101',
-                                               name='KOSPI',
-                                               index=2500,
-                                               volume=1000000,
-                                               individual=5000,
-                                               foreigner=5000,
-                                               institution=5000)
+        bm, created = Benchmark.objects.get_or_create(date='20180101',
+                                                      name='KOSPI',
+                                                      index=2500,
+                                                      volume=1000000,
+                                                      individual=5000,
+                                                      foreigner=5000,
+                                                      institution=5000)
         self.assertTrue(created, msg='failed to save BM data')
-        self.assertEqual(BM.objects.all().count(), 1, msg='BM data not created properly')
+        self.assertEqual(Benchmark.objects.all().count(), 1, msg='Benchmark data not created properly')
 
     def test_OHLCV_save(self):
         # test all Kospi, Kosdaq model cases

@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from stockapi.models import (
-    BM,
+    Benchmark,
     Ticker,
     KospiOHLCV,
     KosdaqOHLCV,
@@ -24,7 +24,7 @@ from stockapi.models import (
 )
 
 models = [
-    BM,
+    Benchmark,
     Ticker,
     KospiOHLCV,
     KosdaqOHLCV,

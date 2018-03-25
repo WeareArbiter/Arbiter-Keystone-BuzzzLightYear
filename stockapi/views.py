@@ -5,7 +5,7 @@ from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 from rest_framework.views import APIView
 
 from stockapi.models import (
-    BM,
+    Benchmark,
     Ticker,
     KospiOHLCV,
     KosdaqOHLCV,
@@ -27,7 +27,7 @@ from stockapi.models import (
     ETFNet,
 )
 from stockapi.serializers import (
-    BMSerializer,
+    BenchmarkSerializer,
     TickerSerializer,
     KospiOHLCVSerializer,
     KosdaqOHLCVSerializer,
@@ -54,15 +54,15 @@ from rest_framework.authentication import SessionAuthentication, BasicAuthentica
 
 
 ### KOSPI & KOSDAQ data ###
-class BMAPIView(generics.ListCreateAPIView):
-    queryset = BM.objects.all()
-    serializer_class = BMSerializer
+class BenchmarkAPIView(generics.ListCreateAPIView):
+    queryset = Benchmark.objects.all()
+    serializer_class = BenchmarkSerializer
     pagination_class = OHLCVPagination
     filter_backends = [SearchFilter, OrderingFilter]
-    # permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self, *args, **kwargs):
-        queryset = BM.objects.all().order_by('id')
+        queryset = Benchmark.objects.all().order_by('id')
         date_by = self.request.GET.get('date')
         start = self.request.GET.get('start')
         end = self.request.GET.get('end')

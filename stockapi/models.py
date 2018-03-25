@@ -14,7 +14,7 @@ STYLE_TYPES = (
 
 
 ### KOSPI & KOSDAQ data ###
-class BM(models.Model):
+class Benchmark(models.Model):
     '''
     - description: KOSPI & KOSDAQ benchmarks index points
     - period: 20000104 ~
@@ -24,7 +24,7 @@ class BM(models.Model):
     date = models.CharField(max_length=10)
     name = models.CharField(max_length=10)
     index = models.FloatField()
-    volume = models.IntegerField()
+    volume = models.IntegerField(null=True)
     individual = models.IntegerField()
     foreigner = models.IntegerField()
     institution = models.IntegerField()

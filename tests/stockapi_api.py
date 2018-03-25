@@ -5,7 +5,7 @@ from rest_framework.test import APIClient
 from rest_framework import status
 
 from stockapi.models import (
-    BM,
+    Benchmark,
     Ticker,
     KospiOHLCV,
     KosdaqOHLCV,
@@ -57,7 +57,7 @@ class StockapiAPITestCase(TestCase):
         self.assertEqual(User.objects.get(pk=1).email, self.user['email'])
 
     def test_BM_post_API(self):
-        # user, created = User.objects.get_or_create(username='testcase', password='test123123123')
+        # sending post request on BM without authentication
         bm_data = {
             'date': '20180101',
             'name': 'KOSPI',
@@ -72,4 +72,20 @@ class StockapiAPITestCase(TestCase):
             bm_data,
             format='json'
         )
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+        # attempt again with authentication
+        user = User.objects.get(username='testcase')
+        self.client.force_authenticate(user=user)
+        response = self.client.post(
+            '/stock-api/bm/',
+            bm_data,
+            format='json'
+        )
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        # logging out for other test cases
+        self.client.logout()
+
+    def test_Ticker_post_API(self):
+        pass

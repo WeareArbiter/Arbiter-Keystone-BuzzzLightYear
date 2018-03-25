@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from stockapi.models import (
-    BM,
+    Benchmark,
     Ticker,
     KospiOHLCV,
     KosdaqOHLCV,
@@ -24,9 +24,9 @@ from stockapi.models import (
 
 
 ### KOSPI & KOSDAQ data ###
-class BMSerializer(serializers.ModelSerializer):
+class BenchmarkSerializer(serializers.ModelSerializer):
     class Meta:
-        model = BM
+        model = Benchmark
         fields = ('date',
                   'name',
                   'index',
