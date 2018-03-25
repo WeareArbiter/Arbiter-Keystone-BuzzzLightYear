@@ -87,16 +87,100 @@ class TickerAPIView(generics.ListCreateAPIView):
 
     def get_queryset(self, *args, **kwargs):
         queryset = Ticker.objects.all().order_by('id')
-        date_by = self.request.GET.get('date')
         code_by = self.request.GET.get('code')
         name_by = self.request.GET.get('name')
         market_by = self.request.GET.get('market_type')
-        if date_by:
-            queryset = queryset.filter(date=date_by)
+        state_by = self.request.GET.get('state')
         if name_by:
             queryset = queryset.filter(name=name_by)
         if code_by:
             queryset = queryset.filter(code=code_by)
         if market_by:
-            queryset = queryset.filter(market=market_by)
+            queryset = queryset.filter(market_type=market_by)
+        if state_by:
+            queryset = queryset.filter(state=state_by)
+        return queryset
+
+
+class KospiOHLCVAPIView(generics.ListCreateAPIView):
+    queryset = KospiOHLCV.objects.all()
+    serializer_class = KospiOHLCVSerializer
+    pagination_class = OHLCVPagination
+    filter_backends = [SearchFilter, OrderingFilter]
+
+    def get_queryset(self, *args, **kwargs):
+        queryset = KospiOHLCV.objects.all().order_by('id')
+        date_by = self.request.GET.get('date')
+        start = self.request.GET.get('start')
+        end = self.request.GET.get('end')
+        code_by = self.request.GET.get('code')
+        if date_by:
+            queryset = queryset.filter(date=date_by)
+        if start and end and not date_by:
+            queryset = queryset.filter(date__gte=start).filter(date__lte=end)
+        if code_by:
+            queryset = queryset.filter(code=code_by)
+        return queryset
+
+
+class KosdaqOHLCVAPIView(generics.ListCreateAPIView):
+    queryset = KosdaqOHLCV.objects.all()
+    serializer_class = KosdaqOHLCVSerializer
+    pagination_class = OHLCVPagination
+    filter_backends = [SearchFilter, OrderingFilter]
+
+    def get_queryset(self, *args, **kwargs):
+        queryset = KosdaqOHLCV.objects.all().order_by('id')
+        date_by = self.request.GET.get('date')
+        start = self.request.GET.get('start')
+        end = self.request.GET.get('end')
+        code_by = self.request.GET.get('code')
+        if date_by:
+            queryset = queryset.filter(date=date_by)
+        if start and end and not date_by:
+            queryset = queryset.filter(date__gte=start).filter(date__lte=end)
+        if code_by:
+            queryset = queryset.filter(code=code_by)
+        return queryset
+
+
+class RecentKospiOHLCVAPIView(generics.ListCreateAPIView):
+    queryset = RecentKospiOHLCV.objects.all()
+    serializer_class = RecentKospiOHLCVSerializer
+    pagination_class = OHLCVPagination
+    filter_backends = [SearchFilter, OrderingFilter]
+
+    def get_queryset(self, *args, **kwargs):
+        queryset = RecentKospiOHLCV.objects.all().order_by('id')
+        date_by = self.request.GET.get('date')
+        start = self.request.GET.get('start')
+        end = self.request.GET.get('end')
+        code_by = self.request.GET.get('code')
+        if date_by:
+            queryset = queryset.filter(date=date_by)
+        if start and end and not date_by:
+            queryset = queryset.filter(date__gte=start).filter(date__lte=end)
+        if code_by:
+            queryset = queryset.filter(code=code_by)
+        return queryset
+
+
+class RecentKosdaqOHLCVAPIView(generics.ListCreateAPIView):
+    queryset = RecentKosdaqOHLCV.objects.all()
+    serializer_class = RecentKosdaqOHLCVSerializer
+    pagination_class = OHLCVPagination
+    filter_backends = [SearchFilter, OrderingFilter]
+
+    def get_queryset(self, *args, **kwargs):
+        queryset = RecentKosdaqOHLCV.objects.all().order_by('id')
+        date_by = self.request.GET.get('date')
+        start = self.request.GET.get('start')
+        end = self.request.GET.get('end')
+        code_by = self.request.GET.get('code')
+        if date_by:
+            queryset = queryset.filter(date=date_by)
+        if start and end and not date_by:
+            queryset = queryset.filter(date__gte=start).filter(date__lte=end)
+        if code_by:
+            queryset = queryset.filter(code=code_by)
         return queryset
