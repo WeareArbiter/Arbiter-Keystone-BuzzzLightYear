@@ -99,7 +99,6 @@ class InfoSerializer(serializers.ModelSerializer):
         model = Info
         fields = ('date',
                   'code',
-                  'name',
                   'size_type',
                   'style_type',
                   'market_type',
@@ -142,7 +141,6 @@ class FinancialSerializer(serializers.ModelSerializer):
         model = Financial
         fields = ('date',
                   'code',
-                  'name',
                   'revenue',
                   'profit',
                   'net_profit',
@@ -157,7 +155,6 @@ class FinancialRatioSerializer(serializers.ModelSerializer):
         model = FinancialRatio
         fields = ('date',
                   'code',
-                  'name',
                   'debt_ratio',
                   'profit_ratio',
                   'net_profit_ratio',
@@ -174,7 +171,6 @@ class QuarterFinancialSerializer(serializers.ModelSerializer):
         model = QuarterFinancial
         fields = ('date',
                   'code',
-                  'name',
                   'revenue',
                   'profit',
                   'net_profit',
@@ -189,8 +185,6 @@ class KospiBuySerializer(serializers.ModelSerializer):
         model = KospiBuy
         fields = ('date',
                   'code',
-                  'name',
-                  'short',
                   'individual',
                   'foreign_retail',
                   'institution',
@@ -211,8 +205,6 @@ class KosdaqBuySerializer(serializers.ModelSerializer):
         model = KosdaqBuy
         fields = ('date',
                   'code',
-                  'name',
-                  'short',
                   'individual',
                   'foreign_retail',
                   'institution',
@@ -233,8 +225,6 @@ class ETFBuySerializer(serializers.ModelSerializer):
         model = ETFBuy
         fields = ('date',
                   'code',
-                  'name',
-                  'short',
                   'individual',
                   'foreign_retail',
                   'institution',
@@ -255,8 +245,6 @@ class KospiSellSerializer(serializers.ModelSerializer):
         model = KospiSell
         fields = ('date',
                   'code',
-                  'name',
-                  'short',
                   'individual',
                   'foreign_retail',
                   'institution',
@@ -277,8 +265,6 @@ class KosdaqSellSerializer(serializers.ModelSerializer):
         model = KosdaqSell
         fields = ('date',
                   'code',
-                  'name',
-                  'short',
                   'individual',
                   'foreign_retail',
                   'institution',
@@ -299,8 +285,6 @@ class ETFSellSerializer(serializers.ModelSerializer):
         model = ETFSell
         fields = ('date',
                   'code',
-                  'name',
-                  'short',
                   'individual',
                   'foreign_retail',
                   'institution',
@@ -321,8 +305,6 @@ class KospiNetSerializer(serializers.ModelSerializer):
         model = KospiNet
         fields = ('date',
                   'code',
-                  'name',
-                  'short',
                   'individual',
                   'foreign_retail',
                   'institution',
@@ -343,8 +325,6 @@ class KosdaqNetSerializer(serializers.ModelSerializer):
         model = KosdaqNet
         fields = ('date',
                   'code',
-                  'name',
-                  'short',
                   'individual',
                   'foreign_retail',
                   'institution',
@@ -365,8 +345,6 @@ class ETFNetSerializer(serializers.ModelSerializer):
         model = ETFNet
         fields = ('date',
                   'code',
-                  'name',
-                  'short',
                   'individual',
                   'foreign_retail',
                   'institution',

@@ -116,7 +116,6 @@ class Info(models.Model):
     code = models.ForeignKey(Ticker,
                              on_delete=models.CASCADE,
                              related_name='info')
-    name = models.CharField(max_length=50)
     size_type = models.CharField(max_length=1,
                                  choices=SIZE_TYPES,
                                  blank=True,
@@ -175,7 +174,6 @@ class Financial(models.Model):
     code = models.ForeignKey(Ticker,
                              on_delete=models.CASCADE,
                              related_name='financial')
-    name = models.CharField(max_length=50)
     revenue = models.IntegerField(blank=True, null=True)
     profit = models.IntegerField(blank=True, null=True)
     net_profit = models.IntegerField(blank=True, null=True)
@@ -193,7 +191,6 @@ class FinancialRatio(models.Model):
     code = models.ForeignKey(Ticker,
                              on_delete=models.CASCADE,
                              related_name='financial_ratio')
-    name = models.CharField(max_length=50)
     debt_ratio = models.FloatField(blank=True, null=True)
     profit_ratio = models.FloatField(blank=True, null=True)
     net_profit_ratio = models.FloatField(blank=True, null=True)
@@ -213,7 +210,6 @@ class QuarterFinancial(models.Model):
     code = models.ForeignKey(Ticker,
                              on_delete=models.CASCADE,
                              related_name='quarter_financial')
-    name = models.CharField(max_length=50)
     revenue = models.IntegerField(blank=True, null=True)
     profit = models.IntegerField(blank=True, null=True)
     net_profit = models.IntegerField(blank=True, null=True)
@@ -231,8 +227,6 @@ class KospiBuy(models.Model):
     code = models.ForeignKey(Ticker,
                              on_delete=models.CASCADE,
                              related_name='kospi_buy')
-    name = models.CharField(max_length=50, blank=True, null=True)
-    short = models.IntegerField(blank=True, null=True)
     individual = models.IntegerField(blank=True, null=True)
     foreign_retail = models.IntegerField(blank=True, null=True)
     institution = models.IntegerField(blank=True, null=True)
@@ -256,8 +250,6 @@ class KosdaqBuy(models.Model):
     code = models.ForeignKey(Ticker,
                              on_delete=models.CASCADE,
                              related_name='kosdaq_buy')
-    name = models.CharField(max_length=50, blank=True, null=True)
-    short = models.IntegerField(blank=True, null=True)
     individual = models.IntegerField(blank=True, null=True)
     foreign_retail = models.IntegerField(blank=True, null=True)
     institution = models.IntegerField(blank=True, null=True)
@@ -281,8 +273,6 @@ class ETFBuy(models.Model):
     code = models.ForeignKey(Ticker,
                              on_delete=models.CASCADE,
                              related_name='etf_buy')
-    name = models.CharField(max_length=50, blank=True, null=True)
-    short = models.IntegerField(blank=True, null=True)
     individual = models.IntegerField(blank=True, null=True)
     foreign_retail = models.IntegerField(blank=True, null=True)
     institution = models.IntegerField(blank=True, null=True)
@@ -306,8 +296,6 @@ class KospiSell(models.Model):
     code = models.ForeignKey(Ticker,
                              on_delete=models.CASCADE,
                              related_name='kospi_sell')
-    name = models.CharField(max_length=50, blank=True, null=True)
-    short = models.IntegerField(blank=True, null=True)
     individual = models.IntegerField(blank=True, null=True)
     foreign_retail = models.IntegerField(blank=True, null=True)
     institution = models.IntegerField(blank=True, null=True)
@@ -331,8 +319,6 @@ class KosdaqSell(models.Model):
     code = models.ForeignKey(Ticker,
                              on_delete=models.CASCADE,
                              related_name='kosdaq_sell')
-    name = models.CharField(max_length=50, blank=True, null=True)
-    short = models.IntegerField(blank=True, null=True)
     individual = models.IntegerField(blank=True, null=True)
     foreign_retail = models.IntegerField(blank=True, null=True)
     institution = models.IntegerField(blank=True, null=True)
@@ -356,8 +342,6 @@ class ETFSell(models.Model):
     code = models.ForeignKey(Ticker,
                              on_delete=models.CASCADE,
                              related_name='etf_sell')
-    name = models.CharField(max_length=50, blank=True, null=True)
-    short = models.IntegerField(blank=True, null=True)
     individual = models.IntegerField(blank=True, null=True)
     foreign_retail = models.IntegerField(blank=True, null=True)
     institution = models.IntegerField(blank=True, null=True)
@@ -381,8 +365,6 @@ class KospiNet(models.Model):
     code = models.ForeignKey(Ticker,
                              on_delete=models.CASCADE,
                              related_name='kospi_net')
-    name = models.CharField(max_length=50, blank=True, null=True)
-    short = models.IntegerField(blank=True, null=True)
     individual = models.IntegerField(blank=True, null=True)
     foreign_retail = models.IntegerField(blank=True, null=True)
     institution = models.IntegerField(blank=True, null=True)
@@ -406,8 +388,6 @@ class KosdaqNet(models.Model):
     code = models.ForeignKey(Ticker,
                              on_delete=models.CASCADE,
                              related_name='kosdaq_net')
-    name = models.CharField(max_length=50, blank=True, null=True)
-    short = models.IntegerField(blank=True, null=True)
     individual = models.IntegerField(blank=True, null=True)
     foreign_retail = models.IntegerField(blank=True, null=True)
     institution = models.IntegerField(blank=True, null=True)
@@ -431,8 +411,6 @@ class ETFNet(models.Model):
     code = models.ForeignKey(Ticker,
                              on_delete=models.CASCADE,
                              related_name='etf_net')
-    name = models.CharField(max_length=50, blank=True, null=True)
-    short = models.IntegerField(blank=True, null=True)
     individual = models.IntegerField(blank=True, null=True)
     foreign_retail = models.IntegerField(blank=True, null=True)
     institution = models.IntegerField(blank=True, null=True)
