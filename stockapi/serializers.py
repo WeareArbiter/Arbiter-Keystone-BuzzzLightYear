@@ -16,7 +16,7 @@ from stockapi.models import (
     ETFBuy,
     KospiSell,
     KosdaqSell,
-    ETFSellm
+    ETFSell,
     KospiNet,
     KosdaqNet,
     ETFNet,

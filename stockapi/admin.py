@@ -17,7 +17,7 @@ from stockapi.models import (
     ETFBuy,
     KospiSell,
     KosdaqSell,
-    ETFSellm
+    ETFSell,
     KospiNet,
     KosdaqNet,
     ETFNet,
@@ -40,7 +40,7 @@ models = [
     ETFBuy,
     KospiSell,
     KosdaqSell,
-    ETFSellm
+    ETFSell,
     KospiNet,
     KosdaqNet,
     ETFNet,
