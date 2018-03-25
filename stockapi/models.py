@@ -13,6 +13,7 @@ STYLE_TYPES = (
 )
 
 
+### KOSPI & KOSDAQ data ###
 class BM(models.Model):
     '''
     - description: KOSPI & KOSDAQ benchmarks index points
@@ -109,6 +110,7 @@ class RecentKosdaqOHLCV(models.Model):
         return '{}'.format(self.code)
 
 
+### Info and stock specs ###
 class Info(models.Model):
     date = models.CharField(max_length=10)
     code = models.ForeignKey(Ticker,
@@ -128,7 +130,7 @@ class Info(models.Model):
                                 blank=True,
                                 null=True) # 액면가
     stock_nums = models.BigIntegerField(blank=True, null=True) # 상장주식수
-    price = models.IntegerField(blank=True)#당일 종가
+    price = models.IntegerField(blank=True) # 당일 종가
     market_cap = models.BigIntegerField(blank=True, null=True) # 시가총액
     market_cap_rank = models.IntegerField(blank=True, null=True) # 시가총액 순위
     industry = models.CharField(max_length=50,
@@ -165,3 +167,285 @@ class Specs(models.Model):
 
     def __str__(self):
         return self.code
+
+
+### Financial Statement data ###
+class Financial(models.Model):
+    date = models.CharField(max_length=10)
+    code = models.ForeignKey(Ticker,
+                             on_delete=models.CASCADE,
+                             related_name='financial')
+    name = models.CharField(max_length=50)
+    revenue = models.IntegerField(blank=True, null=True)
+    profit = models.IntegerField(blank=True, null=True)
+    net_profit = models.IntegerField(blank=True, null=True)
+    consolidate_profit = models.IntegerField(blank=True, null=True)
+    asset = models.IntegerField(blank=True, null=True)
+    debt = models.IntegerField(blank=True, null=True)
+    capital = models.IntegerField(blank=True, null=True)
+
+    def __str__(self):
+        return '{} {}'.format(self.code, self.name)
+
+
+class FinancialRatio(models.Model):
+    date = models.CharField(max_length=10)
+    code = models.ForeignKey(Ticker,
+                             on_delete=models.CASCADE,
+                             related_name='financial_ratio')
+    name = models.CharField(max_length=50)
+    debt_ratio = models.FloatField(blank=True, null=True)
+    profit_ratio = models.FloatField(blank=True, null=True)
+    net_profit_ratio = models.FloatField(blank=True, null=True)
+    consolidate_profit_ratio = models.FloatField(blank=True, null=True)
+    net_roe = models.FloatField(blank=True, null=True)
+    consolidate_roe = models.FloatField(blank=True, null=True)
+    revenue_growth = models.FloatField(blank=True, null=True)
+    profit_growth = models.FloatField(blank=True, null=True)
+    net_profit_growth = models.FloatField(blank=True, null=True)
+
+    def __str__(self):
+        return '{} {}'.format(self.code, self.name)
+
+
+class QuarterFinancial(models.Model):
+    date = models.CharField(max_length=10)
+    code = models.ForeignKey(Ticker,
+                             on_delete=models.CASCADE,
+                             related_name='quarter_financial')
+    name = models.CharField(max_length=50)
+    revenue = models.IntegerField(blank=True, null=True)
+    profit = models.IntegerField(blank=True, null=True)
+    net_profit = models.IntegerField(blank=True, null=True)
+    consolidate_profit = models.IntegerField(blank=True, null=True)
+    profit_ratio = models.FloatField(blank=True, null=True)
+    net_profit_ratio = models.FloatField(blank=True, null=True)
+
+    def __str__(self):
+        return '{} {}'.format(self.code, self.name)
+
+
+### Buy & Sell data ###
+class KospiBuy(models.Model):
+    date = models.CharField(max_length=10)
+    code = models.ForeignKey(Ticker,
+                             on_delete=models.CASCADE,
+                             related_name='kospi_buy')
+    name = models.CharField(max_length=50, blank=True, null=True)
+    short = models.IntegerField(blank=True, null=True)
+    individual = models.IntegerField(blank=True, null=True)
+    foreign_retail = models.IntegerField(blank=True, null=True)
+    institution = models.IntegerField(blank=True, null=True)
+    financial = models.IntegerField(blank=True, null=True)
+    insurance = models.IntegerField(blank=True, null=True)
+    trust = models.IntegerField(blank=True, null=True)
+    etc_finance = models.IntegerField(blank=True, null=True)
+    bank = models.IntegerField(blank=True, null=True)
+    pension = models.IntegerField(blank=True, null=True)
+    private = models.IntegerField(blank=True, null=True)
+    nation = models.IntegerField(blank=True, null=True)
+    etc_corporate = models.IntegerField(blank=True, null=True)
+    foreign = models.IntegerField(blank=True, null=True)
+
+    def __str__(self):
+        return '{} {}'.format(self.code, self.name)
+
+
+class KosdaqBuy(models.Model):
+    date = models.CharField(max_length=10)
+    code = models.ForeignKey(Ticker,
+                             on_delete=models.CASCADE,
+                             related_name='kosdaq_buy')
+    name = models.CharField(max_length=50, blank=True, null=True)
+    short = models.IntegerField(blank=True, null=True)
+    individual = models.IntegerField(blank=True, null=True)
+    foreign_retail = models.IntegerField(blank=True, null=True)
+    institution = models.IntegerField(blank=True, null=True)
+    financial = models.IntegerField(blank=True, null=True)
+    insurance = models.IntegerField(blank=True, null=True)
+    trust = models.IntegerField(blank=True, null=True)
+    etc_finance = models.IntegerField(blank=True, null=True)
+    bank = models.IntegerField(blank=True, null=True)
+    pension = models.IntegerField(blank=True, null=True)
+    private = models.IntegerField(blank=True, null=True)
+    nation = models.IntegerField(blank=True, null=True)
+    etc_corporate = models.IntegerField(blank=True, null=True)
+    foreign = models.IntegerField(blank=True, null=True)
+
+    def __str__(self):
+        return '{} {}'.format(self.code, self.name)
+
+
+class ETFBuy(models.Model):
+    date = models.CharField(max_length=10)
+    code = models.ForeignKey(Ticker,
+                             on_delete=models.CASCADE,
+                             related_name='etf_buy')
+    name = models.CharField(max_length=50, blank=True, null=True)
+    short = models.IntegerField(blank=True, null=True)
+    individual = models.IntegerField(blank=True, null=True)
+    foreign_retail = models.IntegerField(blank=True, null=True)
+    institution = models.IntegerField(blank=True, null=True)
+    financial = models.IntegerField(blank=True, null=True)
+    insurance = models.IntegerField(blank=True, null=True)
+    trust = models.IntegerField(blank=True, null=True)
+    etc_finance = models.IntegerField(blank=True, null=True)
+    bank = models.IntegerField(blank=True, null=True)
+    pension = models.IntegerField(blank=True, null=True)
+    private = models.IntegerField(blank=True, null=True)
+    nation = models.IntegerField(blank=True, null=True)
+    etc_corporate = models.IntegerField(blank=True, null=True)
+    foreign = models.IntegerField(blank=True, null=True)
+
+    def __str__(self):
+        return '{} {}'.format(self.code, self.name)
+
+
+class KospiSell(models.Model):
+    date = models.CharField(max_length=10)
+    code = models.ForeignKey(Ticker,
+                             on_delete=models.CASCADE,
+                             related_name='kospi_sell')
+    name = models.CharField(max_length=50, blank=True, null=True)
+    short = models.IntegerField(blank=True, null=True)
+    individual = models.IntegerField(blank=True, null=True)
+    foreign_retail = models.IntegerField(blank=True, null=True)
+    institution = models.IntegerField(blank=True, null=True)
+    financial = models.IntegerField(blank=True, null=True)
+    insurance = models.IntegerField(blank=True, null=True)
+    trust = models.IntegerField(blank=True, null=True)
+    etc_finance = models.IntegerField(blank=True, null=True)
+    bank = models.IntegerField(blank=True, null=True)
+    pension = models.IntegerField(blank=True, null=True)
+    private = models.IntegerField(blank=True, null=True)
+    nation = models.IntegerField(blank=True, null=True)
+    etc_corporate = models.IntegerField(blank=True, null=True)
+    foreign = models.IntegerField(blank=True, null=True)
+
+    def __str__(self):
+        return '{} {}'.format(self.code, self.name)
+
+
+class KosdaqSell(models.Model):
+    date = models.CharField(max_length=10)
+    code = models.ForeignKey(Ticker,
+                             on_delete=models.CASCADE,
+                             related_name='kosdaq_sell')
+    name = models.CharField(max_length=50, blank=True, null=True)
+    short = models.IntegerField(blank=True, null=True)
+    individual = models.IntegerField(blank=True, null=True)
+    foreign_retail = models.IntegerField(blank=True, null=True)
+    institution = models.IntegerField(blank=True, null=True)
+    financial = models.IntegerField(blank=True, null=True)
+    insurance = models.IntegerField(blank=True, null=True)
+    trust = models.IntegerField(blank=True, null=True)
+    etc_finance = models.IntegerField(blank=True, null=True)
+    bank = models.IntegerField(blank=True, null=True)
+    pension = models.IntegerField(blank=True, null=True)
+    private = models.IntegerField(blank=True, null=True)
+    nation = models.IntegerField(blank=True, null=True)
+    etc_corporate = models.IntegerField(blank=True, null=True)
+    foreign = models.IntegerField(blank=True, null=True)
+
+    def __str__(self):
+        return '{} {}'.format(self.code, self.name)
+
+
+class ETFSell(models.Model):
+    date = models.CharField(max_length=10)
+    code = models.ForeignKey(Ticker,
+                             on_delete=models.CASCADE,
+                             related_name='etf_sell')
+    name = models.CharField(max_length=50, blank=True, null=True)
+    short = models.IntegerField(blank=True, null=True)
+    individual = models.IntegerField(blank=True, null=True)
+    foreign_retail = models.IntegerField(blank=True, null=True)
+    institution = models.IntegerField(blank=True, null=True)
+    financial = models.IntegerField(blank=True, null=True)
+    insurance = models.IntegerField(blank=True, null=True)
+    trust = models.IntegerField(blank=True, null=True)
+    etc_finance = models.IntegerField(blank=True, null=True)
+    bank = models.IntegerField(blank=True, null=True)
+    pension = models.IntegerField(blank=True, null=True)
+    private = models.IntegerField(blank=True, null=True)
+    nation = models.IntegerField(blank=True, null=True)
+    etc_corporate = models.IntegerField(blank=True, null=True)
+    foreign = models.IntegerField(blank=True, null=True)
+
+    def __str__(self):
+        return '{} {}'.format(self.code, self.name)
+
+
+class KospiNet(models.Model):
+    date = models.CharField(max_length=10)
+    code = models.ForeignKey(Ticker,
+                             on_delete=models.CASCADE,
+                             related_name='kospi_net')
+    name = models.CharField(max_length=50, blank=True, null=True)
+    short = models.IntegerField(blank=True, null=True)
+    individual = models.IntegerField(blank=True, null=True)
+    foreign_retail = models.IntegerField(blank=True, null=True)
+    institution = models.IntegerField(blank=True, null=True)
+    financial = models.IntegerField(blank=True, null=True)
+    insurance = models.IntegerField(blank=True, null=True)
+    trust = models.IntegerField(blank=True, null=True)
+    etc_finance = models.IntegerField(blank=True, null=True)
+    bank = models.IntegerField(blank=True, null=True)
+    pension = models.IntegerField(blank=True, null=True)
+    private = models.IntegerField(blank=True, null=True)
+    nation = models.IntegerField(blank=True, null=True)
+    etc_corporate = models.IntegerField(blank=True, null=True)
+    foreign = models.IntegerField(blank=True, null=True)
+
+    def __str__(self):
+        return '{} {}'.format(self.code, self.name)
+
+
+class KosdaqNet(models.Model):
+    date = models.CharField(max_length=10)
+    code = models.ForeignKey(Ticker,
+                             on_delete=models.CASCADE,
+                             related_name='kosdaq_net')
+    name = models.CharField(max_length=50, blank=True, null=True)
+    short = models.IntegerField(blank=True, null=True)
+    individual = models.IntegerField(blank=True, null=True)
+    foreign_retail = models.IntegerField(blank=True, null=True)
+    institution = models.IntegerField(blank=True, null=True)
+    financial = models.IntegerField(blank=True, null=True)
+    insurance = models.IntegerField(blank=True, null=True)
+    trust = models.IntegerField(blank=True, null=True)
+    etc_finance = models.IntegerField(blank=True, null=True)
+    bank = models.IntegerField(blank=True, null=True)
+    pension = models.IntegerField(blank=True, null=True)
+    private = models.IntegerField(blank=True, null=True)
+    nation = models.IntegerField(blank=True, null=True)
+    etc_corporate = models.IntegerField(blank=True, null=True)
+    foreign = models.IntegerField(blank=True, null=True)
+
+    def __str__(self):
+        return '{} {}'.format(self.code, self.name)
+
+
+class ETFNet(models.Model):
+    date = models.CharField(max_length=10)
+    code = models.ForeignKey(Ticker,
+                             on_delete=models.CASCADE,
+                             related_name='etf_net')
+    name = models.CharField(max_length=50, blank=True, null=True)
+    short = models.IntegerField(blank=True, null=True)
+    individual = models.IntegerField(blank=True, null=True)
+    foreign_retail = models.IntegerField(blank=True, null=True)
+    institution = models.IntegerField(blank=True, null=True)
+    financial = models.IntegerField(blank=True, null=True)
+    insurance = models.IntegerField(blank=True, null=True)
+    trust = models.IntegerField(blank=True, null=True)
+    etc_finance = models.IntegerField(blank=True, null=True)
+    bank = models.IntegerField(blank=True, null=True)
+    pension = models.IntegerField(blank=True, null=True)
+    private = models.IntegerField(blank=True, null=True)
+    nation = models.IntegerField(blank=True, null=True)
+    etc_corporate = models.IntegerField(blank=True, null=True)
+    foreign = models.IntegerField(blank=True, null=True)
+
+    def __str__(self):
+        return '{} {}'.format(self.code, self.name)
