@@ -3,9 +3,9 @@ from django.db import models
 # Create your models here.
 class DefactoTicker(models.Model):
     '''
-    - description: KOSPI & KOSDAQ tickers for defaco model
+    - description: KOSPI & KOSDAQ tickers for defacto model
     - data: (code, name, market_type, state)
-    - url:
+    - url: /defacto-api/defacto-ticker/',
     '''
     code = models.CharField(max_length=6)
     name = models.CharField(max_length=50)
@@ -23,7 +23,7 @@ class AgentData(models.Model):
     - agent: {'individual':ind, 'foreign_retail': for,
             'institution': ins, 'etc_corporate': cor,
             'trust': tru, 'pension': pen}
-    - url:
+    - url: /defacto-api/agent-data/',
     '''
     date = models.CharField(max_length=8)
     code = models.ForeignKey(DefactoTicker,
@@ -62,7 +62,7 @@ class AgentCalcData(models.Model):
     - agent: {'individual':ind, 'foreign_retail': for,
             'institution': ins, 'etc_corporate': cor,
             'trust': tru, 'pension': pen}
-    - url:
+    - url: /defacto-api/calc-data/',
     '''
     date = models.CharField(max_length=8)
     code = models.ForeignKey(DefactoTicker,
@@ -99,7 +99,7 @@ class DefactoReg(models.Model):
     - data: (date, code, tvalue:tv, coefficient:coef)
     - agent: {'individual':ind, 'foreign_retail': for,
              'institution': ins, 'etc_corporate': cor}
-    - url:
+    - url: /defacto-api/reg-data/',
     '''
     date = models.CharField(max_length=6)
     code = models.ForeignKey(DefactoTicker,
@@ -126,7 +126,7 @@ class ScoreData(models.Model):
     - data: (date, code, absolute_score, relative_score, score_rank, rank_change,
             score_change, lead_agent)
     - lead_agent: ('individual', 'foreigner', 'institution', 'etc', 'None')
-    - url:
+    - url: /defacto-api/score-data/
     '''
     date = models.CharField(max_length=8)
     code = models.ForeignKey(DefactoTicker,
@@ -146,10 +146,10 @@ class ScoreData(models.Model):
 
 class RankData(models.Model):
     '''
-    - description: daily rank data for buzzz defaco page
+    - description: daily rank data for buzzz defacto page
     - period: -
     - data: (code, name, lead_agent, total_score, rank_change, sign)
-    - url:
+    - url: /defacto-api/rank-data/
     '''
     date = models.CharField(max_length=8)
     code = models.ForeignKey(DefactoTicker,

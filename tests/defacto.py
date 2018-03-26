@@ -87,7 +87,7 @@ class DefactoTestCase(TestCase):
 
     def test_DefactoReg_save(self):
         # test all DefactoReg
-        defacto_reg, created = DefactoReg.objects.get_or_create(date = 201803,
+        defacto_reg, created = DefactoReg.objects.get_or_create(date = '201803',
                                                                code = self.ticker,
                                                                ind_tv = 2.12,
                                                                for_tv = 1.69,
@@ -105,7 +105,7 @@ class DefactoTestCase(TestCase):
 
     def test_ScoreData_save(self):
         # test score data
-        score_data, created = ScoreData.objects.get_or_create(date = 20180327,
+        score_data, created = ScoreData.objects.get_or_create(date = '20180327',
                                                               code = self.ticker,
                                                               absolute_score = 27.12,
                                                               relative_score = 51.69,
@@ -122,7 +122,7 @@ class DefactoTestCase(TestCase):
 
     def test_RankData_save(self):
         # test rank data
-        rank_data, created = RankData.objects.get_or_create(date = 20180327,
+        rank_data, created = RankData.objects.get_or_create(date = '20180327',
                                                             code = self.ticker,
                                                             lead_agent='foreigner',
                                                             total_score = 78.81,
