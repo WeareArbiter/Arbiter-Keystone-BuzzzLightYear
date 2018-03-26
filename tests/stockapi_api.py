@@ -88,4 +88,64 @@ class StockapiAPITestCase(TestCase):
         self.client.logout()
 
     def test_Ticker_post_API(self):
-        pass
+        # sending post request on BM without authentication
+        ticker_data = {
+            'code': '005930',
+            'name': '삼성전자',
+            'market_type': 'KOSPI',
+            'state': 1
+        }
+        response = self.client.post(
+            '/stock-api/ticker/',
+            ticker_data,
+            format='json'
+        )
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+        # attempt again with authentication
+        user = User.objects.get(username='testcase')
+        self.client.force_authenticate(user=user)
+        response = self.client.post(
+            '/stock-api/ticker/',
+            ticker_data,
+            format='json'
+        )
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        # logging out for other test cases
+        self.client.logout()
+
+    def test_OHLCV_post_API(self):
+        # make Ticker instance first before saving OHLCV data
+        ticker_data = {
+            'code': '005930',
+            'name': '삼성전자',
+            'market_type': 'KOSPI',
+            'state': 1
+        }
+        user = User.objects.get(username='testcase')
+        self.client.force_authenticate(user=user)
+        response = self.client.post(
+            '/stock-api/ticker/',
+            ticker_data,
+            format='json'
+        )
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        # retrieving ticker id value for use in connecting Ticker data instance and OHLCV data instance
+        code = Ticker.objects.get(code='005930').id
+        ohlcv_data = {
+            'date': '20000101',
+            'code': code,
+            'open_price': 1000000,
+            'high_price': 1000000,
+            'low_price': 1000000,
+            'close_price': 1000000,
+            'volume': 1000000
+        }
+        response = self.client.post(
+            '/stock-api/kospi/',
+            ohlcv_data,
+            format='json'
+        )
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)

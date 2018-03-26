@@ -51,6 +51,12 @@ class Ticker(models.Model):
 
 ### OHLCV ###
 class KospiOHLCV(models.Model):
+    '''
+    - description: KOSPI OHLCV updated daily after market closes
+    - period: -
+    - data: (date, code, open_price, high_price, low_price, close_price, volume)
+    - url: /stock-api/kospi/
+    '''
     date = models.CharField(max_length=10)
     code = models.ForeignKey(Ticker,
                              on_delete=models.CASCADE,
@@ -66,6 +72,12 @@ class KospiOHLCV(models.Model):
 
 
 class KosdaqOHLCV(models.Model):
+    '''
+    - description: KOSDAQ OHLCV updated daily after market closes
+    - period: -
+    - data: (date, code, open_price, high_price, low_price, close_price, volume)
+    - url: /stock-api/kosdaq/
+    '''
     date = models.CharField(max_length=10)
     code = models.ForeignKey(Ticker,
                              on_delete=models.CASCADE,
@@ -81,6 +93,12 @@ class KosdaqOHLCV(models.Model):
 
 
 class RecentKospiOHLCV(models.Model):
+    '''
+    - description: Recent 5 years of KOSPI OHLCV data renewed from KospiOHLCV everyday
+    - period: -
+    - data: (date, code, open_price, high_price, low_price, close_price, volume)
+    - url: /stock-api/recent-kospi/
+    '''
     date = models.CharField(max_length=10)
     code = models.ForeignKey(Ticker,
                              on_delete=models.CASCADE,
@@ -96,6 +114,12 @@ class RecentKospiOHLCV(models.Model):
 
 
 class RecentKosdaqOHLCV(models.Model):
+    '''
+    - description: Recent 5 years of KOSDAQ OHLCV data renewed from KosdaqOHLCV everyday
+    - period: -
+    - data: (date, code, open_price, high_price, low_price, close_price, volume)
+    - url: /stock-api/recent-kosdaq/
+    '''
     date = models.CharField(max_length=10)
     code = models.ForeignKey(Ticker,
                              on_delete=models.CASCADE,

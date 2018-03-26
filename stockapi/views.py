@@ -84,6 +84,7 @@ class TickerAPIView(generics.ListCreateAPIView):
     serializer_class = TickerSerializer
     pagination_class = StandardResultPagination
     filter_backends = [SearchFilter, OrderingFilter]
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self, *args, **kwargs):
         queryset = Ticker.objects.all().order_by('id')
