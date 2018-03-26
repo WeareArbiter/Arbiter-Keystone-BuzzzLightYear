@@ -1,7 +1,7 @@
 from django.db import models
 
 # Create your models here.
-class DefacoTicker(models.Model):
+class DefactoTicker(models.Model):
     '''
     - description: KOSPI & KOSDAQ tickers for defaco model
     - data: (code, name, market_type, state)
@@ -26,7 +26,7 @@ class AgentData(models.Model):
     - url:
     '''
     date = models.CharField(max_length=8)
-    code = models.ForeignKey(DefacoTicker,
+    code = models.ForeignKey(DefactoTicker,
                              on_delete=models.CASCADE,
                              related_name='agent_data')
     ind_possession = models.BigIntegerField(blank=True, null=True)
@@ -65,7 +65,7 @@ class AgentCalcData(models.Model):
     - url:
     '''
     date = models.CharField(max_length=8)
-    code = models.ForeignKey(DefacoTicker,
+    code = models.ForeignKey(DefactoTicker,
                              on_delete=models.CASCADE,
                              related_name='agent_calc_data')
     ind_tp = models.FloatField(blank=True, null=True)
@@ -92,6 +92,32 @@ class AgentCalcData(models.Model):
     def __str__(self):
         return '{}'.format(self.code)
 
+class DefactoReg(models.Model):
+    '''
+    - description:
+    - period: 200807 ~
+    - data: (date, code, tvalue:tv, coefficient:coef)
+    - agent: {'individual':ind, 'foreign_retail': for,
+             'institution': ins, 'etc_corporate': cor}
+    - url:
+    '''
+    date = models.CharField(max_length=6)
+    code = models.ForeignKey(DefactoTicker,
+                             on_delete=models.CASCADE,
+                             related_name='defacto_reg')
+    ind_tv = models.FloatField(blank=True, null=True)
+    for_tv = models.FloatField(blank=True, null=True)
+    ins_tv = models.FloatField(blank=True, null=True)
+    cor_tv = models.FloatField(blank=True, null=True)
+    ind_coef = models.FloatField(blank=True, null=True)
+    for_coef = models.FloatField(blank=True, null=True)
+    ins_coef = models.FloatField(blank=True, null=True)
+    cor_coef = models.FloatField(blank=True, null=True)
+
+    def __str__(self):
+        return '{}'.format(self.code)
+
+
 
 class ScoreData(models.Model):
     '''
@@ -103,7 +129,7 @@ class ScoreData(models.Model):
     - url:
     '''
     date = models.CharField(max_length=8)
-    code = models.ForeignKey(DefacoTicker,
+    code = models.ForeignKey(DefactoTicker,
                              on_delete=models.CASCADE,
                              related_name='score_data')
     absolute_score = models.FloatField(blank=True, null=True)
@@ -112,9 +138,7 @@ class ScoreData(models.Model):
     score_rank = models.IntegerField(blank=True, null=True)
     rank_change = models.IntegerField(blank=True, null=True)
     score_change = models.FloatField(blank=True, null=True)
-    lead_agent = models.CharField(max_length=20,
-                                  blank=True,
-                                  null=True)
+    lead_agent = models.CharField(max_length=20, blank=True, null=True)
 
     def __str__(self):
         return '{}'.format(self.code)
@@ -128,7 +152,7 @@ class RankData(models.Model):
     - url:
     '''
     date = models.CharField(max_length=8)
-    code = models.ForeignKey(DefacoTicker,
+    code = models.ForeignKey(DefactoTicker,
                              on_delete=models.CASCADE,
                              related_name='rank_data')
     lead_agent = models.CharField(max_length=20, blank=True, null=True)

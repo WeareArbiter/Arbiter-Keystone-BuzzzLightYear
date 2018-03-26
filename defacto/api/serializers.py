@@ -1,5 +1,21 @@
 from rest_framework import serializers
-from defacto.models import AgentData, AgentCalcData, ScoreData, RankData
+from defacto.models import (
+    DefactoTicker,
+    AgentData,
+    AgentCalcData,
+    DefactoReg,
+    ScoreData,
+    RankData,
+    )
+
+
+class DefactoTickerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DefactoTicker
+        fields = ('code',
+                  'name',
+                  'market_type',
+                  'state',)
 
 
 class AgentDataSerializer(serializers.ModelSerializer):
@@ -41,6 +57,21 @@ class AgentCalcDataSerializer(serializers.ModelSerializer):
                   'cor_apps',)
 
 
+class DefactoRegSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DefactoReg
+        fields = ('date',
+                  'code',
+                  'ind_tv',
+                  'for_tv',
+                  'ins_tv',
+                  'cor_tv',
+                  'ind_coef',
+                  'for_coef',
+                  'ins_coef',
+                  'cor_coef',)
+
+
 class ScoreDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = ScoreData
@@ -61,7 +92,6 @@ class RankDataSerializer(serializers.ModelSerializer):
         fields = ('id',
                   'date',
                   'code',
-                  'name',
                   'lead_agent',
                   'total_score',
                   'category',
