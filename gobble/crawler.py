@@ -89,7 +89,7 @@ class Scrape_WebData(object):
         if recent_update_date != today_date:
             tickers = Ticker.objects.filter(market_type=market).filter(state=True)
             for ticker in tickers:
-                code = ticker.id
+                code = ticker
                 if market_ohlcv[market].objects.filter(code=code).filter(date=today_date).exists():
                     print('{} {} already updated. Skipping...'.format(str(upd_num), code))
                     upd_num += 1
