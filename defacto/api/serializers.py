@@ -12,7 +12,8 @@ from defacto.models import (
 class DefactoTickerSerializer(serializers.ModelSerializer):
     class Meta:
         model = DefactoTicker
-        fields = ('code',
+        fields = ('id',
+                  'code',
                   'name',
                   'market_type',
                   'state',)

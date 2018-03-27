@@ -1,6 +1,7 @@
 from __future__ import absolute_import, unicode_literals
 from celery.decorators import task
 from bs4 import BeautifulSoup
+from datetime import datetime
 import math
 import pandas as pd
 import requests
@@ -18,7 +19,7 @@ from stockapi.models import (
 from defacto.models import DefactoTicker
 
 
-class Scrape_WebData(self):
+class Scrape_WebData(object):
     '''
     - description: scrape KOSPI & KOSDAQ stock data from web page
     - ticker(daum), OHLCV(naver), Info(naver)
@@ -27,8 +28,7 @@ class Scrape_WebData(self):
         ticker_list = []
         defact_list = []
         page = 1
-        date = datetime.now().strftime('%Y%m%d')
-        exists = Ticker.objects.filter(date=date).exists()
+        exists = Ticker.objects.all().exists()
         if exists:
             print('Tickers already updated for {}'.format(date))
         while not exists:
@@ -55,41 +55,39 @@ class Scrape_WebData(self):
                     for i in range(len(table)):
                         code = table[i].find('a').attrs['href'][-6:]
                         name = table[i].text.split("\n")[2]
+                        name = re.sub('[-=.#/?:$};,]', '', name)
                         market_type = market_dic['Q']
-                        ticker_inst = Ticker(date=date,
-                                             name=name,
+                        ticker_inst = Ticker(name=name,
                                              code=code,
-                                             market_type=market_type)
-                        ticker_inst2 = DefactoTicker(date=date,
-                                             name=name,
-                                             code=code,
-                                             market_type=market_type)
+                                             market_type=market_type,)
+                        ticker_inst2 = DefactoTicker(name=name,
+                                                     code=code,
+                                                     market_type=market_type,)
                         ticker_list.append(ticker_inst)
                         defact_list.append(ticker_inst2)
                     page = page + 1
             for i in range(len(table)):
                 code = table[i].find('a').attrs['href'][-6:]
                 name = table[i].text.split("\n")[2]
+                name = re.sub('[-=.#/?:$};,]', '', name)
                 market_type = market_dic['P']
-                ticker_inst = Ticker(date=date,
-                                     name=name,
+                ticker_inst = Ticker(name=name,
                                      code=code,
-                                     market_type=market_type)
-                ticker_inst2 = DefactoTicker(date=date,
-                                     name=name,
-                                     code=code,
-                                     market_type=market_type)
+                                     market_type=market_type,)
+                ticker_inst2 = DefactoTicker(name=name,
+                                             code=code,
+                                             market_type=market_type,)
                 ticker_list.append(ticker_inst)
                 defact_list.append(ticker_inst2)
             page = page + 1
 
     def scrape_ohlcv(self, market):
         upd_num = 0
-        recent_update_date = OHLCV.objects.filter(code='900100').order_by('date').last().date
-        today_date = datetime.datetime.now().strftime('%Y%m%d')
-        market_ohlcv = {'kospi':KospiOHLCV, 'kosdaq':KosdaqOHLCV}
+        recent_update_date = KosdaqOHLCV.objects.filter(code='900100').order_by('date').last().date
+        today_date = datetime.now().strftime('%Y%m%d')
+        market_ohlcv = {'KOSPI':KospiOHLCV, 'KOSPDAQ':KosdaqOHLCV}
         if recent_update_date != today_date:
-            tickers = Ticker.objects.filter(market_type=market)
+            tickers = Ticker.objects.filter(market_type=market).filter(state=True)
             for ticker in tickers:
                 code = ticker.id
                 if market_ohlcv[market].objects.filter(code=code).filter(date=today_date).exists():
@@ -115,8 +113,8 @@ class Scrape_WebData(self):
                                 low_price = int(df.ix[index][5].replace(",", ""))
                                 close_price = int(df.ix[index][1].replace(",", ""))
                                 volume = int(df.ix[index][6].replace(",", ""))
-                                data = market_ohlcv[market](code=code,
-                                                            date=date,
+                                data = market_ohlcv[market](date=date,
+                                                            code=code,
                                                             open_price=open_price,
                                                             high_price=high_price,
                                                             low_price=low_price,
@@ -129,3 +127,37 @@ class Scrape_WebData(self):
                             break
                     market_ohlcv[market].objects.bulk_create(ohlcv_list)
                     upd_num += 1
+
+    def scrape_daily_ohlcv(self, market):
+        success = False
+        data_list = []
+        date_time = datetime.now().strftime('%Y%m%d')
+        tickers = Ticker.objects.filter(market_type=market).order_by('id')
+        print(len(ticker_list))
+        market_ohlcv = {'KOSPI':KospiOHLCV, 'KOSDAQ':KosdaqOHLCV}
+        for i in range(len(tickers)):
+            url = 'http://finance.naver.com/item/sise.nhn?code=' + tickers[i].code
+            user_agent = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.95 Safari/537.36'}
+            r = requests.get(url, headers=user_agent, auth=('user', 'pass'))
+            soup = BeautifulSoup(r.text, 'html.parser')
+            name = soup.findAll('dt')[1].text
+            df = pd.read_html(url, thousands='')
+            name = name
+            code = tickers[i]
+            date = date_time
+            open_price = df[1].iloc[3,3].replace(",","")  #시가
+            close_price = df[1].iloc[0,1].replace(",","") #현재가, 종가
+            high_price = df[1].iloc[4,3].replace(",","")  #고가
+            low_price = df[1].iloc[5,3].replace(",","") #저가
+            volume = df[1].iloc[3,1].replace(",","")
+            ohlcv_inst = market_ohlcv[market](date=date,
+                                              code=code,
+                                              open_price=open_price,
+                                              close_price=close_price,
+                                              high_price=high_price,
+                                              low_price=low_price,
+                                              volume=volume)
+            data_list.append(ohlcv_inst)
+        market_ohlcv[market].objects.bulk_create(data_list)
+        success = True
+        return success, "Data request complete"

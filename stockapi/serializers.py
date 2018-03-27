@@ -38,7 +38,8 @@ class BenchmarkSerializer(serializers.ModelSerializer):
 class TickerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ticker
-        fields = ('code',
+        fields = ('id',
+                  'code',
                   'name',
                   'market_type',
                   'state',)
