@@ -4,8 +4,8 @@ from django.test import TestCase
 from rest_framework.test import APIClient
 from rest_framework import status
 
+from stockapi.models import Ticker
 from defacto.models import (
-    DefactoTicker,
     DefactoReg,
     AgentData,
     AgentCalcData,
@@ -42,36 +42,9 @@ class DefactoAPITestCase(TestCase):
         self.assertEqual(User.objects.get(pk=1).username, self.user['username'])
         self.assertEqual(User.objects.get(pk=1).email, self.user['email'])
 
-    def test_Ticker_post_API(self):
-        # sending post request on BM without authentication
-        defacto_ticker_data = {
-            'code': '005930',
-            'name': '삼성전자',
-            'market_type': 'KOSPI',
-            'state': 1
-        }
-        response = self.client.post(
-            '/defacto-api/defacto-ticker/',
-            defacto_ticker_data,
-            format='json'
-        )
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
-
-        # attempt again with authentication
-        user = User.objects.get(username='testcase')
-        self.client.force_authenticate(user=user)
-        response = self.client.post(
-            '/defacto-api/defacto-ticker/',
-            defacto_ticker_data,
-            format='json'
-        )
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        # logging out for other test cases
-        self.client.logout()
-
     def test_AgentData_post_API(self):
         # make Ticker instance first before saving agent data
-        defacto_ticker_data = {
+        ticker_data = {
             'code': '005930',
             'name': '삼성전자',
             'market_type': 'KOSPI',
@@ -80,15 +53,15 @@ class DefactoAPITestCase(TestCase):
         user = User.objects.get(username='testcase')
         self.client.force_authenticate(user=user)
         response = self.client.post(
-            '/defacto-api/defacto-ticker/',
-            defacto_ticker_data,
+            '/stock-api/ticker/',
+            ticker_data,
             format='json'
         )
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.client.logout()
 
         # retrieving ticker id value for use in connecting Ticker data instance and agent data instance
-        code = DefactoTicker.objects.get(code='005930').id
+        code = Ticker.objects.get(code='005930').id
         agent_data = {
             'date':'20180325',
             'code':code,
@@ -129,7 +102,7 @@ class DefactoAPITestCase(TestCase):
 
     def test_AgentCalcData_post_API(self):
         # make Ticker instance first before saving agent calc data
-        defacto_ticker_data = {
+        ticker_data = {
             'code': '005930',
             'name': '삼성전자',
             'market_type': 'KOSPI',
@@ -138,14 +111,14 @@ class DefactoAPITestCase(TestCase):
         user = User.objects.get(username='testcase')
         self.client.force_authenticate(user=user)
         response = self.client.post(
-            '/defacto-api/defacto-ticker/',
-            defacto_ticker_data,
+            '/stock-api/ticker/',
+            ticker_data,
             format='json'
         )
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.client.logout()
         # retrieving ticker id value for use in connecting Ticker data instance and agent calc data instance
-        code = DefactoTicker.objects.get(code='005930').id
+        code = Ticker.objects.get(code='005930').id
         agent_calc_data = {
             'date':'20180325',
             'code':code,
@@ -186,7 +159,7 @@ class DefactoAPITestCase(TestCase):
 
     def test_DefactoReg_post_API(self):
         # make Ticker instance first before saving defacto reg data
-        defacto_ticker_data = {
+        ticker_data = {
             'code': '005930',
             'name': '삼성전자',
             'market_type': 'KOSPI',
@@ -195,15 +168,15 @@ class DefactoAPITestCase(TestCase):
         user = User.objects.get(username='testcase')
         self.client.force_authenticate(user=user)
         response = self.client.post(
-            '/defacto-api/defacto-ticker/',
-            defacto_ticker_data,
+            '/stock-api/ticker/',
+            ticker_data,
             format='json'
         )
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.client.logout()
 
         # sending post request on defacto reg data without authentication
-        code = DefactoTicker.objects.get(code='005930').id
+        code = Ticker.objects.get(code='005930').id
         reg_data = {
             'date':'201803',
             'code':code,
@@ -236,7 +209,7 @@ class DefactoAPITestCase(TestCase):
 
     def test_ScoreData_post_API(self):
         # make Ticker instance first before saving score data
-        defacto_ticker_data = {
+        ticker_data = {
             'code': '005930',
             'name': '삼성전자',
             'market_type': 'KOSPI',
@@ -245,14 +218,14 @@ class DefactoAPITestCase(TestCase):
         user = User.objects.get(username='testcase')
         self.client.force_authenticate(user=user)
         response = self.client.post(
-            '/defacto-api/defacto-ticker/',
-            defacto_ticker_data,
+            '/stock-api/ticker/',
+            ticker_data,
             format='json'
         )
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.client.logout()
         # sending post request on score data without authentication
-        code = DefactoTicker.objects.get(code='005930').id
+        code = Ticker.objects.get(code='005930').id
         score_data = {
             'date':'20180327',
             'code':code,
@@ -284,7 +257,7 @@ class DefactoAPITestCase(TestCase):
 
 def test_RankData_post_API(self):
     # make Ticker instance first before saving rank data
-    defacto_ticker_data = {
+    ticker_data = {
         'code': '005930',
         'name': '삼성전자',
         'market_type': 'KOSPI',
@@ -293,14 +266,14 @@ def test_RankData_post_API(self):
     user = User.objects.get(username='testcase')
     self.client.force_authenticate(user=user)
     response = self.client.post(
-        '/defacto-api/defacto-ticker/',
-        defacto_ticker_data,
+        '/stock-api/ticker/',
+        ticker_data,
         format='json'
     )
     self.assertEqual(response.status_code, status.HTTP_201_CREATED)
     self.client.logout()
     # sending post request on rank data without authentication
-    code = DefactoTicker.objects.get(code='005930').id
+    code = Ticker.objects.get(code='005930').id
     rank_data = {
         'date':'20180327',
         'code':code,

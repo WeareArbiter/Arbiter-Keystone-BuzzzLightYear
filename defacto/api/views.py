@@ -5,7 +5,6 @@ from rest_framework.response import Response
 from rest_framework.filters import SearchFilter, OrderingFilter
 
 from defacto.models import (
-    DefactoTicker,
     AgentData,
     AgentCalcData,
     DefactoReg,
@@ -13,7 +12,6 @@ from defacto.models import (
     RankData,
     )
 from defacto.api.serializers import (
-    DefactoTickerSerializer,
     AgentDataSerializer,
     AgentCalcDataSerializer,
     DefactoRegSerializer,
@@ -21,31 +19,6 @@ from defacto.api.serializers import (
     RankDataSerializer,
     )
 from utils.paginations import StandardResultPagination
-
-
-class DefactoTickerAPIView(generics.ListCreateAPIView):
-    queryset = DefactoTicker.objects.all()
-    serializer_class = DefactoTickerSerializer
-    pagination_class = StandardResultPagination
-    filter_backends = [SearchFilter, OrderingFilter]
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    
-    def get_queryset(self, *args, **kwargs):
-        queryset = DefactoTicker.objects.all().order_by('id')
-        code_by = self.request.GET.get('code')
-        name_by = self.request.GET.get('name')
-        market_by = self.request.GET.get('market_type')
-        state_by = self.request.GET.get('state')
-        if name_by:
-            queryset = queryset.filter(name=name_by)
-        if code_by:
-            queryset = queryset.filter(code=code_by)
-        if market_by:
-            queryset = queryset.filter(market_type=market_by)
-        if state_by:
-            queryset = queryset.filter(state=state_by)
-        return queryset
-
 
 class AgentDataAPIView(generics.ListCreateAPIView):
     queryset = AgentData.objects.all()

@@ -1,22 +1,11 @@
 from rest_framework import serializers
 from defacto.models import (
-    DefactoTicker,
     AgentData,
     AgentCalcData,
     DefactoReg,
     ScoreData,
     RankData,
     )
-
-
-class DefactoTickerSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = DefactoTicker
-        fields = ('id',
-                  'code',
-                  'name',
-                  'market_type',
-                  'state',)
 
 
 class AgentDataSerializer(serializers.ModelSerializer):

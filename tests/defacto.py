@@ -4,13 +4,14 @@ from django.test import TestCase
 from rest_framework.test import APIClient
 from rest_framework import status
 
+from stockapi.models import Ticker
 from defacto.models import (
-    DefactoTicker,
     DefactoReg,
     AgentData,
     AgentCalcData,
     ScoreData,
     RankData,
+    RelativeCalc,
     )
 
 User = get_user_model()
@@ -24,7 +25,7 @@ class DefactoTestCase(TestCase):
         print('Starting defacto test')
 
         # create Ticker data first, before saving other data
-        ticker, created = DefactoTicker.objects.get_or_create(code='005930',
+        ticker, created = Ticker.objects.get_or_create(code='005930',
                                                              name='삼성전자',
                                                              market_type='KOSPI',
                                                              state=1,)
@@ -33,7 +34,7 @@ class DefactoTestCase(TestCase):
 
         # test assertions
         self.assertTrue(created, msg='failed to save DefactoTicker data')
-        self.assertEqual(DefactoTicker.objects.all().count(), 1, msg='DefactoTicker data not created properly')
+        self.assertEqual(Ticker.objects.all().count(), 1, msg='DefactoTicker data not created properly')
 
     def test_AgentData_save(self):
         # test all agent data
@@ -127,7 +128,7 @@ class DefactoTestCase(TestCase):
         inst_name = relative_calc.code.name
         self.assertEqual(inst_name, '삼성전자', msg='DefatoReg not created properly')
         relative_calc_cp_vol = self.ticker.relative_calc.first().cp_vol
-        self.assertEqual(relative_calc_cp_vol, 2.12, msg='defacto_reg_ind_tv DefactoReg not created properly')
+        self.assertEqual(relative_calc_cp_vol, 0.034, msg='defacto_reg_ind_tv DefactoReg not created properly')
 
     def test_ScoreData_save(self):
         # test score data

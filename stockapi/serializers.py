@@ -377,7 +377,7 @@ class KospiShortSerialier(serializers.ModelSerializer):
 
 class KosdaqShortSerialier(serializers.ModelSerializer):
     class Meta:
-        model = KospdaqShort
+        model = KosdaqShort
         fields = ('date',
                   'code',
                   'short',
