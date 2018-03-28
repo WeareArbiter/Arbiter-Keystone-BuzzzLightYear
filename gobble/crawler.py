@@ -151,3 +151,150 @@ class Scrape_WebData(object):
         market_ohlcv[market].objects.bulk_create(data_list)
         success = True
         return success, "Data request complete"
+
+    def scrape_info(self, ticker):
+        success = False
+        data_list=[]
+        date = datetime.now().strftime('%Y%m%d')
+        user_agent = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.95 Safari/537.36'}
+        for i in range(len(ticker)) :
+            url = 'http://companyinfo.stock.naver.com/v1/company/c1010001.aspx?cn=&cmp_cd='+ ticker[i].code
+            code = ticker[i]
+            r = requests.get(url, headers=user_agent, auth=('user', 'pass'))
+            soup = BeautifulSoup(r.text, 'html.parser')
+            tmp = soup.findAll('td',{'class':'cmp-table-cell td0101'})
+            if len(tmp) != 0:
+                tmp = tmp[0].findAll('dt',{'class':'line-left'})[1].text.replace(' ','').split(':')
+                market_type = tmp[0]
+                industry = tmp[1]
+                url = 'http://finance.naver.com/item/coinfo.nhn?code='+ ticker[i].code
+                r = requests.get(url, headers= user_agent, auth=('user', 'pass'))
+                soup = BeautifulSoup(r.text, 'html.parser')
+                todayinfo = soup.findAll('dl',{'class':'blind'})
+                stockinfo = pd.read_html(url, thousands='')
+                price = todayinfo[0].findAll('dd')[3].text.split(' ')[1].replace(',','')
+                if len(stockinfo[1]) == 5:
+                    face_val = stockinfo[1].iloc[3,1].replace(' ','').replace(',','').replace('원','').split('l')[0]
+                    stock_nums = stockinfo[1].iloc[2,1].replace(',','')#상장주식수
+                    foreign_limit = stockinfo[2].iloc[0,1].replace(',','')
+                    foreign_possession = stockinfo[2].iloc[1,1].replace(',','')
+                    foreign_ratio = stockinfo[2].iloc[2,1].replace('%','')
+                    #per, eps
+                    per_td = soup.findAll('table',{'class':'per_table'})
+                    td = per_td[0].findAll('em')
+                    per_table = []
+                    for t in td:
+                        a = t.text
+                        per_table.append(a)
+                    per = 0 if per_table[0] == "N/A" else per_table[0].replace(',','')
+                    eps = 0 if per_table[1] == "N/A" else per_table[1].replace(',','')
+                    yield_ret = 0 if per_table[8] == "N/A" else per_table[8]
+                    bps = 0 if per_table[7] == "N/A" else per_table[7].replace(',','')
+                    pbr = 0 if bps == 0 else round(int(price)/int(bps),2)
+                    print(code,stockinfo[5].iloc[0,1])
+                    try:
+                        math.isnan(float(stockinfo[5].iloc[0,1].replace('배','').replace(',','')))
+                        industry_per = float(stockinfo[5].iloc[0,1].replace('배','').replace(',',''))
+                    except AttributeError:
+                        industry_per = 0
+                    print(code,industry_per)
+                    market_cap = int(price)*int(stock_nums) #시가총액
+                elif len(stockinfo[1]) == 4:
+                    face_val = 0
+                    stock_nums = stockinfo[1].iloc[2,1].replace(',','')#상장주식수
+                    foreign_limit = stockinfo[2].iloc[0,1].replace(',','')
+                    foreign_possession = stockinfo[2].iloc[1,1].replace(',','')
+                    foreign_ratio = stockinfo[2].iloc[2,1].replace('%','')
+                    #per, eps
+                    per_td = soup.findAll('table',{'class':'per_table'})
+                    td = per_td[0].findAll('em')
+                    per_table = []
+                    for t in td:
+                        a = t.text
+                        per_table.append(a)
+                    per = per_table[0]
+                    eps = per_table[1].replace(',','')
+                    yield_ret = 0 if per_table[8] == "N/A" else per_table[8]
+                    bps = 0 if per_table[7] == "N/A" else per_table[7].replace(',','')
+                    pbr = 0 if bps == 0 else round(int(price)/int(bps),2)
+                    try:
+                        math.isnan(float(stockinfo[5].iloc[0,1].replace('배','').replace(',','')))
+                        industry_per = float(stockinfo[5].iloc[0,1].replace('배','').replace(',',''))
+                    except AttributeError:
+                        industry_per = 0
+                    print(code,industry_per)
+                    market_cap = int(price)*int(stock_nums)
+                else:
+                    face_val = 0
+                    stock_nums = stockinfo[1].iloc[1,1].replace(',','')#상장주식수
+                    foreign_limit = 0
+                    foreign_possession = 0
+                    foreign_ratio = 0
+                    per = 0
+                    eps = 0
+                    pbr = 0
+                    bps = 0
+                    industry_per = 0
+                    yield_ret = 0
+                    market_cap = int(price)*int(stock_nums)
+                tmp_json = Info(date=date,
+                                code=code,
+                                market_type=market_type,
+                                industry=industry,
+                                price=price,
+                                face_val=face_val,
+                                stock_nums=stock_nums,
+                                market_cap=market_cap,
+                                foreign_limit=foreign_limit,
+                                foreign_possession=foreign_possession,
+                                foreign_ratio=foreign_ratio,
+                                per=per,
+                                eps=eps,
+                                bps=bps,
+                                pbr=pbr,
+                                industry_per=industry_per,
+                                yield_ret=yield_ret)
+                data_list.append(tmp_json)
+            else:
+                url = 'http://finance.naver.com/item/coinfo.nhn?code='+ ticker[i].code
+                r = requests.get(url, headers= user_agent, auth=('user', 'pass'))
+                soup = BeautifulSoup(r.text, 'html.parser')
+                market_type = "KOSPI"
+                industry = "ETF"
+                soup = BeautifulSoup(r.text, 'html.parser')
+                todayinfo = soup.findAll('dl',{'class':'blind'})
+                price = todayinfo[0].findAll('dd')[3].text.split(' ')[1].replace(',','')
+                stockinfo = pd.read_html(url, thousands='')
+                stock_nums = stockinfo[1].iloc[1,1].replace(',','')#상장주식수
+                face_val = 0
+                market_cap = int(price)*int(stock_nums) #시가총액
+                foreign_limit = 0
+                foreign_possession = 0
+                foreign_ratio = 0
+                per = 0
+                eps = 0
+                pbr = 0
+                bps = 0
+                industry_per = 0
+                yield_ret = 0
+                tmp_json = Info(date=date,
+                                code=code,
+                                market_type=market_type,
+                                industry=industry,
+                                price=price,
+                                face_val=face_val,
+                                stock_nums=stock_nums,
+                                market_cap=market_cap,
+                                foreign_limit=foreign_limit,
+                                foreign_possession=foreign_possession,
+                                foreign_ratio=foreign_ratio,
+                                per=per,
+                                eps=eps,
+                                bps=bps,
+                                pbr=pbr,
+                                industry_per=industry_per,
+                                yield_ret=yield_ret)
+                data_list.append(tmp_json)
+        success = True
+        Info.objects.bulk_create(data_list)
+        return success
