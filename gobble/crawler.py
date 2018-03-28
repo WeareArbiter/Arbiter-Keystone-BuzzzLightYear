@@ -26,7 +26,6 @@ class Scrape_WebData(object):
     '''
     def scrape_ticker(self):
         ticker_list = []
-        defact_list = []
         page = 1
         exists = Ticker.objects.all().exists()
         if exists:
@@ -60,11 +59,7 @@ class Scrape_WebData(object):
                         ticker_inst = Ticker(name=name,
                                              code=code,
                                              market_type=market_type,)
-                        ticker_inst2 = DefactoTicker(name=name,
-                                                     code=code,
-                                                     market_type=market_type,)
                         ticker_list.append(ticker_inst)
-                        defact_list.append(ticker_inst2)
                     page = page + 1
             for i in range(len(table)):
                 code = table[i].find('a').attrs['href'][-6:]
@@ -74,11 +69,7 @@ class Scrape_WebData(object):
                 ticker_inst = Ticker(name=name,
                                      code=code,
                                      market_type=market_type,)
-                ticker_inst2 = DefactoTicker(name=name,
-                                             code=code,
-                                             market_type=market_type,)
                 ticker_list.append(ticker_inst)
-                defact_list.append(ticker_inst2)
             page = page + 1
 
     def scrape_ohlcv(self, market):
@@ -133,7 +124,6 @@ class Scrape_WebData(object):
         data_list = []
         date_time = datetime.now().strftime('%Y%m%d')
         tickers = Ticker.objects.filter(market_type=market).order_by('id')
-        print(len(ticker_list))
         market_ohlcv = {'KOSPI':KospiOHLCV, 'KOSDAQ':KosdaqOHLCV}
         for i in range(len(tickers)):
             url = 'http://finance.naver.com/item/sise.nhn?code=' + tickers[i].code

@@ -103,6 +103,32 @@ class DefactoTestCase(TestCase):
         defacto_reg_ind_tv = self.ticker.defacto_reg.first().ind_tv
         self.assertEqual(defacto_reg_ind_tv, 2.12, msg='defacto_reg_ind_tv DefactoReg not created properly')
 
+    def test_RelativeCalc_save(self):
+        # test all RelativeCalc
+        relative_calc, created = RelativeCalc.objects.get_or_create(date = '20180322',
+                                                                    code = self.ticker,
+                                                                    cp_vol = 0.034,
+                                                                    cp_vol_section = 1.69,
+                                                                    ins_tp_diff = 0.13,
+                                                                    for_tp_diff = -1.33,
+                                                                    ins_price_inc = 1,
+                                                                    for_price_inc = 6,
+                                                                    cp_ind = 0.012,
+                                                                    cp_for = 0.01,
+                                                                    cp_ins = 0.002,
+                                                                    cp_cor = 0.004,
+                                                                    cp_ind_section = 2,
+                                                                    cp_for_section = 5,
+                                                                    cp_ins_section = 12,
+                                                                    cp_cor_section = 11,
+                                                                    short_5d_mean_section = 2,)
+
+        self.assertTrue(created, msg='failed to save AgentData')
+        inst_name = relative_calc.code.name
+        self.assertEqual(inst_name, '삼성전자', msg='DefatoReg not created properly')
+        relative_calc_cp_vol = self.ticker.relative_calc.first().cp_vol
+        self.assertEqual(relative_calc_cp_vol, 2.12, msg='defacto_reg_ind_tv DefactoReg not created properly')
+
     def test_ScoreData_save(self):
         # test score data
         score_data, created = ScoreData.objects.get_or_create(date = '20180327',

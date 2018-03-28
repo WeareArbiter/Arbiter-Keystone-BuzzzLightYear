@@ -1,19 +1,7 @@
 from django.db import models
+from stockapi.models import Ticker
 
 # Create your models here.
-class DefactoTicker(models.Model):
-    '''
-    - description: KOSPI & KOSDAQ tickers for defacto model
-    - data: (code, name, market_type, state)
-    - url: /defacto-api/defacto-ticker/',
-    '''
-    code = models.CharField(max_length=6)
-    name = models.CharField(max_length=50)
-    market_type = models.CharField(max_length=10)
-    state = models.BooleanField(default=True)
-
-    def __str__(self):
-        return '{} {}'.format(self.code, self.name)
 
 class AgentData(models.Model):
     '''
@@ -26,7 +14,7 @@ class AgentData(models.Model):
     - url: /defacto-api/agent-data/',
     '''
     date = models.CharField(max_length=8)
-    code = models.ForeignKey(DefactoTicker,
+    code = models.ForeignKey(Ticker,
                              on_delete=models.CASCADE,
                              related_name='agent_data')
     ind_possession = models.BigIntegerField(blank=True, null=True)
@@ -65,7 +53,7 @@ class AgentCalcData(models.Model):
     - url: /defacto-api/calc-data/',
     '''
     date = models.CharField(max_length=8)
-    code = models.ForeignKey(DefactoTicker,
+    code = models.ForeignKey(Ticker,
                              on_delete=models.CASCADE,
                              related_name='agent_calc_data')
     ind_tp = models.FloatField(blank=True, null=True)
@@ -88,6 +76,7 @@ class AgentCalcData(models.Model):
     ins_apps = models.FloatField(blank=True, null=True)
     cor_apps = models.FloatField(blank=True, null=True)
     # apps : tp_buy_cumsum / buy_cumsum
+    lead_agent = models.CharField(max_length=20, blank=True, null=True)
 
     def __str__(self):
         return '{}'.format(self.code)
@@ -102,7 +91,7 @@ class DefactoReg(models.Model):
     - url: /defacto-api/reg-data/',
     '''
     date = models.CharField(max_length=6)
-    code = models.ForeignKey(DefactoTicker,
+    code = models.ForeignKey(Ticker,
                              on_delete=models.CASCADE,
                              related_name='defacto_reg')
     ind_tv = models.FloatField(blank=True, null=True)
@@ -118,6 +107,40 @@ class DefactoReg(models.Model):
         return '{}'.format(self.code)
 
 
+class RelativeCalc(models.Model):
+    '''
+    - description: Table to calculate relative score
+    - period: 20080701 ~
+    - url: None
+    '''
+    date = models.CharField(max_length=6)
+    code = models.ForeignKey(Ticker,
+                             on_delete=models.CASCADE,
+                             related_name='relative_calc')
+    cp_vol = models.FloatField(blank=True, null=True)
+    # (close_price * volume) / sum(close_price*volume)
+    cp_vol_section = models.IntegerField(blank=True, null=True)
+    # divide 24 section
+    ins_tp_diff = models.FloatField(blank=True, null=False)
+    # ins_apps - close_price / close_price
+    for_tp_diff = models.FloatField(blank=True, null=False)
+    # for_apps - close_price / close_price
+    ins_price_inc = models.FloatField(blank=True, null=False)
+    for_price_inc = models.FloatField(blank=True, null=False)
+    # divide six secion
+    cp_ind = models.FloatField(blank=True, null=True)
+    cp_for = models.FloatField(blank=True, null=True)
+    cp_ins = models.FloatField(blank=True, null=True)
+    cp_cor = models.FloatField(blank=True, null=True)
+    # close_price * (ind, for, ins, cor) buy / sum (close_price * (ind, for, ins, cor) buy )
+    cp_ind_section = models.IntegerField(blank=True, null=True)
+    cp_for_section = models.IntegerField(blank=True, null=True)
+    cp_ins_section = models.IntegerField(blank=True, null=True)
+    cp_cor_section = models.IntegerField(blank=True, null=True)
+    # divide 12 section
+    short_5d_mean_section = models.FloatField(blank=True, null=True)
+    # short total price five days rolling means divide
+
 
 class ScoreData(models.Model):
     '''
@@ -129,7 +152,7 @@ class ScoreData(models.Model):
     - url: /defacto-api/score-data/
     '''
     date = models.CharField(max_length=8)
-    code = models.ForeignKey(DefactoTicker,
+    code = models.ForeignKey(Ticker,
                              on_delete=models.CASCADE,
                              related_name='score_data')
     absolute_score = models.FloatField(blank=True, null=True)
@@ -152,7 +175,7 @@ class RankData(models.Model):
     - url: /defacto-api/rank-data/
     '''
     date = models.CharField(max_length=8)
-    code = models.ForeignKey(DefactoTicker,
+    code = models.ForeignKey(Ticker,
                              on_delete=models.CASCADE,
                              related_name='rank_data')
     lead_agent = models.CharField(max_length=20, blank=True, null=True)

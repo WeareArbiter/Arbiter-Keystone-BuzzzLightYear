@@ -165,6 +165,7 @@ class DefactoAPITestCase(TestCase):
             'for_apps':34321.34,
             'ins_apps':23213.34,
             'cor_apps':34343.34,
+            'lead_agent':'institution',
         }
         response = self.client.post(
             '/defacto-api/calc-data/',
@@ -232,7 +233,6 @@ class DefactoAPITestCase(TestCase):
         )
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.client.logout()
-
 
     def test_ScoreData_post_API(self):
         # make Ticker instance first before saving score data

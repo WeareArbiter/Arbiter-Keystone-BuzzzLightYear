@@ -451,3 +451,37 @@ class ETFNet(models.Model):
 
     def __str__(self):
         return '{} {}'.format(self.code, self.name)
+
+
+class KospiShort(models.Model):
+    date = models.CharField(max_length=10)
+    code = models.ForeignKey(Ticker,
+                             on_delete=models.CASCADE,
+                             related_name='kp_short')
+    short = models.IntegerField(blank=True, null=True)
+    short_proportion = models.FloatField(blank=True, null=True)
+    short_total_price = models.IntegerField(blank=True, null=True)
+    short_avg_price = models.IntegerField(blank=True, null=True)
+    short_zsclae = models.FloatField(blank=True, null=True)
+    short_section = models.IntegerField(blank=True, null=True)
+    tp_5d_mean = models.FloatField(blank=True, null=True) # short_total_price rolling_mean 5days
+
+    def __str__(self):
+        return '{} {}'.format(self.code, self.name)
+
+
+class KosdaqShort(models.Model):
+    date = models.CharField(max_length=10)
+    code = models.ForeignKey(Ticker,
+                             on_delete=models.CASCADE,
+                             related_name='kd_short')
+    short = models.IntegerField(blank=True, null=True)
+    short_proportion = models.FloatField(blank=True, null=True)
+    short_total_price = models.IntegerField(blank=True, null=True)
+    short_avg_price = models.IntegerField(blank=True, null=True)
+    short_zsclae = models.FloatField(blank=True, null=True)
+    short_section = models.IntegerField(blank=True, null=True)
+    tp_5d_mean = models.FloatField(blank=True, null=True) # short_total_price rolling_mean 5days
+
+    def __str__(self):
+        return '{} {}'.format(self.code, self.name)
