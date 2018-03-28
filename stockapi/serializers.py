@@ -20,6 +20,8 @@ from stockapi.models import (
     KospiNet,
     KosdaqNet,
     ETFNet,
+    KospiShort,
+    KosdaqShort,
 )
 
 
@@ -359,3 +361,29 @@ class ETFNetSerializer(serializers.ModelSerializer):
                   'nation',
                   'etc_corporate',
                   'foreign',)
+
+class KospiShortSerialier(serializers.ModelSerializer):
+    class Meta:
+        model = KospiShort
+        fields = ('date',
+                  'code',
+                  'short',
+                  'short_proportion',
+                  'short_total_price',
+                  'short_avg_price',
+                  'short_zsclae',
+                  'short_section',
+                  'tp_5d_mean',)
+
+class KosdaqShortSerialier(serializers.ModelSerializer):
+    class Meta:
+        model = KospdaqShort
+        fields = ('date',
+                  'code',
+                  'short',
+                  'short_proportion',
+                  'short_total_price',
+                  'short_avg_price',
+                  'short_zsclae',
+                  'short_section',
+                  'tp_5d_mean',)
