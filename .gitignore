@@ -7,3 +7,6 @@ backup_csv/
 run.py
 migrations/
 *_test.py
+chromedriver
+phantomjs/
+*.log
