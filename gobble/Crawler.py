@@ -24,86 +24,136 @@ from stockapi.models import (
     )
 
 
-
-class Scrape_WebData(object):
+class Crawler(object):
     '''
     - description: scrape KOSPI & KOSDAQ stock data from web page
     - ticker(daum), OHLCV(naver), Info(naver)
     '''
+    def __init__(self):
+        self.ticker_url = 'http://finance.daum.net/quote/volume.daum?stype={}&page={}'
+        self.ohlcv_url = 'http://finance.naver.com/item/sise_day.nhn?code={}'
+        self.info_url = 'http://finance.naver.com/item/coinfo.nhn?code={}'
+        self.wisefn_url = 'http://companyinfo.stock.naver.com/v1/company/c1010001.aspx?cn=&cmp_cd={}'
+        # etf_etn_checker
+        self.etf_etn_url = 'https://comp.wisereport.co.kr/ETF/lookup.aspx'
+        self.user_agent = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.95 Safari/537.36'}
+        self.market_dic = {'P':'KOSPI', 'Q':'KOSDAQ', 'E':'ETF', 'N':'ETN'}
+        # today
+        self.today_date = datetime.today().strftime('%Y%m%d')
+        print("Crawler is ready ")
+
+    def request_get(self, url, user_agent):
+        self.req = requests.get(url, headers= user_agent, auth=('user', 'pass'))
+        return self.req
+
+    def html_parser(self, req):
+        self.soup = BeautifulSoup(req.text, 'html.parser')
+        return self.soup
+
+    def soup_findall(self, soup, tags, class_dict=None):
+        # print(soup)
+        self.source = soup.findAll(tags, class_dict)
+        return self.source
+
+    def etf_etn_checker(self, category=None):
+        df1 = pd.read_html(self.etf_etn_url)
+        df1 = df1[0]
+        df1.columns = ['ETN/ETF','code','name']
+        if category == 'etf':
+            self.code_list = df1[df1['ETN/ETF'] == 'ETF']['code'].tolist()
+            self.code_list = [str(code).zfill(6) for code in self.code_list]
+        elif category == 'etn':
+            self.code_list = df1[df1['ETN/ETF'] == 'ETN']['code'].tolist()
+            self.code_list = [str(code).zfill(6) for code in self.code_list]
+        else:
+            self.code_list = df1['code'].tolist()
+            self.code_list = [str(code).zfill(6) for code in self.code_list]
+        return self.code_list
+
+    def exist_code(self):
+        code_value = Ticker.objects.all().values_list('code')
+        if len(code_value) == 0:
+            self.exists = []
+        else:
+            self.exists = [code[0] for code in code_value]
+        return self.exists
+
     def scrape_ticker(self):
         A=time.time()
         ticker_list = []
         page = 1
-        exists = Ticker.objects.all().exists()
-        if exists:
-            print('Tickers already updated for {}'.format(date))
-        while not exists:
-            url = 'http://finance.daum.net/quote/volume.daum?stype=P&page={}'.format(str(page))
-            market_dic = {'P':'KOSPI', 'Q':'KOSDAQ', 'E':'ETF'}
-            user_agent = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.95 Safari/537.36'}
-            r = requests.get(url, headers= user_agent, auth=('user', 'pass'))
-            soup = BeautifulSoup(r.text, 'html.parser')
-            table = soup.findAll('tr',{'onmouseout':'highlight(this,false)'})
+        etf = self.etf_etn_checker(category='etf')
+        etn = self.etf_etn_checker(category='etn')
+        exists = self.exist_code()
+        while 1:
+            req = self.request_get(self.ticker_url.format('P', page), self.user_agent)
+            soup = self.html_parser(req)
+            table = self.soup_findall(soup, 'tr', {'onmouseout':'highlight(this,false)'})
             length = len(table)
-            etf = pd.read_csv('../etf_list.csv', header=None)
-            etf = etf[0].tolist()
-            etf = [str(e).zfill(6) for e in etf]
             if length==0:
                 page=1
                 while 1:
-                    url = 'http://finance.daum.net/quote/volume.daum?stype=Q&page={}'.format(str(page))
-                    r = requests.get(url, headers= user_agent, auth=('user', 'pass'))
-                    soup = BeautifulSoup(r.text, 'html.parser')
-                    table = soup.findAll('tr',{'onmouseout':'highlight(this,false)'})
+                    req = self.request_get(self.ticker_url.format('Q', page), self.user_agent)
+                    soup = self.html_parser(req)
+                    table = self.soup_findall(soup,'tr', {'onmouseout':'highlight(this,false)'})
                     if len(table)==0:
                         # data saves here
+                        print(len(ticker_list))
                         Ticker.objects.bulk_create(ticker_list)
                         success = True
                         B = time.time()
+                        print(B-A)
                         return success, "Data request complete", B-A
                     for i in range(len(table)):
                         code = table[i].find('a').attrs['href'][-6:]
-                        name = table[i].text.split("\n")[2]
-                        name = re.sub('[-=.#/?:$};,]', '', name)
-                        market_type = market_dic['Q']
-                        ticker_inst = Ticker(name=name,
-                                             code=code,
-                                             market_type=market_type,)
-                        ticker_list.append(ticker_inst)
+                        if code in exists:
+                            continue
+                        else:
+                            name = table[i].text.split("\n")[2]
+                            name = re.sub('[-=.#/?:$};,]', '', name)
+                            market_type = self.market_dic['Q']
+                            ticker_inst = Ticker(name=name,
+                                                 code=code,
+                                                 market_type=market_type,)
+                            ticker_list.append(ticker_inst)
                     page = page + 1
             for i in range(len(table)):
                 code = table[i].find('a').attrs['href'][-6:]
-                name = table[i].text.split("\n")[2]
-                name = re.sub('[-=.#/?:$};,]', '', name)
-                if code in etf:
-                    market_type = market_dic['E']
+                if code in exists:
+                    continue
                 else:
-                    market_type = market_dic['P']
-                ticker_inst = Ticker(name=name,
-                                     code=code,
-                                     market_type=market_type,)
-                ticker_list.append(ticker_inst)
+                    name = table[i].text.split("\n")[2]
+                    name = re.sub('[-=.#/?:$};,]', '', name)
+                    if code in etf:
+                        market_type = self.market_dic['E']
+                    elif code in etn:
+                        market_type = self.market_dic['N']
+                    else:
+                        market_type = self.market_dic['P']
+                    ticker_inst = Ticker(name=name,
+                                         code=code,
+                                         market_type=market_type,)
+                    ticker_list.append(ticker_inst)
             page = page + 1
 
 
     def scrape_ohlcv(self):
         upd_num = 0
-        recent_update_date = self.ticker.kd_ohlcv.last().date
-        today_date = datetime.now().strftime('%Y%m%d')
+        ticker = Ticker.objects.lasts()
+        recent_update_date = ticker.kd_ohlcv.date
         market_ohlcv = {'KOSPI':KospiOHLCV, 'KOSPDAQ':KosdaqOHLCV, 'ETF':KospiOHLCV}
         for market in ['KOSPI', 'KOSDAQ', 'ETF']:
-            if recent_update_date != today_date:
+            if recent_update_date != self.today_date:
                 tickers = Ticker.objects.filter(market_type=market).filter(state=True)
                 for ticker in tickers:
                     code = ticker
-                    if market_ohlcv[market].objects.filter(code=code).filter(date=today_date).exists():
+                    if market_ohlcv[market].objects.filter(code=code).filter(date=self.today_date).exists():
                         print('{} {} already updated. Skipping...'.format(str(upd_num), code))
                         upd_num += 1
                         continue
                     else:
-                        url = "http://finance.naver.com/item/sise_day.nhn?code=" + code
                         print('{} {}'.format(str(upd_num), url))
-                        df = pd.read_html(url, thousands='')
+                        df = pd.read_html(self.ohlcv_url.format(ticker.code), thousands='')
                         df = df[0]
                         ohlcv_list = []
                         index = 1
@@ -133,64 +183,27 @@ class Scrape_WebData(object):
                         market_ohlcv[market].objects.bulk_create(ohlcv_list)
                         upd_num += 1
 
-    def scrape_daily_ohlcv(self):
-        A = time.time()
-        success = False
-        data_list = []
-        date_time = datetime.now().strftime('%Y%m%d')
-        market_ohlcv = {'KOSPI':KospiOHLCV, 'KOSDAQ':KosdaqOHLCV, 'ETF': KospiOHLCV}
-        for market in ['KOSPI', 'KOSDAQ', 'ETF']:
-            tickers = Ticker.objects.filter(market_type=market).order_by('id')
-            for i in range(len(tickers)):
-                url = 'http://finance.naver.com/item/sise.nhn?code=' + tickers[i].code
-                user_agent = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.95 Safari/537.36'}
-                r = requests.get(url, headers=user_agent, auth=('user', 'pass'))
-                soup = BeautifulSoup(r.text, 'html.parser')
-                name = soup.findAll('dt')[1].text
-                df = pd.read_html(url, thousands='')
-                name = name
-                code = tickers[i]
-                date = date_time
-                open_price = df[1].iloc[3,3].replace(",","")  #시가
-                close_price = df[1].iloc[0,1].replace(",","") #현재가, 종가
-                high_price = df[1].iloc[4,3].replace(",","")  #고가
-                low_price = df[1].iloc[5,3].replace(",","") #저가
-                volume = df[1].iloc[3,1].replace(",","")
-                ohlcv_inst = market_ohlcv[market](date=date,
-                                                  code=code,
-                                                  open_price=open_price,
-                                                  close_price=close_price,
-                                                  high_price=high_price,
-                                                  low_price=low_price,
-                                                  volume=volume)
-                data_list.append(ohlcv_inst)
-            market_ohlcv[market].objects.bulk_create(data_list)
-            success = True
-            B = time.time()
-            return success, "Data request complete", B-A
 
-    def scrape_info(self, ticker):
+    def scrape_info(self, tickers):
         A = time.time()
         success = False
         data_list=[]
-        date = datetime.now().strftime('%Y%m%d')
-        user_agent = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.95 Safari/537.36'}
-        for i in range(len(ticker)) :
-            url = 'http://companyinfo.stock.naver.com/v1/company/c1010001.aspx?cn=&cmp_cd='+ ticker[i].code
+        for ticker in tickers :
             code = ticker[i]
-            r = requests.get(url, headers=user_agent, auth=('user', 'pass'))
-            soup = BeautifulSoup(r.text, 'html.parser')
-            tmp = soup.findAll('td',{'class':'cmp-table-cell td0101'})
-            if len(tmp) != 0:
-                tmp = tmp[0].findAll('dt',{'class':'line-left'})[1].text.replace(' ','').split(':')
-                market_type = tmp[0]
+            industry_url = self.wisefn_url.format(ticker.code)
+            req = self.request_get(industry_url, self.user_agent)
+            soup = self.html_parser(req)
+            tmp = self.soup_findall(soup, 'td', {'class':'cmp-table-cell td0101'})
+            if ticker.market_type not in ['ETF', 'ETN']:
+                tmp = self.soup_findall(tmp[0], 'dt', {'class':'line-left'})[1].text.replace(' ','').split(':')
+                market_type = ticker.market_type
                 industry = tmp[1]
-                url = 'http://finance.naver.com/item/coinfo.nhn?code='+ ticker[i].code
-                r = requests.get(url, headers= user_agent, auth=('user', 'pass'))
-                soup = BeautifulSoup(r.text, 'html.parser')
-                todayinfo = soup.findAll('dl',{'class':'blind'})
-                stockinfo = pd.read_html(url, thousands='')
-                price = todayinfo[0].findAll('dd')[3].text.split(' ')[1].replace(',','')
+                info_url = self.info_url.format(ticker.code)
+                req1 = self.request_get(info_url, self.user_agent)
+                soup1 = self.soup_findall(req1)
+                todayinfo = self.soup_findall(soup1, 'dl', {'class':'blind'})
+                stockinfo = pd.read_html(info_url, thousands='')
+                price = self.soup_findall(todayinfo[0], 'dd').text.split(' ')[1].replace(',','')
                 if len(stockinfo[1]) == 5:
                     face_val = stockinfo[1].iloc[3,1].replace(' ','').replace(',','').replace('원','').split('l')[0]
                     stock_nums = stockinfo[1].iloc[2,1].replace(',','')#상장주식수
@@ -198,8 +211,8 @@ class Scrape_WebData(object):
                     foreign_possession = stockinfo[2].iloc[1,1].replace(',','')
                     foreign_ratio = stockinfo[2].iloc[2,1].replace('%','')
                     #per, eps
-                    per_td = soup.findAll('table',{'class':'per_table'})
-                    td = per_td[0].findAll('em')
+                    per_td = self.soup_findall(soup1,'table',{'class':'per_table'})
+                    td =  self.soup_findall(per_td[0],'em')
                     per_table = []
                     for t in td:
                         a = t.text
@@ -224,8 +237,8 @@ class Scrape_WebData(object):
                     foreign_possession = stockinfo[2].iloc[1,1].replace(',','')
                     foreign_ratio = stockinfo[2].iloc[2,1].replace('%','')
                     #per, eps
-                    per_td = soup.findAll('table',{'class':'per_table'})
-                    td = per_td[0].findAll('em')
+                    per_td = self.soup_findall(soup1,'table',{'class':'per_table'})
+                    td =  self.soup_findall(per_td[0],'em'))
                     per_table = []
                     for t in td:
                         a = t.text
@@ -274,15 +287,14 @@ class Scrape_WebData(object):
                                 yield_ret=yield_ret)
                 data_list.append(tmp_json)
             else:
-                url = 'http://finance.naver.com/item/coinfo.nhn?code='+ ticker[i].code
-                r = requests.get(url, headers= user_agent, auth=('user', 'pass'))
-                soup = BeautifulSoup(r.text, 'html.parser')
-                market_type = "KOSPI"
-                industry = "ETF"
-                soup = BeautifulSoup(r.text, 'html.parser')
-                todayinfo = soup.findAll('dl',{'class':'blind'})
-                price = todayinfo[0].findAll('dd')[3].text.split(' ')[1].replace(',','')
-                stockinfo = pd.read_html(url, thousands='')
+                info_url = self.info_url.format(ticker.code)
+                req1 = self.request_get(info_url, self.user_agent)
+                soup1 = self.soup_findall(req1)
+                todayinfo = self.soup_findall(soup1, 'dl', {'class':'blind'})
+                stockinfo = pd.read_html(info_url, thousands='')
+                price = self.soup_findall(todayinfo[0], 'dd').text.split(' ')[1].replace(',','')
+                market_type = 'KOSPI'
+                industry = ticker.market_type
                 stock_nums = stockinfo[1].iloc[1,1].replace(',','')#상장주식수
                 face_val = 0
                 market_cap = int(price)*int(stock_nums) #시가총액
