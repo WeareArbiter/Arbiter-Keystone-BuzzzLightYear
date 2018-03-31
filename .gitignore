@@ -3,7 +3,7 @@ __pycache__/
 db.sqlite3
 env/
 *.csv
-backup_csv/
+backup/
 run.py
 migrations/
 *_test.py
