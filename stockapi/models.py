@@ -170,7 +170,7 @@ class Info(models.Model):
     yield_ret = models.FloatField(blank=True, null=True) # 배당수익률
 
     def __str__(self):
-        return '{} {}'.format(self.code, self.name)
+        return '{}'.format(self.code)
 
 
 class Specs(models.Model):
@@ -189,7 +189,7 @@ class Specs(models.Model):
     total_score = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
-        return self.code
+        return '{}'.format(self.code)
 
 
 ### Financial Statement data ###
@@ -207,7 +207,7 @@ class Financial(models.Model):
     capital = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
-        return '{} {}'.format(self.code, self.name)
+        return '{}'.format(self.code)
 
 
 class FinancialRatio(models.Model):
@@ -242,7 +242,7 @@ class QuarterFinancial(models.Model):
     net_profit_ratio = models.FloatField(blank=True, null=True)
 
     def __str__(self):
-        return '{} {}'.format(self.code, self.name)
+        return '{}'.format(self.code)
 
 
 ### Buy & Sell data ###
@@ -266,7 +266,7 @@ class KospiBuy(models.Model):
     foreign = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
-        return '{} {}'.format(self.code, self.name)
+        return '{}'.format(self.code)
 
 
 class KosdaqBuy(models.Model):
@@ -289,7 +289,7 @@ class KosdaqBuy(models.Model):
     foreign = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
-        return '{} {}'.format(self.code, self.name)
+        return '{}'.format(self.code)
 
 
 class ETFBuy(models.Model):
@@ -312,7 +312,7 @@ class ETFBuy(models.Model):
     foreign = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
-        return '{} {}'.format(self.code, self.name)
+        return '{}'.format(self.code)
 
 
 class KospiSell(models.Model):
@@ -335,7 +335,7 @@ class KospiSell(models.Model):
     foreign = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
-        return '{} {}'.format(self.code, self.name)
+        return '{}'.format(self.code)
 
 
 class KosdaqSell(models.Model):
@@ -358,7 +358,7 @@ class KosdaqSell(models.Model):
     foreign = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
-        return '{} {}'.format(self.code, self.name)
+        return '{}'.format(self.code)
 
 
 class ETFSell(models.Model):
@@ -381,7 +381,7 @@ class ETFSell(models.Model):
     foreign = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
-        return '{} {}'.format(self.code, self.name)
+        return '{}'.format(self.code)
 
 
 class KospiNet(models.Model):
@@ -404,7 +404,7 @@ class KospiNet(models.Model):
     foreign = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
-        return '{} {}'.format(self.code, self.name)
+        return '{}'.format(self.code)
 
 
 class KosdaqNet(models.Model):
@@ -427,7 +427,7 @@ class KosdaqNet(models.Model):
     foreign = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
-        return '{} {}'.format(self.code, self.name)
+        return '{}'.format(self.code)
 
 
 class ETFNet(models.Model):
@@ -450,7 +450,7 @@ class ETFNet(models.Model):
     foreign = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
-        return '{} {}'.format(self.code, self.name)
+        return '{}'.format(self.code)
 
 
 class KospiShort(models.Model):
@@ -467,7 +467,7 @@ class KospiShort(models.Model):
     tp_5d_mean = models.FloatField(blank=True, null=True) # short_total_price rolling_mean 5days
 
     def __str__(self):
-        return '{} {}'.format(self.code, self.name)
+        return '{}'.format(self.code)
 
 
 class KosdaqShort(models.Model):
@@ -484,4 +484,4 @@ class KosdaqShort(models.Model):
     tp_5d_mean = models.FloatField(blank=True, null=True) # short_total_price rolling_mean 5days
 
     def __str__(self):
-        return '{} {}'.format(self.code, self.name)
+        return '{}'.format(self.code)

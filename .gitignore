@@ -2,3 +2,11 @@ __pycache__/
 *.pyc
 db.sqlite3
 env/
+*.csv
+backup/
+run.py
+migrations/
+*_test.py
+chromedriver
+phantomjs/
+*.log
