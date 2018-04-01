@@ -21,6 +21,8 @@ from stockapi.models import (
     KospiNet,
     KosdaqNet,
     ETFNet,
+    KospiShort,
+    KosdaqShort,
 )
 
 models = [
@@ -44,6 +46,8 @@ models = [
     KospiNet,
     KosdaqNet,
     ETFNet,
+    KospiShort,
+    KosdaqShort,
 ]
 for model in models:
     admin.site.register(model)

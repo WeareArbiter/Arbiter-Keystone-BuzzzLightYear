@@ -371,7 +371,7 @@ class KospiShortSerialier(serializers.ModelSerializer):
                   'short_proportion',
                   'short_total_price',
                   'short_avg_price',
-                  'short_zsclae',
+                  'short_zscale',
                   'short_section',
                   'tp_5d_mean',)
 
@@ -384,6 +384,6 @@ class KosdaqShortSerialier(serializers.ModelSerializer):
                   'short_proportion',
                   'short_total_price',
                   'short_avg_price',
-                  'short_zsclae',
+                  'short_zscale',
                   'short_section',
                   'tp_5d_mean',)

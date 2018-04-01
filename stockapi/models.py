@@ -40,7 +40,7 @@ class Ticker(models.Model):
     - data: (code, name, market_type, state)
     - url: /stock-api/ticker/
     '''
-    code = models.CharField(max_length=6)
+    code = models.CharField(max_length=20, primary_key=True)
     name = models.CharField(max_length=50)
     market_type = models.CharField(max_length=10)
     state = models.BooleanField(default=True)
@@ -462,7 +462,7 @@ class KospiShort(models.Model):
     short_proportion = models.FloatField(blank=True, null=True)
     short_total_price = models.IntegerField(blank=True, null=True)
     short_avg_price = models.IntegerField(blank=True, null=True)
-    short_zsclae = models.FloatField(blank=True, null=True)
+    short_zscale = models.FloatField(blank=True, null=True)
     short_section = models.IntegerField(blank=True, null=True)
     tp_5d_mean = models.FloatField(blank=True, null=True) # short_total_price rolling_mean 5days
 
@@ -479,7 +479,7 @@ class KosdaqShort(models.Model):
     short_proportion = models.FloatField(blank=True, null=True)
     short_total_price = models.IntegerField(blank=True, null=True)
     short_avg_price = models.IntegerField(blank=True, null=True)
-    short_zsclae = models.FloatField(blank=True, null=True)
+    short_zscale = models.FloatField(blank=True, null=True)
     short_section = models.IntegerField(blank=True, null=True)
     tp_5d_mean = models.FloatField(blank=True, null=True) # short_total_price rolling_mean 5days
 
