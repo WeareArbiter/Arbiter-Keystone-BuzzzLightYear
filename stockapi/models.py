@@ -464,7 +464,10 @@ class KospiShort(models.Model):
     short_avg_price = models.IntegerField(blank=True, null=True)
     short_zscale = models.FloatField(blank=True, null=True)
     short_section = models.IntegerField(blank=True, null=True)
-    tp_5d_mean = models.FloatField(blank=True, null=True) # short_total_price rolling_mean 5days
+    tp_5d_mean = models.FloatField(blank=True, null=True)
+    # short_total_price rolling_mean 5days
+    short_5d_mean_section = models.FloatField(blank=True, null=True)
+    # short total price five days rolling means divide
 
     def __str__(self):
         return '{}'.format(self.code)
@@ -481,7 +484,10 @@ class KosdaqShort(models.Model):
     short_avg_price = models.IntegerField(blank=True, null=True)
     short_zscale = models.FloatField(blank=True, null=True)
     short_section = models.IntegerField(blank=True, null=True)
-    tp_5d_mean = models.FloatField(blank=True, null=True) # short_total_price rolling_mean 5days
+    tp_5d_mean = models.FloatField(blank=True, null=True)
+    # short total price five days rolling means divide# short_total_price rolling_mean 5days
+    short_5d_mean_section = models.FloatField(blank=True, null=True)
+    # short total price five days rolling means divide
 
     def __str__(self):
         return '{}'.format(self.code)

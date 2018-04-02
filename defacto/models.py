@@ -138,9 +138,9 @@ class RelativeCalc(models.Model):
     cp_ins_section = models.IntegerField(blank=True, null=True)
     cp_cor_section = models.IntegerField(blank=True, null=True)
     # divide 12 section
-    short_5d_mean_section = models.FloatField(blank=True, null=True)
-    # short total price five days rolling means divide
-
+    
+    def __str__(self):
+        return '{}'.format(self.code)
 
 class ScoreData(models.Model):
     '''
