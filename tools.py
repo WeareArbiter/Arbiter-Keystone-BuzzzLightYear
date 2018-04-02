@@ -18,6 +18,7 @@ application = get_wsgi_application()
 
 ### scripts ###
 from tools.Cleaner import Cleaner
+from tools.Sensitives import Sensitives
 
 if sys.argv[1] == 'cleanmigrations':
     c = Cleaner(start_path)
@@ -26,3 +27,13 @@ if sys.argv[1] == 'cleanmigrations':
     if os.path.exists(db):
         os.remove(db)
         print('Removed database')
+
+elif sys.argv[1] == 'sensitives':
+    s = Sensitives(start_path)
+    if sys.argv[2] == 'setup':
+        s.setup()
+    elif sys.argv[2] == 'check':
+        s.check()
+    elif sys.argv[2] == 'set':
+        s.set(sys.argv[3], sys.argv[4])
+        s.save()

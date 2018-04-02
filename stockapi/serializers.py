@@ -186,8 +186,7 @@ class QuarterFinancialSerializer(serializers.ModelSerializer):
 class KospiBuySerializer(serializers.ModelSerializer):
     class Meta:
         model = KospiBuy
-        fields = ('date',
-                  'code',
+        fields = ('ohlcv',
                   'individual',
                   'foreign_retail',
                   'institution',
@@ -206,8 +205,7 @@ class KospiBuySerializer(serializers.ModelSerializer):
 class KosdaqBuySerializer(serializers.ModelSerializer):
     class Meta:
         model = KosdaqBuy
-        fields = ('date',
-                  'code',
+        fields = ('ohlcv',
                   'individual',
                   'foreign_retail',
                   'institution',
@@ -226,8 +224,7 @@ class KosdaqBuySerializer(serializers.ModelSerializer):
 class ETFBuySerializer(serializers.ModelSerializer):
     class Meta:
         model = ETFBuy
-        fields = ('date',
-                  'code',
+        fields = ('ohlcv',
                   'individual',
                   'foreign_retail',
                   'institution',
@@ -246,8 +243,7 @@ class ETFBuySerializer(serializers.ModelSerializer):
 class KospiSellSerializer(serializers.ModelSerializer):
     class Meta:
         model = KospiSell
-        fields = ('date',
-                  'code',
+        fields = ('ohlcv',
                   'individual',
                   'foreign_retail',
                   'institution',
@@ -266,8 +262,7 @@ class KospiSellSerializer(serializers.ModelSerializer):
 class KosdaqSellSerializer(serializers.ModelSerializer):
     class Meta:
         model = KosdaqSell
-        fields = ('date',
-                  'code',
+        fields = ('ohlcv',
                   'individual',
                   'foreign_retail',
                   'institution',
@@ -286,8 +281,7 @@ class KosdaqSellSerializer(serializers.ModelSerializer):
 class ETFSellSerializer(serializers.ModelSerializer):
     class Meta:
         model = ETFSell
-        fields = ('date',
-                  'code',
+        fields = ('ohlcv',
                   'individual',
                   'foreign_retail',
                   'institution',
@@ -306,8 +300,7 @@ class ETFSellSerializer(serializers.ModelSerializer):
 class KospiNetSerializer(serializers.ModelSerializer):
     class Meta:
         model = KospiNet
-        fields = ('date',
-                  'code',
+        fields = ('ohlcv',
                   'individual',
                   'foreign_retail',
                   'institution',
@@ -326,8 +319,7 @@ class KospiNetSerializer(serializers.ModelSerializer):
 class KosdaqNetSerializer(serializers.ModelSerializer):
     class Meta:
         model = KosdaqNet
-        fields = ('date',
-                  'code',
+        fields = ('ohlcv',
                   'individual',
                   'foreign_retail',
                   'institution',
@@ -346,8 +338,7 @@ class KosdaqNetSerializer(serializers.ModelSerializer):
 class ETFNetSerializer(serializers.ModelSerializer):
     class Meta:
         model = ETFNet
-        fields = ('date',
-                  'code',
+        fields = ('ohlcv',
                   'individual',
                   'foreign_retail',
                   'institution',
@@ -365,8 +356,7 @@ class ETFNetSerializer(serializers.ModelSerializer):
 class KospiShortSerialier(serializers.ModelSerializer):
     class Meta:
         model = KospiShort
-        fields = ('date',
-                  'code',
+        fields = ('ohlcv',
                   'short',
                   'short_proportion',
                   'short_total_price',
@@ -379,8 +369,7 @@ class KospiShortSerialier(serializers.ModelSerializer):
 class KosdaqShortSerialier(serializers.ModelSerializer):
     class Meta:
         model = KosdaqShort
-        fields = ('date',
-                  'code',
+        fields = ('ohlcv',
                   'short',
                   'short_proportion',
                   'short_total_price',

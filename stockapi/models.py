@@ -247,10 +247,9 @@ class QuarterFinancial(models.Model):
 
 ### Buy & Sell data ###
 class KospiBuy(models.Model):
-    date = models.CharField(max_length=10)
-    code = models.ForeignKey(Ticker,
-                             on_delete=models.CASCADE,
-                             related_name='kospi_buy')
+    ohlcv = models.ForeignKey(KospiOHLCV,
+                              on_delete=models.CASCADE,
+                              related_name='buy')
     individual = models.IntegerField(blank=True, null=True)
     foreign_retail = models.IntegerField(blank=True, null=True)
     institution = models.IntegerField(blank=True, null=True)
@@ -270,10 +269,9 @@ class KospiBuy(models.Model):
 
 
 class KosdaqBuy(models.Model):
-    date = models.CharField(max_length=10)
-    code = models.ForeignKey(Ticker,
-                             on_delete=models.CASCADE,
-                             related_name='kosdaq_buy')
+    ohlcv = models.ForeignKey(KosdaqOHLCV,
+                              on_delete=models.CASCADE,
+                              related_name='buy')
     individual = models.IntegerField(blank=True, null=True)
     foreign_retail = models.IntegerField(blank=True, null=True)
     institution = models.IntegerField(blank=True, null=True)
@@ -293,10 +291,9 @@ class KosdaqBuy(models.Model):
 
 
 class ETFBuy(models.Model):
-    date = models.CharField(max_length=10)
-    code = models.ForeignKey(Ticker,
-                             on_delete=models.CASCADE,
-                             related_name='etf_buy')
+    ohlcv = models.ForeignKey(KospiOHLCV,
+                              on_delete=models.CASCADE,
+                              related_name='buy')
     individual = models.IntegerField(blank=True, null=True)
     foreign_retail = models.IntegerField(blank=True, null=True)
     institution = models.IntegerField(blank=True, null=True)
@@ -316,10 +313,9 @@ class ETFBuy(models.Model):
 
 
 class KospiSell(models.Model):
-    date = models.CharField(max_length=10)
-    code = models.ForeignKey(Ticker,
-                             on_delete=models.CASCADE,
-                             related_name='kospi_sell')
+    ohlcv = models.ForeignKey(KospiOHLCV,
+                              on_delete=models.CASCADE,
+                              related_name='sell')
     individual = models.IntegerField(blank=True, null=True)
     foreign_retail = models.IntegerField(blank=True, null=True)
     institution = models.IntegerField(blank=True, null=True)
@@ -339,10 +335,9 @@ class KospiSell(models.Model):
 
 
 class KosdaqSell(models.Model):
-    date = models.CharField(max_length=10)
-    code = models.ForeignKey(Ticker,
-                             on_delete=models.CASCADE,
-                             related_name='kosdaq_sell')
+    ohlcv = models.ForeignKey(KosdaqOHLCV,
+                              on_delete=models.CASCADE,
+                              related_name='sell')
     individual = models.IntegerField(blank=True, null=True)
     foreign_retail = models.IntegerField(blank=True, null=True)
     institution = models.IntegerField(blank=True, null=True)
@@ -362,10 +357,9 @@ class KosdaqSell(models.Model):
 
 
 class ETFSell(models.Model):
-    date = models.CharField(max_length=10)
-    code = models.ForeignKey(Ticker,
-                             on_delete=models.CASCADE,
-                             related_name='etf_sell')
+    ohlcv = models.ForeignKey(KospiOHLCV,
+                              on_delete=models.CASCADE,
+                              related_name='sell')
     individual = models.IntegerField(blank=True, null=True)
     foreign_retail = models.IntegerField(blank=True, null=True)
     institution = models.IntegerField(blank=True, null=True)
@@ -385,10 +379,9 @@ class ETFSell(models.Model):
 
 
 class KospiNet(models.Model):
-    date = models.CharField(max_length=10)
-    code = models.ForeignKey(Ticker,
-                             on_delete=models.CASCADE,
-                             related_name='kospi_net')
+    ohlcv = models.ForeignKey(KospiOHLCV,
+                              on_delete=models.CASCADE,
+                              related_name='net')
     individual = models.IntegerField(blank=True, null=True)
     foreign_retail = models.IntegerField(blank=True, null=True)
     institution = models.IntegerField(blank=True, null=True)
@@ -408,10 +401,9 @@ class KospiNet(models.Model):
 
 
 class KosdaqNet(models.Model):
-    date = models.CharField(max_length=10)
-    code = models.ForeignKey(Ticker,
-                             on_delete=models.CASCADE,
-                             related_name='kosdaq_net')
+    ohlcv = models.ForeignKey(KosdaqOHLCV,
+                              on_delete=models.CASCADE,
+                              related_name='net')
     individual = models.IntegerField(blank=True, null=True)
     foreign_retail = models.IntegerField(blank=True, null=True)
     institution = models.IntegerField(blank=True, null=True)
@@ -431,10 +423,9 @@ class KosdaqNet(models.Model):
 
 
 class ETFNet(models.Model):
-    date = models.CharField(max_length=10)
-    code = models.ForeignKey(Ticker,
-                             on_delete=models.CASCADE,
-                             related_name='etf_net')
+    ohlcv = models.ForeignKey(KospiOHLCV,
+                              on_delete=models.CASCADE,
+                              related_name='net')
     individual = models.IntegerField(blank=True, null=True)
     foreign_retail = models.IntegerField(blank=True, null=True)
     institution = models.IntegerField(blank=True, null=True)
@@ -454,10 +445,9 @@ class ETFNet(models.Model):
 
 
 class KospiShort(models.Model):
-    date = models.CharField(max_length=10)
-    code = models.ForeignKey(Ticker,
-                             on_delete=models.CASCADE,
-                             related_name='kp_short')
+    ohlcv = models.ForeignKey(KospiOHLCV,
+                              on_delete=models.CASCADE,
+                              related_name='short')
     short = models.IntegerField(blank=True, null=True)
     short_proportion = models.FloatField(blank=True, null=True)
     short_total_price = models.IntegerField(blank=True, null=True)
@@ -474,10 +464,9 @@ class KospiShort(models.Model):
 
 
 class KosdaqShort(models.Model):
-    date = models.CharField(max_length=10)
-    code = models.ForeignKey(Ticker,
-                             on_delete=models.CASCADE,
-                             related_name='kd_short')
+    ohlcv = models.ForeignKey(KosdaqOHLCV,
+                              on_delete=models.CASCADE,
+                              related_name='short')
     short = models.IntegerField(blank=True, null=True)
     short_proportion = models.FloatField(blank=True, null=True)
     short_total_price = models.IntegerField(blank=True, null=True)
