@@ -238,7 +238,7 @@ class Crawler(object):
                     foreign_ratio = stockinfo[2].iloc[2,1].replace('%','')
                     #per, eps
                     per_td = self.soup_findall(soup1,'table',{'class':'per_table'})
-                    td =  self.soup_findall(per_td[0],'em'))
+                    td =  self.soup_findall(per_td[0],'em')
                     per_table = []
                     for t in td:
                         a = t.text
