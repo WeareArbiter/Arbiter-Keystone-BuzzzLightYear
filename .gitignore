@@ -10,3 +10,4 @@ migrations/
 chromedriver
 phantomjs/
 *.log
+req.txt
