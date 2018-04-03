@@ -13,13 +13,10 @@ from stockapi.models import (
     QuarterFinancial,
     KospiBuy,
     KosdaqBuy,
-    ETFBuy,
     KospiSell,
     KosdaqSell,
-    ETFSell,
     KospiNet,
     KosdaqNet,
-    ETFNet,
     KospiShort,
     KosdaqShort,
 )
@@ -221,25 +218,6 @@ class KosdaqBuySerializer(serializers.ModelSerializer):
                   'foreign',)
 
 
-class ETFBuySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ETFBuy
-        fields = ('ohlcv',
-                  'individual',
-                  'foreign_retail',
-                  'institution',
-                  'financial',
-                  'insurance',
-                  'trust',
-                  'etc_finance',
-                  'bank',
-                  'pension',
-                  'private',
-                  'nation',
-                  'etc_corporate',
-                  'foreign',)
-
-
 class KospiSellSerializer(serializers.ModelSerializer):
     class Meta:
         model = KospiSell
@@ -262,25 +240,6 @@ class KospiSellSerializer(serializers.ModelSerializer):
 class KosdaqSellSerializer(serializers.ModelSerializer):
     class Meta:
         model = KosdaqSell
-        fields = ('ohlcv',
-                  'individual',
-                  'foreign_retail',
-                  'institution',
-                  'financial',
-                  'insurance',
-                  'trust',
-                  'etc_finance',
-                  'bank',
-                  'pension',
-                  'private',
-                  'nation',
-                  'etc_corporate',
-                  'foreign',)
-
-
-class ETFSellSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ETFSell
         fields = ('ohlcv',
                   'individual',
                   'foreign_retail',
@@ -334,24 +293,6 @@ class KosdaqNetSerializer(serializers.ModelSerializer):
                   'etc_corporate',
                   'foreign',)
 
-
-class ETFNetSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ETFNet
-        fields = ('ohlcv',
-                  'individual',
-                  'foreign_retail',
-                  'institution',
-                  'financial',
-                  'insurance',
-                  'trust',
-                  'etc_finance',
-                  'bank',
-                  'pension',
-                  'private',
-                  'nation',
-                  'etc_corporate',
-                  'foreign',)
 
 class KospiShortSerialier(serializers.ModelSerializer):
     class Meta:

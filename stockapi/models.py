@@ -245,7 +245,7 @@ class QuarterFinancial(models.Model):
         return '{}'.format(self.code)
 
 
-### Buy & Sell data ###
+### Buy & Sell & Short data ###
 class KospiBuy(models.Model):
     ohlcv = models.ForeignKey(KospiOHLCV,
                               on_delete=models.CASCADE,
@@ -262,7 +262,6 @@ class KospiBuy(models.Model):
     private = models.IntegerField(blank=True, null=True)
     nation = models.IntegerField(blank=True, null=True)
     etc_corporate = models.IntegerField(blank=True, null=True)
-    foreign = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
         return '{}'.format(self.code)
@@ -284,29 +283,6 @@ class KosdaqBuy(models.Model):
     private = models.IntegerField(blank=True, null=True)
     nation = models.IntegerField(blank=True, null=True)
     etc_corporate = models.IntegerField(blank=True, null=True)
-    foreign = models.IntegerField(blank=True, null=True)
-
-    def __str__(self):
-        return '{}'.format(self.code)
-
-
-class ETFBuy(models.Model):
-    ohlcv = models.ForeignKey(KospiOHLCV,
-                              on_delete=models.CASCADE,
-                              related_name='buy')
-    individual = models.IntegerField(blank=True, null=True)
-    foreign_retail = models.IntegerField(blank=True, null=True)
-    institution = models.IntegerField(blank=True, null=True)
-    financial = models.IntegerField(blank=True, null=True)
-    insurance = models.IntegerField(blank=True, null=True)
-    trust = models.IntegerField(blank=True, null=True)
-    etc_finance = models.IntegerField(blank=True, null=True)
-    bank = models.IntegerField(blank=True, null=True)
-    pension = models.IntegerField(blank=True, null=True)
-    private = models.IntegerField(blank=True, null=True)
-    nation = models.IntegerField(blank=True, null=True)
-    etc_corporate = models.IntegerField(blank=True, null=True)
-    foreign = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
         return '{}'.format(self.code)
@@ -328,7 +304,6 @@ class KospiSell(models.Model):
     private = models.IntegerField(blank=True, null=True)
     nation = models.IntegerField(blank=True, null=True)
     etc_corporate = models.IntegerField(blank=True, null=True)
-    foreign = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
         return '{}'.format(self.code)
@@ -350,29 +325,6 @@ class KosdaqSell(models.Model):
     private = models.IntegerField(blank=True, null=True)
     nation = models.IntegerField(blank=True, null=True)
     etc_corporate = models.IntegerField(blank=True, null=True)
-    foreign = models.IntegerField(blank=True, null=True)
-
-    def __str__(self):
-        return '{}'.format(self.code)
-
-
-class ETFSell(models.Model):
-    ohlcv = models.ForeignKey(KospiOHLCV,
-                              on_delete=models.CASCADE,
-                              related_name='sell')
-    individual = models.IntegerField(blank=True, null=True)
-    foreign_retail = models.IntegerField(blank=True, null=True)
-    institution = models.IntegerField(blank=True, null=True)
-    financial = models.IntegerField(blank=True, null=True)
-    insurance = models.IntegerField(blank=True, null=True)
-    trust = models.IntegerField(blank=True, null=True)
-    etc_finance = models.IntegerField(blank=True, null=True)
-    bank = models.IntegerField(blank=True, null=True)
-    pension = models.IntegerField(blank=True, null=True)
-    private = models.IntegerField(blank=True, null=True)
-    nation = models.IntegerField(blank=True, null=True)
-    etc_corporate = models.IntegerField(blank=True, null=True)
-    foreign = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
         return '{}'.format(self.code)
@@ -394,7 +346,6 @@ class KospiNet(models.Model):
     private = models.IntegerField(blank=True, null=True)
     nation = models.IntegerField(blank=True, null=True)
     etc_corporate = models.IntegerField(blank=True, null=True)
-    foreign = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
         return '{}'.format(self.code)
@@ -416,29 +367,6 @@ class KosdaqNet(models.Model):
     private = models.IntegerField(blank=True, null=True)
     nation = models.IntegerField(blank=True, null=True)
     etc_corporate = models.IntegerField(blank=True, null=True)
-    foreign = models.IntegerField(blank=True, null=True)
-
-    def __str__(self):
-        return '{}'.format(self.code)
-
-
-class ETFNet(models.Model):
-    ohlcv = models.ForeignKey(KospiOHLCV,
-                              on_delete=models.CASCADE,
-                              related_name='net')
-    individual = models.IntegerField(blank=True, null=True)
-    foreign_retail = models.IntegerField(blank=True, null=True)
-    institution = models.IntegerField(blank=True, null=True)
-    financial = models.IntegerField(blank=True, null=True)
-    insurance = models.IntegerField(blank=True, null=True)
-    trust = models.IntegerField(blank=True, null=True)
-    etc_finance = models.IntegerField(blank=True, null=True)
-    bank = models.IntegerField(blank=True, null=True)
-    pension = models.IntegerField(blank=True, null=True)
-    private = models.IntegerField(blank=True, null=True)
-    nation = models.IntegerField(blank=True, null=True)
-    etc_corporate = models.IntegerField(blank=True, null=True)
-    foreign = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
         return '{}'.format(self.code)
