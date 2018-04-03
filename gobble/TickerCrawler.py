@@ -11,15 +11,7 @@ import requests
 import re
 import time
 
-from stockapi.models import (
-    Ticker,
-    KospiOHLCV,
-    KosdaqOHLCV,
-    RecentKospiOHLCV,
-    RecentKosdaqOHLCV,
-    Info,
-    )
-
+from stockapi.models import Ticker
 from gobble.Crawler import Crawler
 
 class TickerCrawler(Crawler):
