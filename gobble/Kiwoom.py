@@ -5,17 +5,6 @@ from PyQt5.QtCore import *
 import pandas as pd
 import os, sys, glob
 
-start_path = os.getcwd()
-proj_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "arbiter.settings")
-sys.path.append(proj_path)
-os.chdir(proj_path)
-
-from stockapi.models import (
-    KospiBuy,
-    KosdaqBuy,
-    ETFBuy,)
-
 TR_REQ_TIME_INTERVAL = 3.8
 
 class Kiwoom(QAxWidget):
@@ -115,15 +104,14 @@ class Kiwoom(QAxWidget):
             private = self._comm_get_data(trcode, "", rqname, i, "사모펀드")
             nation = self._comm_get_data(trcode, "", rqname, i, "국가")
             etc_corporate = self._comm_get_data(trcode, "", rqname, i, "기타법인")
-            foreign = self._comm_get_data(trcode, "", rqname, i, "내외국인")
 
             update_data = [int(date), int(individual), int(for_retail), int(institution), int(financial),
                             int(insurance), int(trust), int(etc_finance), int(bank), int(pension), int(private),
-                            int(nation), int(etc_corporate), int(foreign)]
+                            int(nation), int(etc_corporate)]
             self.data_list.append(update_data)
             # for label in Labels:
             self._set_date(update_data[0])
-        Labels2 = ["date", "individual", "foreign_retail", "institution", "financial", "insurance", "trust",  "etc_finance", "bank", "pension", "private", "nation", "etc_corporate", "foreign"]
+        Labels2 = ["date", "individual", "foreign_retail", "institution", "financial", "insurance", "trust",  "etc_finance", "bank", "pension", "private", "nation", "etc_corporate"]
         self.data = pd.DataFrame(self.data_list, columns=Labels2)
         return self.data
 
