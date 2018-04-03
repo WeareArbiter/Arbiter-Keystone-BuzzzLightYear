@@ -52,12 +52,11 @@ from rest_framework.authentication import SessionAuthentication, BasicAuthentica
 
 
 ### KOSPI & KOSDAQ data ###
-class BenchmarkAPIView(generics.ListCreateAPIView):
+class BenchmarkAPIView(generics.ListAPIView):
     queryset = Benchmark.objects.all()
     serializer_class = BenchmarkSerializer
     pagination_class = OHLCVPagination
     filter_backends = [SearchFilter, OrderingFilter]
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self, *args, **kwargs):
         queryset = Benchmark.objects.all().order_by('id')
@@ -77,15 +76,14 @@ class BenchmarkAPIView(generics.ListCreateAPIView):
         return queryset
 
 
-class TickerAPIView(generics.ListCreateAPIView):
+class TickerAPIView(generics.ListAPIView):
     queryset = Ticker.objects.all()
     serializer_class = TickerSerializer
     pagination_class = StandardResultPagination
     filter_backends = [SearchFilter, OrderingFilter]
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self, *args, **kwargs):
-        queryset = Ticker.objects.all().order_by('id')
+        queryset = Ticker.objects.all()
         code_by = self.request.GET.get('code')
         name_by = self.request.GET.get('name')
         market_by = self.request.GET.get('market_type')
@@ -101,7 +99,7 @@ class TickerAPIView(generics.ListCreateAPIView):
         return queryset
 
 
-class KospiOHLCVAPIView(generics.ListCreateAPIView):
+class KospiOHLCVAPIView(generics.ListAPIView):
     queryset = KospiOHLCV.objects.all()
     serializer_class = KospiOHLCVSerializer
     pagination_class = OHLCVPagination
@@ -122,7 +120,7 @@ class KospiOHLCVAPIView(generics.ListCreateAPIView):
         return queryset
 
 
-class KosdaqOHLCVAPIView(generics.ListCreateAPIView):
+class KosdaqOHLCVAPIView(generics.ListAPIView):
     queryset = KosdaqOHLCV.objects.all()
     serializer_class = KosdaqOHLCVSerializer
     pagination_class = OHLCVPagination
@@ -143,7 +141,7 @@ class KosdaqOHLCVAPIView(generics.ListCreateAPIView):
         return queryset
 
 
-class RecentKospiOHLCVAPIView(generics.ListCreateAPIView):
+class RecentKospiOHLCVAPIView(generics.ListAPIView):
     queryset = RecentKospiOHLCV.objects.all()
     serializer_class = RecentKospiOHLCVSerializer
     pagination_class = OHLCVPagination
@@ -164,7 +162,7 @@ class RecentKospiOHLCVAPIView(generics.ListCreateAPIView):
         return queryset
 
 
-class RecentKosdaqOHLCVAPIView(generics.ListCreateAPIView):
+class RecentKosdaqOHLCVAPIView(generics.ListAPIView):
     queryset = RecentKosdaqOHLCV.objects.all()
     serializer_class = RecentKosdaqOHLCVSerializer
     pagination_class = OHLCVPagination
@@ -172,6 +170,48 @@ class RecentKosdaqOHLCVAPIView(generics.ListCreateAPIView):
 
     def get_queryset(self, *args, **kwargs):
         queryset = RecentKosdaqOHLCV.objects.all().order_by('id')
+        date_by = self.request.GET.get('date')
+        start = self.request.GET.get('start')
+        end = self.request.GET.get('end')
+        code_by = self.request.GET.get('code')
+        if date_by:
+            queryset = queryset.filter(date=date_by)
+        if start and end and not date_by:
+            queryset = queryset.filter(date__gte=start).filter(date__lte=end)
+        if code_by:
+            queryset = queryset.filter(code=code_by)
+        return queryset
+
+
+class InfoAPIView(generics.ListAPIView):
+    queryset = Info.objects.all()
+    serializer_class = InfoSerializer
+    pagination_class = StandardResultPagination
+    filter_backends = [SearchFilter, OrderingFilter]
+
+    def get_queryset(self, *args, **kwargs):
+        queryset = Info.objects.all().order_by('id')
+        date_by = self.request.GET.get('date')
+        start = self.request.GET.get('start')
+        end = self.request.GET.get('end')
+        code_by = self.request.GET.get('code')
+        if date_by:
+            queryset = queryset.filter(date=date_by)
+        if start and end and not date_by:
+            queryset = queryset.filter(date__gte=start).filter(date__lte=end)
+        if code_by:
+            queryset = queryset.filter(code=code_by)
+        return queryset
+
+
+class SpecsAPIView(generics.ListAPIView):
+    queryset = Specs.objects.all()
+    serializer_class = SpecsSerializer
+    pagination_class = StandardResultPagination
+    filter_backends = [SearchFilter, OrderingFilter]
+
+    def get_queryset(self, *args, **kwargs):
+        queryset = Specs.objects.all().order_by('id')
         date_by = self.request.GET.get('date')
         start = self.request.GET.get('start')
         end = self.request.GET.get('end')

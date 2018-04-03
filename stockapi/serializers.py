@@ -37,8 +37,7 @@ class BenchmarkSerializer(serializers.ModelSerializer):
 class TickerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ticker
-        fields = ('id',
-                  'code',
+        fields = ('code',
                   'name',
                   'market_type',
                   'state',)
@@ -195,8 +194,7 @@ class KospiBuySerializer(serializers.ModelSerializer):
                   'pension',
                   'private',
                   'nation',
-                  'etc_corporate',
-                  'foreign',)
+                  'etc_corporate',)
 
 
 class KosdaqBuySerializer(serializers.ModelSerializer):
@@ -214,8 +212,7 @@ class KosdaqBuySerializer(serializers.ModelSerializer):
                   'pension',
                   'private',
                   'nation',
-                  'etc_corporate',
-                  'foreign',)
+                  'etc_corporate',)
 
 
 class KospiSellSerializer(serializers.ModelSerializer):
@@ -233,8 +230,7 @@ class KospiSellSerializer(serializers.ModelSerializer):
                   'pension',
                   'private',
                   'nation',
-                  'etc_corporate',
-                  'foreign',)
+                  'etc_corporate',)
 
 
 class KosdaqSellSerializer(serializers.ModelSerializer):
@@ -252,8 +248,7 @@ class KosdaqSellSerializer(serializers.ModelSerializer):
                   'pension',
                   'private',
                   'nation',
-                  'etc_corporate',
-                  'foreign',)
+                  'etc_corporate',)
 
 
 class KospiNetSerializer(serializers.ModelSerializer):
@@ -271,8 +266,7 @@ class KospiNetSerializer(serializers.ModelSerializer):
                   'pension',
                   'private',
                   'nation',
-                  'etc_corporate',
-                  'foreign',)
+                  'etc_corporate',)
 
 
 class KosdaqNetSerializer(serializers.ModelSerializer):
@@ -290,8 +284,7 @@ class KosdaqNetSerializer(serializers.ModelSerializer):
                   'pension',
                   'private',
                   'nation',
-                  'etc_corporate',
-                  'foreign',)
+                  'etc_corporate',)
 
 
 class KospiShortSerialier(serializers.ModelSerializer):
