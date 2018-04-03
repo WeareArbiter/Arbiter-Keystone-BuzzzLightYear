@@ -16,6 +16,7 @@ def clean_db_and_test():
 
 @task
 def lazy_commit():
-    local('git add .')
-    local('git commit -m "commiting lazily: minor change only"')
+    with settings(warn_only=True):
+        local('git add .')
+        local('git commit -m "commiting lazily: minor change only"')
     local('git push')
