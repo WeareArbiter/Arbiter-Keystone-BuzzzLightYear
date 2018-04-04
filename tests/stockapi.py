@@ -157,8 +157,8 @@ class StockapiTestCase(TestCase):
                                                         bps=100.0,
                                                         industry_per=1.0,
                                                         yield_ret=0.1)
-            self.assertTrue(created, msg='failed to save Info data')
-            self.assertEqual(Info.objects.count(), 1, msg='Info data not created properly')
+        self.assertTrue(created, msg='failed to save Info data')
+        self.assertEqual(Info.objects.count(), 1, msg='Info data not created properly')
 
     def test_Specs_save(self):
         specs_inst, created = Specs.objects.get_or_create(date='20180101',
@@ -174,3 +174,44 @@ class StockapiTestCase(TestCase):
                                                           total_score=90)
         self.assertTrue(created, msg='failed to save Specs data')
         self.assertEqual(Specs.objects.count(), 1, msg='Specs data not created properly')
+
+    def test_Financial_set_save(self):
+        # try and test saving Financial, FinancialRatio, and QuarterFinancial
+        fin_inst, created = Financial.objects.get_or_create(date='20180101',
+                                                            code=self.ticker,
+                                                            revenue=100,
+                                                            profit=100,
+                                                            net_profit=100,
+                                                            consolidate_profit=100,
+                                                            asset=100,
+                                                            debt=100,
+                                                            capital=100)
+
+        fin_rat_inst, created = FinancialRatio.objects.get_or_create(date='20180101',
+                                                                     code=self.ticker,
+                                                                     debt_ratio=0.1,
+                                                                     profit_ratio=0.1,
+                                                                     net_profit_ratio=0.1,
+                                                                     consolidate_profit_ratio=0.1,
+                                                                     net_roe=0.1,
+                                                                     consolidate_roe=0.1,
+                                                                     revenue_growth=0.1,
+                                                                     profit_growth=0.1,
+                                                                     net_profit_growth=0.1)
+
+        q_fin, created = QuarterFinancial.objects.get_or_create(date='20180101',
+                                                                code=self.ticker,
+                                                                revenue=100,
+                                                                profit=100,
+                                                                net_profit=100,
+                                                                consolidate_profit=100,
+                                                                profit_ratio=0.1,
+                                                                net_profit_ratio=0.1)
+
+        # now test whether the above three instances have been saved correctly
+        financial_revenue = self.ticker.financial.first().revenue
+        financial_ratio_profit = self.ticker.financial_ratio.first().profit_ratio
+        quarter_financial_revenue = self.ticker.quarter_financial.first().revenue
+        self.assertEqual(financial_revenue, 100, msg='Financial data not created properly')
+        self.assertEqual(financial_ratio_profit, 0.1, msg='Financial Ratio data not created properly')
+        self.assertEqual(quarter_financial_revenue, 100, msg='Quarter Financial data not created properly')
