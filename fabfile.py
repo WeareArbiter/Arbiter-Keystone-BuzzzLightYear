@@ -18,6 +18,7 @@ def clean_db():
 def test():
     local('python manage.py test')
 
+@task
 def clean_db_and_test():
     execute(clean_db)
     execute(test)

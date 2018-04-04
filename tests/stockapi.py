@@ -160,6 +160,7 @@ class StockapiTestCase(TestCase):
         self.assertTrue(created, msg='failed to save Info data')
         self.assertEqual(Info.objects.count(), 1, msg='Info data not created properly')
 
+
     def test_Specs_save(self):
         specs_inst, created = Specs.objects.get_or_create(date='20180101',
                                                           code=self.ticker,
@@ -174,6 +175,7 @@ class StockapiTestCase(TestCase):
                                                           total_score=90)
         self.assertTrue(created, msg='failed to save Specs data')
         self.assertEqual(Specs.objects.count(), 1, msg='Specs data not created properly')
+
 
     def test_Financial_set_save(self):
         # try and test saving Financial, FinancialRatio, and QuarterFinancial
@@ -215,3 +217,140 @@ class StockapiTestCase(TestCase):
         self.assertEqual(financial_revenue, 100, msg='Financial data not created properly')
         self.assertEqual(financial_ratio_profit, 0.1, msg='Financial Ratio data not created properly')
         self.assertEqual(quarter_financial_revenue, 100, msg='Quarter Financial data not created properly')
+
+
+    def test_BuySellNetShort_save(self):
+        # create OHLCV instance first before save
+        kp_ohlcv, created = KospiOHLCV.objects.get_or_create(date='20180101',
+                                                             code=self.ticker,
+                                                             open_price=1000,
+                                                             high_price=1000,
+                                                             low_price=1000,
+                                                             close_price=1000,
+                                                             volume=1000000)
+
+        # creating Kosdaq ticker for KosdaqOHLCV
+        kd_ticker, created = Ticker.objects.get_or_create(code='000030',
+                                                          name='우리은행',
+                                                          market_type='KOSDAQ',
+                                                          state=1)
+
+        kd_ohlcv, created = KosdaqOHLCV.objects.get_or_create(date='20180101',
+                                                              code=kd_ticker,
+                                                              open_price=1000,
+                                                              high_price=1000,
+                                                              low_price=1000,
+                                                              close_price=1000,
+                                                              volume=1000000)
+
+        # Buy data
+        kp_buy, created = KospiBuy.objects.get_or_create(ohlcv=kp_ohlcv,
+                                                         individual=100,
+                                                         foreign_retail=100,
+                                                         institution=100,
+                                                         financial=100,
+                                                         insurance=100,
+                                                         trust=100,
+                                                         etc_finance=100,
+                                                         bank=100,
+                                                         pension=100,
+                                                         private=100,
+                                                         nation=100,
+                                                         etc_corporate=100)
+
+        kd_buy, created = KosdaqBuy.objects.get_or_create(ohlcv=kd_ohlcv,
+                                                          individual=100,
+                                                          foreign_retail=100,
+                                                          institution=100,
+                                                          financial=100,
+                                                          insurance=100,
+                                                          trust=100,
+                                                          etc_finance=100,
+                                                          bank=100,
+                                                          pension=100,
+                                                          private=100,
+                                                          nation=100,
+                                                          etc_corporate=100)
+
+        # Sell data
+        kp_sell, created = KospiSell.objects.get_or_create(ohlcv=kp_ohlcv,
+                                                           individual=-100,
+                                                           foreign_retail=-100,
+                                                           institution=-100,
+                                                           financial=-100,
+                                                           insurance=-100,
+                                                           trust=-100,
+                                                           etc_finance=-100,
+                                                           bank=-100,
+                                                           pension=-100,
+                                                           private=-100,
+                                                           nation=-100,
+                                                           etc_corporate=-100)
+
+        kd_sell, created = KosdaqSell.objects.get_or_create(ohlcv=kd_ohlcv,
+                                                            individual=-100,
+                                                            foreign_retail=-100,
+                                                            institution=-100,
+                                                            financial=-100,
+                                                            insurance=-100,
+                                                            trust=-100,
+                                                            etc_finance=-100,
+                                                            bank=-100,
+                                                            pension=-100,
+                                                            private=-100,
+                                                            nation=-100,
+                                                            etc_corporate=-100)
+
+        # Net data
+        kp_net, created = KospiNet.objects.get_or_create(ohlcv=kp_ohlcv,
+                                                         individual=0,
+                                                         foreign_retail=0,
+                                                         institution=0,
+                                                         financial=0,
+                                                         insurance=0,
+                                                         trust=0,
+                                                         etc_finance=0,
+                                                         bank=0,
+                                                         pension=0,
+                                                         private=0,
+                                                         nation=0,
+                                                         etc_corporate=0)
+
+        kd_net, created = KosdaqNet.objects.get_or_create(ohlcv=kd_ohlcv,
+                                                          individual=0,
+                                                          foreign_retail=0,
+                                                          institution=0,
+                                                          financial=0,
+                                                          insurance=0,
+                                                          trust=0,
+                                                          etc_finance=0,
+                                                          bank=0,
+                                                          pension=0,
+                                                          private=0,
+                                                          nation=0,
+                                                          etc_corporate=0)
+
+        # Short data
+        kp_short, created = KospiShort.objects.get_or_create(ohlcv=kp_ohlcv,
+                                                             short=100,
+                                                             short_proportion=0.1,
+                                                             short_total_price=1000000,
+                                                             short_avg_price=100,
+                                                             short_zscale=1.0,
+                                                             short_section=1,
+                                                             tp_5d_mean=1000000.0,
+                                                             short_5d_mean_section=1.0)
+
+        kd_short, created = KosdaqShort.objects.get_or_create(ohlcv=kd_ohlcv,
+                                                              short=100,
+                                                              short_proportion=0.1,
+                                                              short_total_price=1000000,
+                                                              short_avg_price=100,
+                                                              short_zscale=1.0,
+                                                              short_section=1,
+                                                              tp_5d_mean=1000000.0,
+                                                              short_5d_mean_section=1.0)
+
+        # assertions/tests
+        kp_buy_ins = self.ticker.kp_ohlcv.first().buy.institution
+        self.assertEqual(kp_buy_ins, 100, msg='KOSPI Buy data not created properly')
