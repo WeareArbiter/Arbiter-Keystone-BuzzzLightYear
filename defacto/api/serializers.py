@@ -1,16 +1,34 @@
 from rest_framework import serializers
 from defacto.models import (
-    AgentData,
-    AgentCalcData,
+    KospiAgentData,
+    KosdaqAgentData,
+    KospiAgentCalcData,
+    KosdaqAgentCalcData,
     DefactoReg,
-    ScoreData,
+    KospiScoreData,
+    KosdaqScoreData,
     RankData,
     )
 
 
-class AgentDataSerializer(serializers.ModelSerializer):
+class KospiAgentDataSerializer(serializers.ModelSerializer):
     class Meta:
-        model = AgentData
+        model = KospiAgentData
+        fields = ('date',
+                  'code',
+                  'ind_possession',
+                  'for_possession',
+                  'ins_possession',
+                  'cor_possession',
+                  'ind_height',
+                  'for_height',
+                  'ins_height',
+                  'cor_height',
+                  'ins_purity',)
+
+class KosdaqAgentDataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = KosdaqAgentData
         fields = ('date',
                   'code',
                   'ind_possession',
@@ -24,9 +42,32 @@ class AgentDataSerializer(serializers.ModelSerializer):
                   'ins_purity',)
 
 
-class AgentCalcDataSerializer(serializers.ModelSerializer):
+class KospiAgentCalcDataSerializer(serializers.ModelSerializer):
     class Meta:
-        model = AgentCalcData
+        model = KospiAgentCalcData
+        fields = ('date',
+                  'code',
+                  'ind_tp',
+                  'for_tp',
+                  'ins_tp',
+                  'cor_tp',
+                  'ind_buy_cumsum',
+                  'for_buy_cumsum',
+                  'ins_buy_cumsum',
+                  'cor_buy_cumsum',
+                  'ind_tp_buy_cumsum',
+                  'for_tp_buy_cumsum',
+                  'ins_tp_buy_cumsum',
+                  'cor_tp_buy_cumsum',
+                  'ind_apps',
+                  'for_apps',
+                  'ins_apps',
+                  'cor_apps',)
+
+
+class KosdaqAgentCalcDataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = KosdaqAgentCalcData
         fields = ('date',
                   'code',
                   'ind_tp',
@@ -62,9 +103,23 @@ class DefactoRegSerializer(serializers.ModelSerializer):
                   'cor_coef',)
 
 
-class ScoreDataSerializer(serializers.ModelSerializer):
+class KospiScoreDataSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ScoreData
+        model = KospiScoreData
+        fields = ('date',
+                  'code',
+                  'absolute_score',
+                  'relative_score',
+                  'total_score',
+                  'score_rank',
+                  'rank_change',
+                  'score_change',
+                  'lead_agent',)
+
+
+class KosdaqScoreDataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = KosdaqScoreData
         fields = ('date',
                   'code',
                   'absolute_score',

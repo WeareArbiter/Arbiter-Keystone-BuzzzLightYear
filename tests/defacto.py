@@ -4,14 +4,18 @@
 # from rest_framework.test import APIClient
 # from rest_framework import status
 #
-# from stockapi.models import Ticker
+# from stockapi.models import Ticker, OHLCV
 # from defacto.models import (
 #     DefactoReg,
-#     AgentData,
-#     AgentCalcData,
-#     ScoreData,
+#     KospiAgentData,
+#     KospiAgentCalcData,
+#     KosdaqAgentData,
+#     KosdaqAgentCalcData,
+#     KospiScoreData,
+#     KosdaqScoreData,
 #     RankData,
-#     RelativeCalc,
+#     KospiRelativeCalc,
+#     KosdaqRelativeCalc,
 #     )
 #
 # User = get_user_model()
@@ -38,7 +42,7 @@
 #
 #     def test_AgentData_save(self):
 #         # test all agent data
-#         agent_data, created = AgentData.objects.get_or_create(date = '20180325',
+#         kospi_agent_data, created = KospiAgentData.objects.get_or_create(date = '20180325',
 #                                                               code = self.ticker,
 #                                                               ind_possession = 50000000000,
 #                                                               for_possession = 50000000000,
@@ -60,24 +64,67 @@
 #         inst_name = agent_data.code.name
 #         self.assertEqual(inst_name, '삼성전자', msg='AgentData not created properly')
 #
-#         agent_calc_data, created = AgentCalcData.objects.get_or_create(date = '20180325',
-#                                                                        code = self.ticker,
-#                                                                        ind_tp = 50000.999,
-#                                                                        for_tp = 23232.121,
-#                                                                        ins_tp = 10034.123,
-#                                                                        cor_tp = 19302.231,
-#                                                                        ind_buy_cumsum = 53432,
-#                                                                        for_buy_cumsum = 12340,
-#                                                                        ins_buy_cumsum = 30043,
-#                                                                        cor_buy_cumsum = 13040,
-#                                                                        ind_tp_buy_cumsum = 2012121112,
-#                                                                        for_tp_buy_cumsum = 2031212121,
-#                                                                        ins_tp_buy_cumsum = 1232343121,
-#                                                                        cor_tp_buy_cumsum = 1233445212,
-#                                                                        ind_apps = 23131.23,
-#                                                                        for_apps = 34321.34,
-#                                                                        ins_apps = 23213.34,
-#                                                                        cor_apps = 34343.34,)
+#         kosdaq_agent_data, created = KosdaqAgentData.objects.get_or_create(date = '20180325',
+#                                                               code = self.ticker,
+#                                                               ind_possession = 50000000000,
+#                                                               for_possession = 50000000000,
+#                                                               ins_possession = 50000000000,
+#                                                               cor_possession = 50000000000,
+#                                                               tru_possession = 50000000000,
+#                                                               pen_possession = 50000000000,
+#                                                               circulate_stock = 50000000000,
+#                                                               ins_purity = 0.45,
+#                                                               ind_height = 0.52,
+#                                                               for_height = 0.14,
+#                                                               ins_height = 0.12,
+#                                                               cor_height = 0.21,
+#                                                               ind_proportion = 0.12,
+#                                                               for_proportion = 0.34,
+#                                                               ins_proportion = 0.23,
+#                                                               cor_proportion = 0.21,)
+#         self.assertTrue(created, msg='failed to save AgentData')
+#         inst_name = Kosdaq_agent_data.code.name
+#         self.assertEqual(inst_name, '삼성전자', msg='AgentData not created properly')
+#
+#
+#         kospi_agent_calc_data, created = KospiAgentCalcData.objects.get_or_create(date = '20180325',
+#                                                                                   code = self.ticker,
+#                                                                                   ind_tp = 50000.999,
+#                                                                                   for_tp = 23232.121,
+#                                                                                   ins_tp = 10034.123,
+#                                                                                   cor_tp = 19302.231,
+#                                                                                   ind_buy_cumsum = 53432,
+#                                                                                   for_buy_cumsum = 12340,
+#                                                                                   ins_buy_cumsum = 30043,
+#                                                                                   cor_buy_cumsum = 13040,
+#                                                                                   ind_tp_buy_cumsum = 2012121112,
+#                                                                                   for_tp_buy_cumsum = 2031212121,
+#                                                                                   ins_tp_buy_cumsum = 1232343121,
+#                                                                                   cor_tp_buy_cumsum = 1233445212,
+#                                                                                   ind_apps = 23131.23,
+#                                                                                   for_apps = 34321.34,
+#                                                                                   ins_apps = 23213.34,
+#                                                                                   cor_apps = 34343.34,)
+#
+#         kosdaq_agent_calc_data, created = KosdaqAgentCalcData.objects.get_or_create(date = '20180325',
+#                                                                                    code = self.ticker,
+#                                                                                    ind_tp = 50000.999,
+#                                                                                    for_tp = 23232.121,
+#                                                                                    ins_tp = 10034.123,
+#                                                                                    cor_tp = 19302.231,
+#                                                                                    ind_buy_cumsum = 53432,
+#                                                                                    for_buy_cumsum = 12340,
+#                                                                                    ins_buy_cumsum = 30043,
+#                                                                                    cor_buy_cumsum = 13040,
+#                                                                                    ind_tp_buy_cumsum = 2012121112,
+#                                                                                    for_tp_buy_cumsum = 2031212121,
+#                                                                                    ins_tp_buy_cumsum = 1232343121,
+#                                                                                    cor_tp_buy_cumsum = 1233445212,
+#                                                                                    ind_apps = 23131.23,
+#                                                                                    for_apps = 34321.34,
+#                                                                                    ins_apps = 23213.34,
+#                                                                                    cor_apps = 34343.34,)
+#
 #         self.assertTrue(created, msg='failed to save AgentData')
 #         inst_name = agent_calc_data.code.name
 #         self.assertEqual(inst_name, '삼성전자', msg='AgentData not created properly')

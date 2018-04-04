@@ -5,63 +5,115 @@ from rest_framework.response import Response
 from rest_framework.filters import SearchFilter, OrderingFilter
 
 from defacto.models import (
-    AgentData,
-    AgentCalcData,
+    KospiAgentData,
+    KosdaqAgentData,
+    KospiAgentCalcData,
+    KosdaqAgentCalcData,
     DefactoReg,
-    ScoreData,
+    KospiScoreData,
+    KosdaqScoreData,
     RankData,
     )
 from defacto.api.serializers import (
-    AgentDataSerializer,
-    AgentCalcDataSerializer,
+    KospiAgentDataSerializer,
+    KosdaqAgentDataSerializer,
+    KospiAgentCalcDataSerializer,
+    KosdaqAgentCalcDataSerializer,
     DefactoRegSerializer,
-    ScoreDataSerializer,
+    KospiScoreDataSerializer,
+    KosdaqScoreDataSerializer,
     RankDataSerializer,
     )
 from utils.paginations import StandardResultPagination
 
-class AgentDataAPIView(generics.ListCreateAPIView):
-    queryset = AgentData.objects.all()
-    serializer_class = AgentDataSerializer
+class KospiAgentDataAPIView(generics.ListAPIView):
+    queryset = KospiAgentData.objects.all()
+    serializer_class = KospiAgentDataSerializer
     pagination_class = StandardResultPagination
     filter_backends = [SearchFilter, OrderingFilter]
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self, *args, **kwargs):
-        queryset = AgentData.objects.all().order_by('id')
+        queryset = KospiAgentData.objects.all().order_by('id')
         date_by = self.request.GET.get('date')
+        start = self.request.GET.get('start')
+        end = self.request.GET.get('end')
         code_by = self.request.GET.get('code')
         if date_by:
             queryset = queryset.filter(date=date_by)
+        if start and end and not date_by:
+            queryset = queryset.filter(date__gte=start).filter(date__lte=end)
+        if code_by:
+            queryset = queryset.filter(code=code_by)
+        return queryset
+
+class KosdaqAgentDataAPIView(generics.ListAPIView):
+    queryset = KosdaqAgentCalcData.objects.all()
+    serializer_class = KosdaqAgentCalcDataSerializer
+    pagination_class = StandardResultPagination
+    filter_backends = [SearchFilter, OrderingFilter]
+
+    def get_queryset(self, *args, **kwargs):
+        queryset = KospiAgentData.objects.all().order_by('id')
+        date_by = self.request.GET.get('date')
+        start = self.request.GET.get('start')
+        end = self.request.GET.get('end')
+        code_by = self.request.GET.get('code')
+        if date_by:
+            queryset = queryset.filter(date=date_by)
+        if start and end and not date_by:
+            queryset = queryset.filter(date__gte=start).filter(date__lte=end)
         if code_by:
             queryset = queryset.filter(code=code_by)
         return queryset
 
 
-class AgentCalcDataAPIView(generics.ListCreateAPIView):
-    queryset = AgentCalcData.objects.all()
-    serializer_class = AgentCalcDataSerializer
+class KospiAgentCalcDataAPIView(generics.ListAPIView):
+    queryset = KospiAgentCalcData.objects.all()
+    serializer_class = KospiAgentCalcDataSerializer
     pagination_class = StandardResultPagination
     filter_backends = [SearchFilter, OrderingFilter]
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self, *args, **kwargs):
-        queryset = AgentCalcData.objects.all().order_by('id')
+        queryset = KospiAgentCalcData.objects.all().order_by('id')
         date_by = self.request.GET.get('date')
+        start = self.request.GET.get('start')
+        end = self.request.GET.get('end')
         code_by = self.request.GET.get('code')
         if date_by:
             queryset = queryset.filter(date=date_by)
+        if start and end and not date_by:
+            queryset = queryset.filter(date__gte=start).filter(date__lte=end)
         if code_by:
             queryset = queryset.filter(code=code_by)
         return queryset
 
 
-class DefactoRegAPIView(generics.ListCreateAPIView):
+class KosdaqAgentCalcDataAPIView(generics.ListAPIView):
+    queryset = KosdaqAgentCalcData.objects.all()
+    serializer_class = KosdaqAgentCalcDataSerializer
+    pagination_class = StandardResultPagination
+    filter_backends = [SearchFilter, OrderingFilter]
+
+    def get_queryset(self, *args, **kwargs):
+        queryset = KosdaqAgentCalcData.objects.all().order_by('id')
+        date_by = self.request.GET.get('date')
+        start = self.request.GET.get('start')
+        end = self.request.GET.get('end')
+        code_by = self.request.GET.get('code')
+        if date_by:
+            queryset = queryset.filter(date=date_by)
+        if start and end and not date_by:
+            queryset = queryset.filter(date__gte=start).filter(date__lte=end)
+        if code_by:
+            queryset = queryset.filter(code=code_by)
+        return queryset
+
+
+class DefactoRegAPIView(generics.ListAPIView):
     queryset = DefactoReg.objects.all()
     serializer_class = DefactoRegSerializer
     pagination_class = StandardResultPagination
     filter_backends = [SearchFilter, OrderingFilter]
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self, *args, **kwargs):
         queryset = DefactoReg.objects.all().order_by('id')
@@ -73,20 +125,24 @@ class DefactoRegAPIView(generics.ListCreateAPIView):
             queryset = queryset.filter(code=code_by)
         return queryset
 
-class ScoreDataAPIView(generics.ListCreateAPIView):
-    queryset = ScoreData.objects.all()
-    serializer_class = ScoreDataSerializer
+
+class KospiScoreDataAPIView(generics.ListAPIView):
+    queryset = KospiScoreData.objects.all()
+    serializer_class = KospiScoreDataSerializer
     pagination_class = StandardResultPagination
     filter_backends = [SearchFilter, OrderingFilter]
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self, *args, **kwargs):
-        queryset = ScoreData.objects.all().order_by('id')
+        queryset = KospiScoreData.objects.all().order_by('id')
         date_by = self.request.GET.get('date')
+        start = self.request.GET.get('start')
+        end = self.request.GET.get('end')
         code_by = self.request.GET.get('code')
         lead_agent_by = self.request.GET.get('lead_agent')
         if date_by:
             queryset = queryset.filter(date=date_by)
+        if start and end and not date_by:
+            queryset = queryset.filter(date__gte=start).filter(date__lte=end)
         if code_by:
             queryset = queryset.filter(code=code_by)
         if lead_agent_by:
@@ -94,12 +150,35 @@ class ScoreDataAPIView(generics.ListCreateAPIView):
         return queryset
 
 
-class RankDataAPIView(generics.ListCreateAPIView):
+class KosdaqScoreDataAPIView(generics.ListAPIView):
+    queryset = KosdaqScoreData.objects.all()
+    serializer_class = KosdaqScoreDataSerializer
+    pagination_class = StandardResultPagination
+    filter_backends = [SearchFilter, OrderingFilter]
+
+    def get_queryset(self, *args, **kwargs):
+        queryset = KosdaqScoreData.objects.all().order_by('id')
+        date_by = self.request.GET.get('date')
+        start = self.request.GET.get('start')
+        end = self.request.GET.get('end')
+        code_by = self.request.GET.get('code')
+        lead_agent_by = self.request.GET.get('lead_agent')
+        if date_by:
+            queryset = queryset.filter(date=date_by)
+        if start and end and not date_by:
+            queryset = queryset.filter(date__gte=start).filter(date__lte=end)
+        if code_by:
+            queryset = queryset.filter(code=code_by)
+        if lead_agent_by:
+            queryset = queryset.filter(lead_agent=lead_agent_by)
+        return queryset
+
+
+class RankDataAPIView(generics.ListAPIView):
     queryset = RankData.objects.all()
     serializer_class = RankDataSerializer
     pagination_class = StandardResultPagination
     filter_backends = [SearchFilter, OrderingFilter]
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self, *args, **kwargs):
         queryset = RankData.objects.all()

@@ -3,20 +3,28 @@ from django.contrib import admin
 # Register your models here.
 from defacto.models import (
     DefactoReg,
-    AgentData,
-    AgentCalcData,
-    ScoreData,
+    KospiAgentData,
+    KospiAgentCalcData,
+    KosdaqAgentData,
+    KosdaqAgentCalcData,
+    KospiScoreData,
+    KosdaqScoreData,
     RankData,
-    RelativeCalc,
+    KospiRelativeCalc,
+    KosdaqRelativeCalc,
     )
 
 models = [
     DefactoReg,
-    AgentData,
-    AgentCalcData,
-    ScoreData,
+    KospiAgentData,
+    KospiAgentCalcData,
+    KosdaqAgentData,
+    KosdaqAgentCalcData,
+    KospiScoreData,
+    KosdaqScoreData,
     RankData,
-    RelativeCalc
+    KospiRelativeCalc,
+    KosdaqRelativeCalc,
     ]
 
 for model in models:
