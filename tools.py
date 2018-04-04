@@ -19,6 +19,7 @@ application = get_wsgi_application()
 ### scripts ###
 from tools.Cleaner import Cleaner
 from tools.Sensitives import Sensitives
+from tools.ToyData import ToyData
 
 if sys.argv[1] == 'cleanmigrations':
     c = Cleaner(start_path)
@@ -37,3 +38,11 @@ elif sys.argv[1] == 'sensitives':
     elif sys.argv[2] == 'set':
         s.set(sys.argv[3], sys.argv[4])
         s.save()
+
+elif sys.argv[1] == 'toydata':
+    if sys.argv[2] == 'send':
+        td = ToyData(True)
+        td.check_data()
+    else:
+        td = ToyData(False)
+        td.check_data()

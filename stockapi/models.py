@@ -247,9 +247,9 @@ class QuarterFinancial(models.Model):
 
 ### Buy & Sell & Short data ###
 class KospiBuy(models.Model):
-    ohlcv = models.ForeignKey(KospiOHLCV,
-                              on_delete=models.CASCADE,
-                              related_name='buy')
+    ohlcv = models.OneToOneField(KospiOHLCV,
+                                on_delete=models.CASCADE,
+                                related_name='buy')
     individual = models.IntegerField(blank=True, null=True)
     foreign_retail = models.IntegerField(blank=True, null=True)
     institution = models.IntegerField(blank=True, null=True)
@@ -264,13 +264,13 @@ class KospiBuy(models.Model):
     etc_corporate = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
-        return '{}'.format(self.code)
+        return '{}'.format(self.ohlcv.code)
 
 
 class KosdaqBuy(models.Model):
-    ohlcv = models.ForeignKey(KosdaqOHLCV,
-                              on_delete=models.CASCADE,
-                              related_name='buy')
+    ohlcv = models.OneToOneField(KosdaqOHLCV,
+                                on_delete=models.CASCADE,
+                                related_name='buy')
     individual = models.IntegerField(blank=True, null=True)
     foreign_retail = models.IntegerField(blank=True, null=True)
     institution = models.IntegerField(blank=True, null=True)
@@ -285,13 +285,13 @@ class KosdaqBuy(models.Model):
     etc_corporate = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
-        return '{}'.format(self.code)
+        return '{}'.format(self.ohlcv.code)
 
 
 class KospiSell(models.Model):
-    ohlcv = models.ForeignKey(KospiOHLCV,
-                              on_delete=models.CASCADE,
-                              related_name='sell')
+    ohlcv = models.OneToOneField(KospiOHLCV,
+                                on_delete=models.CASCADE,
+                                related_name='sell')
     individual = models.IntegerField(blank=True, null=True)
     foreign_retail = models.IntegerField(blank=True, null=True)
     institution = models.IntegerField(blank=True, null=True)
@@ -306,13 +306,13 @@ class KospiSell(models.Model):
     etc_corporate = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
-        return '{}'.format(self.code)
+        return '{}'.format(self.ohlcv.code)
 
 
 class KosdaqSell(models.Model):
-    ohlcv = models.ForeignKey(KosdaqOHLCV,
-                              on_delete=models.CASCADE,
-                              related_name='sell')
+    ohlcv = models.OneToOneField(KosdaqOHLCV,
+                                 on_delete=models.CASCADE,
+                                 related_name='sell')
     individual = models.IntegerField(blank=True, null=True)
     foreign_retail = models.IntegerField(blank=True, null=True)
     institution = models.IntegerField(blank=True, null=True)
@@ -327,13 +327,13 @@ class KosdaqSell(models.Model):
     etc_corporate = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
-        return '{}'.format(self.code)
+        return '{}'.format(self.ohlcv.code)
 
 
 class KospiNet(models.Model):
-    ohlcv = models.ForeignKey(KospiOHLCV,
-                              on_delete=models.CASCADE,
-                              related_name='net')
+    ohlcv = models.OneToOneField(KospiOHLCV,
+                                on_delete=models.CASCADE,
+                                related_name='net')
     individual = models.IntegerField(blank=True, null=True)
     foreign_retail = models.IntegerField(blank=True, null=True)
     institution = models.IntegerField(blank=True, null=True)
@@ -348,13 +348,13 @@ class KospiNet(models.Model):
     etc_corporate = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
-        return '{}'.format(self.code)
+        return '{}'.format(self.ohlcv.code)
 
 
 class KosdaqNet(models.Model):
-    ohlcv = models.ForeignKey(KosdaqOHLCV,
-                              on_delete=models.CASCADE,
-                              related_name='net')
+    ohlcv = models.OneToOneField(KosdaqOHLCV,
+                                on_delete=models.CASCADE,
+                                related_name='net')
     individual = models.IntegerField(blank=True, null=True)
     foreign_retail = models.IntegerField(blank=True, null=True)
     institution = models.IntegerField(blank=True, null=True)
@@ -369,13 +369,13 @@ class KosdaqNet(models.Model):
     etc_corporate = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
-        return '{}'.format(self.code)
+        return '{}'.format(self.ohlcv.code)
 
 
 class KospiShort(models.Model):
-    ohlcv = models.ForeignKey(KospiOHLCV,
-                              on_delete=models.CASCADE,
-                              related_name='short')
+    ohlcv = models.OneToOneField(KospiOHLCV,
+                                 on_delete=models.CASCADE,
+                                 related_name='short')
     short = models.IntegerField(blank=True, null=True)
     short_proportion = models.FloatField(blank=True, null=True)
     short_total_price = models.IntegerField(blank=True, null=True)
@@ -388,13 +388,13 @@ class KospiShort(models.Model):
     # short total price five days rolling means divide
 
     def __str__(self):
-        return '{}'.format(self.code)
+        return '{}'.format(self.ohlcv.code)
 
 
 class KosdaqShort(models.Model):
-    ohlcv = models.ForeignKey(KosdaqOHLCV,
-                              on_delete=models.CASCADE,
-                              related_name='short')
+    ohlcv = models.OneToOneField(KosdaqOHLCV,
+                                 on_delete=models.CASCADE,
+                                 related_name='short')
     short = models.IntegerField(blank=True, null=True)
     short_proportion = models.FloatField(blank=True, null=True)
     short_total_price = models.IntegerField(blank=True, null=True)
@@ -407,4 +407,4 @@ class KosdaqShort(models.Model):
     # short total price five days rolling means divide
 
     def __str__(self):
-        return '{}'.format(self.code)
+        return '{}'.format(self.ohlcv.code)

@@ -353,4 +353,21 @@ class StockapiTestCase(TestCase):
 
         # assertions/tests
         kp_buy_ins = self.ticker.kp_ohlcv.first().buy.institution
+        kd_buy_ins = kd_ticker.kd_ohlcv.first().buy.institution
         self.assertEqual(kp_buy_ins, 100, msg='KOSPI Buy data not created properly')
+        self.assertEqual(kd_buy_ins, 100, msg='KOSDAQ Buy data not created properly')
+
+        kp_sell_ins = self.ticker.kp_ohlcv.first().sell.institution
+        kd_sell_ins = kd_ticker.kd_ohlcv.first().sell.institution
+        self.assertEqual(kp_sell_ins, -100, msg='KOSPI Sell data not created properly')
+        self.assertEqual(kd_sell_ins, -100, msg='KOSDAQ Sell data not created properly')
+
+        kp_net_ins = self.ticker.kp_ohlcv.first().net.institution
+        kd_net_ins = kd_ticker.kd_ohlcv.first().net.institution
+        self.assertEqual(kp_net_ins, 0, msg='KOSPI Net data not created properly')
+        self.assertEqual(kd_net_ins, 0, msg='KOSDAQ Net data not created properly')
+
+        kp_short_ins = self.ticker.kp_ohlcv.first().short.short
+        kd_short_ins = kd_ticker.kd_ohlcv.first().short.short
+        self.assertEqual(kp_short_ins, 100, msg='KOSPI Short data not created properly')
+        self.assertEqual(kd_short_ins, 100, msg='KOSDAQ Short data not created properly')
