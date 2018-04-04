@@ -157,8 +157,20 @@ class StockapiTestCase(TestCase):
                                                         bps=100.0,
                                                         industry_per=1.0,
                                                         yield_ret=0.1)
-        self.assertTrue(created, msg='failed to save Info data')
-        self.assertEqual(Info.objects.count(), 1, msg='Info data not created properly')
+            self.assertTrue(created, msg='failed to save Info data')
+            self.assertEqual(Info.objects.count(), 1, msg='Info data not created properly')
 
     def test_Specs_save(self):
-        pass
+        specs_inst, created = Specs.objects.get_or_create(date='20180101',
+                                                          code=self.ticker,
+                                                          momentum=100.0,
+                                                          volatility=100.0,
+                                                          correlation=100.0,
+                                                          volume=100,
+                                                          momentum_score=90,
+                                                          volatility_score=90,
+                                                          correlation_score=90,
+                                                          volume_score=90,
+                                                          total_score=90)
+        self.assertTrue(created, msg='failed to save Specs data')
+        self.assertEqual(Specs.objects.count(), 1, msg='Specs data not created properly')
