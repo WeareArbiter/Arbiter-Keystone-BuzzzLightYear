@@ -43,8 +43,8 @@ from stockapi.serializers import (
     KosdaqSellSerializer,
     KospiNetSerializer,
     KosdaqNetSerializer,
-    KospiShortSerialier,
-    KosdaqShortSerialier,
+    KospiShortSerializer,
+    KosdaqShortSerializer,
 )
 
 from utils.paginations import StandardResultPagination, OHLCVPagination
@@ -220,6 +220,194 @@ class SpecsAPIView(generics.ListAPIView):
             queryset = queryset.filter(date=date_by)
         if start and end and not date_by:
             queryset = queryset.filter(date__gte=start).filter(date__lte=end)
+        if code_by:
+            queryset = queryset.filter(code=code_by)
+        return queryset
+
+
+class FinancialAPIView(generics.ListAPIView):
+    queryset = Financial.objects.all()
+    serializer_class = FinancialSerializer
+    pagination_class = StandardResultPagination
+    filter_backends = [SearchFilter, OrderingFilter]
+
+    def get_queryset(self, *args, **kwargs):
+        queryset = Financial.objects.all().order_by('id')
+        date_by = self.request.GET.get('date')
+        code_by = self.request.GET.get('code')
+        if date_by:
+            queryset = queryset.filter(date=date_by)
+        if code_by:
+            queryset = queryset.filter(code=code_by)
+        return queryset
+
+
+class FinancialRatioAPIView(generics.ListAPIView):
+    queryset = FinancialRatio.objects.all()
+    serializer_class = FinancialRatioSerializer
+    pagination_class = StandardResultPagination
+    filter_backends = [SearchFilter, OrderingFilter]
+
+    def get_queryset(self, *args, **kwargs):
+        queryset = FinancialRatio.objects.all().order_by('id')
+        date_by = self.request.GET.get('date')
+        code_by = self.request.GET.get('code')
+        if date_by:
+            queryset = queryset.filter(date=date_by)
+        if code_by:
+            queryset = queryset.filter(code=code_by)
+        return queryset
+
+
+class QuarterFinancialAPIView(generics.ListAPIView):
+    queryset = QuarterFinancial.objects.all()
+    serializer_class = QuarterFinancialSerializer
+    pagination_class = StandardResultPagination
+    filter_backends = [SearchFilter, OrderingFilter]
+
+    def get_queryset(self, *args, **kwargs):
+        queryset = QuarterFinancial.objects.all().order_by('id')
+        date_by = self.request.GET.get('date')
+        code_by = self.request.GET.get('code')
+        if date_by:
+            queryset = queryset.filter(date=date_by)
+        if code_by:
+            queryset = queryset.filter(code=code_by)
+        return queryset
+
+
+### Buy, Sell, Net, and Short views
+class KospiBuyAPIView(generics.ListAPIView):
+    queryset = KospiBuy.objects.all()
+    serializer_class = KospiBuySerializer
+    pagination_class = StandardResultPagination
+    filter_backends = [SearchFilter, OrderingFilter]
+
+    def get_queryset(self, *args, **kwargs):
+        queryset = KospiBuy.objects.all().order_by('id')
+        date_by = self.request.GET.get('date')
+        code_by = self.request.GET.get('code')
+        if date_by:
+            queryset = queryset.filter(date=date_by)
+        if code_by:
+            queryset = queryset.filter(code=code_by)
+        return queryset
+
+
+class KosdaqBuyAPIView(generics.ListAPIView):
+    queryset = KosdaqBuy.objects.all()
+    serializer_class = KosdaqBuySerializer
+    pagination_class = StandardResultPagination
+    filter_backends = [SearchFilter, OrderingFilter]
+
+    def get_queryset(self, *args, **kwargs):
+        queryset = KosdaqBuy.objects.all().order_by('id')
+        date_by = self.request.GET.get('date')
+        code_by = self.request.GET.get('code')
+        if date_by:
+            queryset = queryset.filter(date=date_by)
+        if code_by:
+            queryset = queryset.filter(code=code_by)
+        return queryset
+
+
+class KospiSellAPIView(generics.ListAPIView):
+    queryset = KospiSell.objects.all()
+    serializer_class = KospiSellSerializer
+    pagination_class = StandardResultPagination
+    filter_backends = [SearchFilter, OrderingFilter]
+
+    def get_queryset(self, *args, **kwargs):
+        queryset = KospiSell.objects.all().order_by('id')
+        date_by = self.request.GET.get('date')
+        code_by = self.request.GET.get('code')
+        if date_by:
+            queryset = queryset.filter(date=date_by)
+        if code_by:
+            queryset = queryset.filter(code=code_by)
+        return queryset
+
+
+class KosdaqSellAPIView(generics.ListAPIView):
+    queryset = KosdaqSell.objects.all()
+    serializer_class = KosdaqSellSerializer
+    pagination_class = StandardResultPagination
+    filter_backends = [SearchFilter, OrderingFilter]
+
+    def get_queryset(self, *args, **kwargs):
+        queryset = KosdaqSell.objects.all().order_by('id')
+        date_by = self.request.GET.get('date')
+        code_by = self.request.GET.get('code')
+        if date_by:
+            queryset = queryset.filter(date=date_by)
+        if code_by:
+            queryset = queryset.filter(code=code_by)
+        return queryset
+
+
+class KospiNetAPIView(generics.ListAPIView):
+    queryset = KospiNet.objects.all()
+    serializer_class = KospiNetSerializer
+    pagination_class = StandardResultPagination
+    filter_backends = [SearchFilter, OrderingFilter]
+
+    def get_queryset(self, *args, **kwargs):
+        queryset = KospiNet.objects.all().order_by('id')
+        date_by = self.request.GET.get('date')
+        code_by = self.request.GET.get('code')
+        if date_by:
+            queryset = queryset.filter(date=date_by)
+        if code_by:
+            queryset = queryset.filter(code=code_by)
+        return queryset
+
+
+class KosdaqNetAPIView(generics.ListAPIView):
+    queryset = KosdaqNet.objects.all()
+    serializer_class = KosdaqNetSerializer
+    pagination_class = StandardResultPagination
+    filter_backends = [SearchFilter, OrderingFilter]
+
+    def get_queryset(self, *args, **kwargs):
+        queryset = KosdaqNet.objects.all().order_by('id')
+        date_by = self.request.GET.get('date')
+        code_by = self.request.GET.get('code')
+        if date_by:
+            queryset = queryset.filter(date=date_by)
+        if code_by:
+            queryset = queryset.filter(code=code_by)
+        return queryset
+
+
+class KospiShortAPIView(generics.ListAPIView):
+    queryset = KospiShort.objects.all()
+    serializer_class = KospiShortSerializer
+    pagination_class = StandardResultPagination
+    filter_backends = [SearchFilter, OrderingFilter]
+
+    def get_queryset(self, *args, **kwargs):
+        queryset = KospiShort.objects.all().order_by('id')
+        date_by = self.request.GET.get('date')
+        code_by = self.request.GET.get('code')
+        if date_by:
+            queryset = queryset.filter(date=date_by)
+        if code_by:
+            queryset = queryset.filter(code=code_by)
+        return queryset
+
+
+class KosdaqShortAPIView(generics.ListAPIView):
+    queryset = KosdaqShort.objects.all()
+    serializer_class = KosdaqShortSerializer
+    pagination_class = StandardResultPagination
+    filter_backends = [SearchFilter, OrderingFilter]
+
+    def get_queryset(self, *args, **kwargs):
+        queryset = KosdaqShort.objects.all().order_by('id')
+        date_by = self.request.GET.get('date')
+        code_by = self.request.GET.get('code')
+        if date_by:
+            queryset = queryset.filter(date=date_by)
         if code_by:
             queryset = queryset.filter(code=code_by)
         return queryset

@@ -287,7 +287,7 @@ class KosdaqNetSerializer(serializers.ModelSerializer):
                   'etc_corporate',)
 
 
-class KospiShortSerialier(serializers.ModelSerializer):
+class KospiShortSerializer(serializers.ModelSerializer):
     class Meta:
         model = KospiShort
         fields = ('ohlcv',
@@ -300,7 +300,8 @@ class KospiShortSerialier(serializers.ModelSerializer):
                   'tp_5d_mean',
                   'short_5d_mean_section',)
 
-class KosdaqShortSerialier(serializers.ModelSerializer):
+
+class KosdaqShortSerializer(serializers.ModelSerializer):
     class Meta:
         model = KosdaqShort
         fields = ('ohlcv',

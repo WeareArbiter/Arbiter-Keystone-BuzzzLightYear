@@ -1,6 +1,14 @@
 from fabric.api import *
 
 @task
+def shell():
+    local('python manage.py shell')
+
+@task
+def runserver():
+    local('python manage.py runserver')
+
+@task
 def clean_db():
     local('python tools.py cleanmigrations')
     local('python manage.py makemigrations')

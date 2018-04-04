@@ -18,13 +18,10 @@ from stockapi.models import (
     QuarterFinancial,
     KospiBuy,
     KosdaqBuy,
-    ETFBuy,
     KospiSell,
     KosdaqSell,
-    ETFSell,
     KospiNet,
     KosdaqNet,
-    ETFNet,
 )
 
 User = get_user_model()
