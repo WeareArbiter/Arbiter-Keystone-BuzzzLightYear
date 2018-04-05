@@ -2,9 +2,8 @@ from rest_framework import serializers
 from defacto.models import (
     KospiAgentData,
     KosdaqAgentData,
-    KospiAgentCalcData,
-    KosdaqAgentCalcData,
-    DefactoReg,
+    KospiTruePriceData,
+    KosdaqTruePriceData,
     KospiScoreData,
     KosdaqScoreData,
     RankData,
@@ -14,8 +13,7 @@ from defacto.models import (
 class KospiAgentDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = KospiAgentData
-        fields = ('date',
-                  'code',
+        fields = ('ohlcv',
                   'ind_possession',
                   'for_possession',
                   'ins_possession',
@@ -24,75 +22,7 @@ class KospiAgentDataSerializer(serializers.ModelSerializer):
                   'for_height',
                   'ins_height',
                   'cor_height',
-                  'ins_purity',)
-
-class KosdaqAgentDataSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = KosdaqAgentData
-        fields = ('date',
-                  'code',
-                  'ind_possession',
-                  'for_possession',
-                  'ins_possession',
-                  'cor_possession',
-                  'ind_height',
-                  'for_height',
-                  'ins_height',
-                  'cor_height',
-                  'ins_purity',)
-
-
-class KospiAgentCalcDataSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = KospiAgentCalcData
-        fields = ('date',
-                  'code',
-                  'ind_tp',
-                  'for_tp',
-                  'ins_tp',
-                  'cor_tp',
-                  'ind_buy_cumsum',
-                  'for_buy_cumsum',
-                  'ins_buy_cumsum',
-                  'cor_buy_cumsum',
-                  'ind_tp_buy_cumsum',
-                  'for_tp_buy_cumsum',
-                  'ins_tp_buy_cumsum',
-                  'cor_tp_buy_cumsum',
-                  'ind_apps',
-                  'for_apps',
-                  'ins_apps',
-                  'cor_apps',)
-
-
-class KosdaqAgentCalcDataSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = KosdaqAgentCalcData
-        fields = ('date',
-                  'code',
-                  'ind_tp',
-                  'for_tp',
-                  'ins_tp',
-                  'cor_tp',
-                  'ind_buy_cumsum',
-                  'for_buy_cumsum',
-                  'ins_buy_cumsum',
-                  'cor_buy_cumsum',
-                  'ind_tp_buy_cumsum',
-                  'for_tp_buy_cumsum',
-                  'ins_tp_buy_cumsum',
-                  'cor_tp_buy_cumsum',
-                  'ind_apps',
-                  'for_apps',
-                  'ins_apps',
-                  'cor_apps',)
-
-
-class DefactoRegSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = DefactoReg
-        fields = ('date',
-                  'code',
+                  'ins_purity',
                   'ind_tv',
                   'for_tv',
                   'ins_tv',
@@ -101,6 +31,73 @@ class DefactoRegSerializer(serializers.ModelSerializer):
                   'for_coef',
                   'ins_coef',
                   'cor_coef',)
+
+class KosdaqAgentDataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = KosdaqAgentData
+        fields = ('ohlcv'
+                  'ind_possession',
+                  'for_possession',
+                  'ins_possession',
+                  'cor_possession',
+                  'ind_height',
+                  'for_height',
+                  'ins_height',
+                  'cor_height',
+                  'ins_purity',
+                  'ind_tv',
+                  'for_tv',
+                  'ins_tv',
+                  'cor_tv',
+                  'ind_coef',
+                  'for_coef',
+                  'ins_coef',
+                  'cor_coef',)
+
+
+class KospiTruePriceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = KospiTruePriceData
+        fields = ('ohlcv',
+                  'ind_tp',
+                  'for_tp',
+                  'ins_tp',
+                  'cor_tp',
+                  'ind_buy_cumsum',
+                  'for_buy_cumsum',
+                  'ins_buy_cumsum',
+                  'cor_buy_cumsum',
+                  'ind_tp_buy_cumsum',
+                  'for_tp_buy_cumsum',
+                  'ins_tp_buy_cumsum',
+                  'cor_tp_buy_cumsum',
+                  'ind_apps',
+                  'for_apps',
+                  'ins_apps',
+                  'cor_apps',)
+
+
+class KosdaqTruePriceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = KosdaqTruePriceData
+        fields = ('date',
+                  'code',
+                  'ind_tp',
+                  'for_tp',
+                  'ins_tp',
+                  'cor_tp',
+                  'ind_buy_cumsum',
+                  'for_buy_cumsum',
+                  'ins_buy_cumsum',
+                  'cor_buy_cumsum',
+                  'ind_tp_buy_cumsum',
+                  'for_tp_buy_cumsum',
+                  'ins_tp_buy_cumsum',
+                  'cor_tp_buy_cumsum',
+                  'ind_apps',
+                  'for_apps',
+                  'ins_apps',
+                  'cor_apps',)
 
 
 class KospiScoreDataSerializer(serializers.ModelSerializer):

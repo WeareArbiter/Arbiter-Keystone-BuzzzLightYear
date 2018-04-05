@@ -7,9 +7,8 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 from defacto.models import (
     KospiAgentData,
     KosdaqAgentData,
-    KospiAgentCalcData,
-    KosdaqAgentCalcData,
-    DefactoReg,
+    KospiTruePriceData,
+    KosdaqTruePriceData,
     KospiScoreData,
     KosdaqScoreData,
     RankData,
@@ -17,9 +16,8 @@ from defacto.models import (
 from defacto.api.serializers import (
     KospiAgentDataSerializer,
     KosdaqAgentDataSerializer,
-    KospiAgentCalcDataSerializer,
-    KosdaqAgentCalcDataSerializer,
-    DefactoRegSerializer,
+    KospiTruePriceSerializer,
+    KosdaqTruePriceSerializer,
     KospiScoreDataSerializer,
     KosdaqScoreDataSerializer,
     RankDataSerializer,
@@ -47,8 +45,8 @@ class KospiAgentDataAPIView(generics.ListAPIView):
         return queryset
 
 class KosdaqAgentDataAPIView(generics.ListAPIView):
-    queryset = KosdaqAgentCalcData.objects.all()
-    serializer_class = KosdaqAgentCalcDataSerializer
+    queryset = KosdaqAgentData.objects.all()
+    serializer_class = KosdaqAgentDataSerializer
     pagination_class = StandardResultPagination
     filter_backends = [SearchFilter, OrderingFilter]
 
@@ -67,14 +65,14 @@ class KosdaqAgentDataAPIView(generics.ListAPIView):
         return queryset
 
 
-class KospiAgentCalcDataAPIView(generics.ListAPIView):
-    queryset = KospiAgentCalcData.objects.all()
-    serializer_class = KospiAgentCalcDataSerializer
+class KospiTruePriceAPIView(generics.ListAPIView):
+    queryset = KospiTruePriceData.objects.all()
+    serializer_class = KospiTruePriceSerializer
     pagination_class = StandardResultPagination
     filter_backends = [SearchFilter, OrderingFilter]
 
     def get_queryset(self, *args, **kwargs):
-        queryset = KospiAgentCalcData.objects.all().order_by('id')
+        queryset = KospiTruePriceData.objects.all().order_by('id')
         date_by = self.request.GET.get('date')
         start = self.request.GET.get('start')
         end = self.request.GET.get('end')
@@ -88,14 +86,14 @@ class KospiAgentCalcDataAPIView(generics.ListAPIView):
         return queryset
 
 
-class KosdaqAgentCalcDataAPIView(generics.ListAPIView):
-    queryset = KosdaqAgentCalcData.objects.all()
-    serializer_class = KosdaqAgentCalcDataSerializer
+class KosdaqTruePriceAPIView(generics.ListAPIView):
+    queryset = KosdaqTruePriceData.objects.all()
+    serializer_class = KosdaqTruePriceSerializer
     pagination_class = StandardResultPagination
     filter_backends = [SearchFilter, OrderingFilter]
 
     def get_queryset(self, *args, **kwargs):
-        queryset = KosdaqAgentCalcData.objects.all().order_by('id')
+        queryset = KosdaqTruePriceData.objects.all().order_by('id')
         date_by = self.request.GET.get('date')
         start = self.request.GET.get('start')
         end = self.request.GET.get('end')
@@ -104,23 +102,6 @@ class KosdaqAgentCalcDataAPIView(generics.ListAPIView):
             queryset = queryset.filter(date=date_by)
         if start and end and not date_by:
             queryset = queryset.filter(date__gte=start).filter(date__lte=end)
-        if code_by:
-            queryset = queryset.filter(code=code_by)
-        return queryset
-
-
-class DefactoRegAPIView(generics.ListAPIView):
-    queryset = DefactoReg.objects.all()
-    serializer_class = DefactoRegSerializer
-    pagination_class = StandardResultPagination
-    filter_backends = [SearchFilter, OrderingFilter]
-
-    def get_queryset(self, *args, **kwargs):
-        queryset = DefactoReg.objects.all().order_by('id')
-        date_by = self.request.GET.get('date')
-        code_by = self.request.GET.get('code')
-        if date_by:
-            queryset = queryset.filter(date=date_by)
         if code_by:
             queryset = queryset.filter(code=code_by)
         return queryset

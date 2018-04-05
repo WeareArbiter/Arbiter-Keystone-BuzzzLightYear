@@ -2,11 +2,12 @@ from django.contrib import admin
 
 # Register your models here.
 from defacto.models import (
-    DefactoReg,
     KospiAgentData,
-    KospiAgentCalcData,
+    KospiTruePriceData,
     KosdaqAgentData,
-    KosdaqAgentCalcData,
+    KosdaqTruePriceData,
+    KospiAbsoulteScore,
+    KosdaqAbsoulteScore,
     KospiScoreData,
     KosdaqScoreData,
     RankData,
@@ -15,11 +16,12 @@ from defacto.models import (
     )
 
 models = [
-    DefactoReg,
     KospiAgentData,
-    KospiAgentCalcData,
+    KospiTruePriceData,
     KosdaqAgentData,
-    KosdaqAgentCalcData,
+    KosdaqTruePriceData,
+    KospiAbsoulteScore,
+    KosdaqAbsoulteScore,
     KospiScoreData,
     KosdaqScoreData,
     RankData,
