@@ -1,8 +1,5 @@
-from rest_framework import generics, permissions
-from rest_framework.response import Response
+from rest_framework import generics
 from rest_framework.filters import SearchFilter, OrderingFilter
-from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
-from rest_framework.views import APIView
 
 from stockapi.models import (
     Benchmark,
@@ -48,7 +45,6 @@ from stockapi.serializers import (
 )
 
 from utils.paginations import StandardResultPagination, OHLCVPagination
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 
 
 ### KOSPI & KOSDAQ data ###
