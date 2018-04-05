@@ -56,10 +56,10 @@ class KospiAgentData(models.Model):
         return '{}'.format(self.ohlcv.code)
 
 
-class KospiAbsoulteScore(models.Model):
+class KospiAbsoluteScore(models.Model):
     defacto = models.OneToOneField(KospiAgentData,
-                                     on_delete=models.CASCADE,
-                                     related_name='absoulte_score')
+                                   on_delete=models.CASCADE,
+                                   related_name='absoulte_score')
     ind_height_section = models.IntegerField(blank=True, null=True)
     for_height_section = models.IntegerField(blank=True, null=True)
     ins_height_section = models.IntegerField(blank=True, null=True)
@@ -136,7 +136,7 @@ class KosdaqAgentData(models.Model):
         return '{}'.format(self.ohlcv.code)
 
 
-class KosdaqAbsoulteScore(models.Model):
+class KosdaqAbsoluteScore(models.Model):
     defacto = models.OneToOneField(KosdaqAgentData,
                                      on_delete=models.CASCADE,
                                      related_name='absolute_score')

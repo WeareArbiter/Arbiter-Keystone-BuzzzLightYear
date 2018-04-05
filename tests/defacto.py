@@ -14,8 +14,8 @@ from defacto.models import (
     KospiTruePriceData,
     KosdaqAgentData,
     KosdaqTruePriceData,
-    KospiAbsoulteScore,
-    KosdaqAbsoulteScore,
+    KospiAbsoluteScore,
+    KosdaqAbsoluteScore,
     KospiScoreData,
     KosdaqScoreData,
     RankData,
@@ -253,7 +253,7 @@ class DefactoTestCase(TestCase):
         self.assertEqual(kd_rc_cp_vol, 0.034, msg='defacto_reg_ind_tv DefactoReg not created properly')
 
 
-    def test_AbsoliteScore_save(self):
+    def test_AbsoluteScore_save(self):
 
         kp_agent_data, created = KospiAgentData.objects.get_or_create(ohlcv = self.kp_ohlcv,
                                                                      ind_possession = 50000000000,
@@ -313,7 +313,7 @@ class DefactoTestCase(TestCase):
         kd_ad_inst_name = self.kd_ticker.kd_ohlcv.first().agent_data.ohlcv.code.name
         self.assertEqual(kd_ad_inst_name, '셀트리온제약', msg='AgentData not created properly')
 
-        kp_ab_score, created = KospiAbsoulteScore.objects.get_or_create(defacto = kp_agent_data,
+        kp_ab_score, created = KospiAbsoluteScore.objects.get_or_create(defacto = kp_agent_data,
                                                                         ind_height_section = 1,
                                                                         for_height_section = 3,
                                                                         ins_height_section = 2,
@@ -339,7 +339,7 @@ class DefactoTestCase(TestCase):
                                                                         lead_agent = 'None',)
 
         self.assertTrue(created, msg='failed to save AgentData')
-        kp_ad_inst_name = self.kp_ticker.kp_ohlcv.agent_data.first().absolute_score.defacto.ohlcv.code.name
+        kp_ad_inst_name = self.kp_ticker.kp_ohlcv.first().kp_agent_data.absolute_score.defacto.ohlcv.code.name
         self.assertEqual(kp_ad_inst_name, '삼성전자', msg='AgentData not created properly')
 
         kd_ab_score, created = KospiAbsoulteScore.objects.get_or_create(defacto = kd_agent_data,
@@ -368,7 +368,7 @@ class DefactoTestCase(TestCase):
                                                                         lead_agent = 'None',)
 
         self.assertTrue(created, msg='failed to save AgentData')
-        kd_ad_inst_name = self.kd_ticker.kd_ohlcv.agent_data.first().absolute_score.defacto.ohlcv.code.name
+        kd_ad_inst_name = self.kd_ticker.kd_ohlcv.first().kd_agent_data.absolute_score.defacto.ohlcv.code.name
         self.assertEqual(kd_ad_inst_name, '셀트리온제약', msg='AgentData not created properly')
 
 
