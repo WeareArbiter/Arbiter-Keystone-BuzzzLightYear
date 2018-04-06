@@ -3,11 +3,10 @@ from stockapi.models import (
     Ticker,
     KospiOHLCV,
     KosdaqOHLCV,
-    )
+)
 
 
-# Create your models here.
-
+# TEST PASS #
 class KospiAgentData(models.Model):
     '''
     - description: KOSPI & KOSDAQ agent data updated daily
@@ -19,8 +18,8 @@ class KospiAgentData(models.Model):
     - url: /defacto-api/agent-data/',
     '''
     ohlcv = models.OneToOneField(KospiOHLCV,
-                                on_delete=models.CASCADE,
-                                related_name='agent_data')
+                                 on_delete=models.CASCADE,
+                                 related_name='agent_data')
     ind_possession = models.BigIntegerField(blank=True, null=True)
     for_possession = models.BigIntegerField(blank=True, null=True)
     ins_possession = models.BigIntegerField(blank=True, null=True)
@@ -59,7 +58,7 @@ class KospiAgentData(models.Model):
 class KospiAbsoluteScore(models.Model):
     defacto = models.OneToOneField(KospiAgentData,
                                    on_delete=models.CASCADE,
-                                   related_name='absoulte_score')
+                                   related_name='absolute_score')
     ind_height_section = models.IntegerField(blank=True, null=True)
     for_height_section = models.IntegerField(blank=True, null=True)
     ins_height_section = models.IntegerField(blank=True, null=True)
@@ -88,6 +87,7 @@ class KospiAbsoluteScore(models.Model):
         return '{}'.format(self.agent_data.ohlcv.code)
 
 
+# TEST PASS #
 class KosdaqAgentData(models.Model):
     '''
     - description: KOSDAQ agent data updated daily
@@ -138,8 +138,8 @@ class KosdaqAgentData(models.Model):
 
 class KosdaqAbsoluteScore(models.Model):
     defacto = models.OneToOneField(KosdaqAgentData,
-                                     on_delete=models.CASCADE,
-                                     related_name='absolute_score')
+                                   on_delete=models.CASCADE,
+                                   related_name='absolute_score')
     ind_height_section = models.IntegerField(blank=True, null=True)
     for_height_section = models.IntegerField(blank=True, null=True)
     ins_height_section = models.IntegerField(blank=True, null=True)
@@ -168,6 +168,7 @@ class KosdaqAbsoluteScore(models.Model):
         return '{}'.format(self.agent_data.ohlcv.code)
 
 
+# TEST PASS #
 class KospiTruePriceData(models.Model):
     '''
     - description: KOSPI agent data updated daily true price
@@ -179,8 +180,8 @@ class KospiTruePriceData(models.Model):
     - url: /defacto-api/calc-data/',
     '''
     ohlcv = models.OneToOneField(KospiOHLCV,
-                                on_delete=models.CASCADE,
-                                related_name='true_price')
+                                 on_delete=models.CASCADE,
+                                 related_name='true_price')
     ind_tp = models.FloatField(blank=True, null=True)
     for_tp = models.FloatField(blank=True, null=True)
     ins_tp = models.FloatField(blank=True, null=True)
@@ -206,7 +207,7 @@ class KospiTruePriceData(models.Model):
         return '{}'.format(self.ohlcv.code)
 
 
-
+# TEST PASS #
 class KosdaqTruePriceData(models.Model):
     '''
     - description: KOSDAQ agent data updated daily true price
@@ -218,8 +219,8 @@ class KosdaqTruePriceData(models.Model):
     - url: /defacto-api/calc-data/',
     '''
     ohlcv = models.OneToOneField(KosdaqOHLCV,
-                                on_delete=models.CASCADE,
-                                related_name='true_price')
+                                 on_delete=models.CASCADE,
+                                 related_name='true_price')
     ind_tp = models.FloatField(blank=True, null=True)
     for_tp = models.FloatField(blank=True, null=True)
     ins_tp = models.FloatField(blank=True, null=True)
@@ -245,6 +246,7 @@ class KosdaqTruePriceData(models.Model):
         return '{}'.format(self.ohlcv.code)
 
 
+# TEST PASS #
 class KospiRelativeCalc(models.Model):
     '''
     - description: Table to calculate relative score
@@ -280,6 +282,7 @@ class KospiRelativeCalc(models.Model):
         return '{}'.format(self.ohlcv.code)
 
 
+# TEST PASS #
 class KosdaqRelativeCalc(models.Model):
     '''
     - description: Table to calculate relative score
@@ -313,7 +316,6 @@ class KosdaqRelativeCalc(models.Model):
 
     def __str__(self):
         return '{}'.format(self.ohlcv.code)
-
 
 
 class KospiScoreData(models.Model):
@@ -362,7 +364,6 @@ class KosdaqScoreData(models.Model):
 
     def __str__(self):
         return '{}'.format(self.code)
-
 
 
 class RankData(models.Model):

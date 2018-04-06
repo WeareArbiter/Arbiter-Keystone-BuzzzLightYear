@@ -1,6 +1,5 @@
 from django.contrib import admin
 
-# Register your models here.
 from defacto.models import (
     KospiAgentData,
     KospiTruePriceData,
@@ -13,7 +12,7 @@ from defacto.models import (
     RankData,
     KospiRelativeCalc,
     KosdaqRelativeCalc,
-    )
+)
 
 models = [
     KospiAgentData,
@@ -27,7 +26,7 @@ models = [
     RankData,
     KospiRelativeCalc,
     KosdaqRelativeCalc,
-    ]
+]
 
 for model in models:
     admin.site.register(model)

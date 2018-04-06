@@ -7,7 +7,8 @@ from defacto.api.views import (
     KosdaqTruePriceAPIView,
     KospiScoreDataAPIView,
     KosdaqScoreDataAPIView,
-    RankDataAPIView,)
+    RankDataAPIView,
+)
 
 urlpatterns = [
     url(r'^kp-ad-api/$', KospiAgentDataAPIView.as_view(), name='kp-agent-data'),

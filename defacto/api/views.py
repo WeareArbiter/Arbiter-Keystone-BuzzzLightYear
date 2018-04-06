@@ -12,7 +12,7 @@ from defacto.models import (
     KospiScoreData,
     KosdaqScoreData,
     RankData,
-    )
+)
 from defacto.api.serializers import (
     KospiAgentDataSerializer,
     KosdaqAgentDataSerializer,
@@ -21,8 +21,9 @@ from defacto.api.serializers import (
     KospiScoreDataSerializer,
     KosdaqScoreDataSerializer,
     RankDataSerializer,
-    )
+)
 from utils.paginations import StandardResultPagination
+
 
 class KospiAgentDataAPIView(generics.ListAPIView):
     queryset = KospiAgentData.objects.all()
@@ -43,6 +44,7 @@ class KospiAgentDataAPIView(generics.ListAPIView):
         if code_by:
             queryset = queryset.filter(code=code_by)
         return queryset
+
 
 class KosdaqAgentDataAPIView(generics.ListAPIView):
     queryset = KosdaqAgentData.objects.all()

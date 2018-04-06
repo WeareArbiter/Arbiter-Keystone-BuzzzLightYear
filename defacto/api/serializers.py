@@ -1,4 +1,5 @@
 from rest_framework import serializers
+
 from defacto.models import (
     KospiAgentData,
     KosdaqAgentData,
@@ -7,7 +8,7 @@ from defacto.models import (
     KospiScoreData,
     KosdaqScoreData,
     RankData,
-    )
+)
 
 
 class KospiAgentDataSerializer(serializers.ModelSerializer):
@@ -31,6 +32,7 @@ class KospiAgentDataSerializer(serializers.ModelSerializer):
                   'for_coef',
                   'ins_coef',
                   'cor_coef',)
+
 
 class KosdaqAgentDataSerializer(serializers.ModelSerializer):
     class Meta:
