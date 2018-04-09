@@ -1,9 +1,10 @@
 from rest_framework import serializers
+
 from marketsignal.models import (
     Index,
     MarketScore,
-    MSHome,
-    RankData,
+    # MSHome,
+    # RankData,
 )
 
 def format_decimal(data):
@@ -181,59 +182,59 @@ class MarketScoreSerializer(serializers.ModelSerializer):
 #         }
 
 
-class MSHomeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = MSHome
-        fields = ('date',
-                  'kospi_index',
-                  'kospi_change',
-                  'kospi_rate',
-                  'kosdaq_index',
-                  'kosdaq_change',
-                  'kosdaq_rate',
-                  'l_index',
-                  'l_score',
-                  'l_change',
-                  'l_state',
-                  'm_index',
-                  'm_score',
-                  'm_change',
-                  'm_state',
-                  's_index',
-                  's_score',
-                  's_change',
-                  's_state',
-                  'g_index',
-                  'g_score',
-                  'g_change',
-                  'g_state',
-                  'v_index',
-                  'v_score',
-                  'v_change',
-                  'v_state',
-                  'ind_1_index',
-                  'ind_1_score',
-                  'ind_1_change',
-                  'ind_1_state',
-                  'ind_2_index',
-                  'ind_2_score',
-                  'ind_2_change',
-                  'ind_2_state',
-                  'ind_3_index',
-                  'ind_3_score',
-                  'ind_3_change',
-                  'ind_3_state',)
-
-
-class RankDataSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = RankData
-        fields = ('filter_by',
-                  'date',
-                  'num',
-                  'code',
-                  'name',
-                  'momentum_score',
-                  'volatility_score',
-                  'volume_score',
-                  'total_score',)
+# class MSHomeSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = MSHome
+#         fields = ('date',
+#                   'kospi_index',
+#                   'kospi_change',
+#                   'kospi_rate',
+#                   'kosdaq_index',
+#                   'kosdaq_change',
+#                   'kosdaq_rate',
+#                   'l_index',
+#                   'l_score',
+#                   'l_change',
+#                   'l_state',
+#                   'm_index',
+#                   'm_score',
+#                   'm_change',
+#                   'm_state',
+#                   's_index',
+#                   's_score',
+#                   's_change',
+#                   's_state',
+#                   'g_index',
+#                   'g_score',
+#                   'g_change',
+#                   'g_state',
+#                   'v_index',
+#                   'v_score',
+#                   'v_change',
+#                   'v_state',
+#                   'ind_1_index',
+#                   'ind_1_score',
+#                   'ind_1_change',
+#                   'ind_1_state',
+#                   'ind_2_index',
+#                   'ind_2_score',
+#                   'ind_2_change',
+#                   'ind_2_state',
+#                   'ind_3_index',
+#                   'ind_3_score',
+#                   'ind_3_change',
+#                   'ind_3_state',)
+#
+#
+# class RankDataSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = RankData
+#         fields = ('filter_by',
+#                   'date',
+#                   'num',
+#                   'code',
+#                   'name',
+#                   'momentum_score',
+#                   'volatility_score',
+#                   'volume_score',
+#                   'total_score',)
