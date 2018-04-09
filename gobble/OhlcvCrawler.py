@@ -15,7 +15,7 @@ from stockapi.models import Ticker
 from gobble.Crawler import Crawler
 
 
-class TickerCrawler(Crawler):
+class OhlcvCrawler(Crawler):
 
     def __init__(self):
         super().__init__()

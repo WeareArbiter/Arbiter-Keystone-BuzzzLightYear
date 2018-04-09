@@ -24,6 +24,7 @@ class MarketSignalTestCase(TestCase):
         # ticker variable for ForeignKey
         self.ticker = ticker
 
+
     def test_Index_save(self):
         index_inst, created = Index.object.get_or_create(date='20180101',
                                                          name='L',
@@ -36,6 +37,7 @@ class MarketSignalTestCase(TestCase):
 
         index_val = Index.object.all().first().index
         self.assertEquat(index_val, 100.0, msg='Index value not correct, check again')
+
 
     def test_MarketScore_save(self):
         # create Index instance for one to one relationship with MarketScore

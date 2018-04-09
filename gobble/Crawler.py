@@ -11,6 +11,7 @@ import requests
 import re
 import time
 
+# import stockapi models for data saving: using Django ORM
 from stockapi.models import (
     Ticker,
     KospiOHLCV,
@@ -18,7 +19,7 @@ from stockapi.models import (
     RecentKospiOHLCV,
     RecentKosdaqOHLCV,
     Info,
-    )
+)
 
 
 class Crawler(object):
