@@ -2,6 +2,8 @@
 
 ### SERVER DEPLOY AUTOMATION PART 2 ###
 
+source ~/.bashrc
+
 # STEP 1: set up python environment for Django app (should be in virtualenv)
 pip install -r ../requirements.txt
 
