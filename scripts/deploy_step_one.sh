@@ -12,6 +12,9 @@ echo -e "projectargogo!\nprojectargogo!" | adduser arbiter
 usermod -aG sudo arbiter
 groups arbiter
 
+git clone https://github.com/WeareArbiter/Arbiter-Keystone-BuzzzLightYear.git
+mv ./Arbiter-Keystone-BuzzzLightYear /home/arbiter/buzzz.co.kr
+
 # STEP 3: deploy firewall and allow ports 8000 and OpenSSH
 sudo ufw app list
 sudo ufw allow OpenSSH
