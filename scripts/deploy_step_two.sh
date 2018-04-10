@@ -1,23 +1,23 @@
 #! /bin/bash
 
+# when file doesn't work: sed -i 's/\r$//' [filename]
+
 ### SERVER DEPLOY AUTOMATION PART 2 ###
 
-source ~/.bashrc
-
-# STEP 1: set up python environment for Django app (should be in virtualenv)
-pip install -r ../requirements.txt
-
-# STEP 2: download uwsgi and nginx
+# STEP 1: download uwsgi and nginx and rabbitmq-server
 sudo apt-get install build-essential nginx
 sudo -H pip3 install uwsgi
 
+# STEP 2: set up python environment for Django app (should be in virtualenv)
+pip install -r /home/arbiter/buzzz.co.kr/requirements.txt
+
 # STEP 3: copy and paste configuration files for uwsgi and nginx
 sudo mkdir -p /etc/uwsgi/sites
-sudo cp /home/woobak_template/config/uwsgi/woobak.ini /etc/uwsgi/sites/woobak.ini
-sudo cp /home/woobak_template/config/uwsgi/uwsgi.service /etc/systemd/system/uwsgi.service
+sudo cp /home/arbiter/buzzz.co.kr/config/uwsgi/buzzz.ini /etc/uwsgi/sites/buzzz.ini
+sudo cp /home/arbiter/buzzz.co.kr/config/uwsgi/uwsgi.service /etc/systemd/system/uwsgi.service
 
-sudo cp /home/woobak_template/config/nginx/woobak.conf /etc/nginx/sites-available/woobak.conf
-sudo ln -s /etc/nginx/sites-available/woobak.conf /etc/nginx/sites-enabled
+sudo cp /home/arbiter/buzzz.co.kr/config/nginx/buzzz.conf /etc/nginx/sites-available/buzzz.conf
+sudo ln -s /etc/nginx/sites-available/buzzz.conf /etc/nginx/sites-enabled
 sudo nginx -t
 sudo systemctl restart nginx
 sudo systemctl start uwsgi
@@ -30,15 +30,14 @@ sudo systemctl enable nginx
 sudo systemctl enable uwsgi
 
 # STEP 4: configuring supervisor and firing up celery/celerybeat workers
-sudo apt-get install supervisor
+sudo apt-get install supervisor rabbitmq-server
 sudo service supervisor start
-systemctl status supervisor
-sudo supervisorctl status
 
-cd /etc/supervisor/confd
+sudo cp /home/arbiter/buzzz.co.kr/config/supervisor/celery.conf /etc/supervisor/conf.d/celery.conf
+sudo cp /home/arbiter/buzzz.co.kr/config/supervisor/celerybeat.conf /etc/supervisor/conf.d/celerybeat.conf
 
-touch celerybeat.conf
-touch celery.conf
+sudo touch /var/log/celery/arbiter_worker.log
+sudo touch /var/log/celery/arbiter_beat.log
 
-sudo apt-get install rabbitmq-server
-systemctl status rabbitmq-server
+sudo supervisorctl reread
+sudo supervisorctl update

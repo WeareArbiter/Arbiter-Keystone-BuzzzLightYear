@@ -1,9 +1,11 @@
 #! /bin/bash
 
+# when file doesn't work: sed -i 's/\r$//' [filename]
+
 ### SERVER DEPLOY AUTOMATION ###
 
 # STEP 1: change root user password
-echo -e "makeitpopwearbiter!1\nmakeitpopwearbiter!1" | passwd root
+echo -e "makeitpopwear!1\nmakeitpopwear!1" | passwd root
 
 # STEP 2: create new user and set password
 echo -e "projectargogo!\nprojectargogo!" | adduser arbiter
