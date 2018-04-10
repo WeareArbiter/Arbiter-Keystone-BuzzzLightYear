@@ -36,6 +36,7 @@ sudo service supervisor start
 sudo cp /home/arbiter/buzzz.co.kr/config/supervisor/celery.conf /etc/supervisor/conf.d/celery.conf
 sudo cp /home/arbiter/buzzz.co.kr/config/supervisor/celerybeat.conf /etc/supervisor/conf.d/celerybeat.conf
 
+sudo mkdir -p /var/log/celery
 sudo touch /var/log/celery/arbiter_worker.log
 sudo touch /var/log/celery/arbiter_beat.log
 
