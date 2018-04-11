@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'gobble',
     'marketsignal',
     'mined',
-    # 'portfolio',
+    'portfolio',
     # 'rms',
     'stockapi',
 ]
