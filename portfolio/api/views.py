@@ -48,17 +48,17 @@ class PortfolioItemAPIView(generics.ListCreateAPIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     pagination_class = StandardResultPagination
 
-    def create(self, request, *args, **kwargs):
-        data = request.data.copy()
-        data['portfolio'] = Portfolio.objects.get(id=data['portfolio']).id
-        ticker = Ticker.objects.filter(code=data['code']).order_by('-id').first()
-        data['code'] = ticker.id
-        data['date'] = ticker.date
-        serializer = self.get_serializer(data=data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+    # def create(self, request, *args, **kwargs):
+    #     data = request.data.copy()
+    #     data['portfolio'] = Portfolio.objects.get(id=data['portfolio']).id
+    #     ticker = Ticker.objects.filter(code=data['code']).order_by('-code').first()
+    #     data['code'] = ticker.id
+    #     data['date'] = ticker.date
+    #     serializer = self.get_serializer(data=data)
+    #     serializer.is_valid(raise_exception=True)
+    #     self.perform_create(serializer)
+    #     headers = self.get_success_headers(serializer.data)
+    #     return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 
 class PortfolioItemDetailAPIView(generics.RetrieveUpdateDestroyAPIView):

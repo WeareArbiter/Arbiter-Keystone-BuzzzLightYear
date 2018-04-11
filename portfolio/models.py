@@ -38,7 +38,7 @@ class Portfolio(models.Model):
 
 
 class PortfolioItem(models.Model):
-    portfolio = models.ForeignKey(Portfolio, related_name='history')
+    portfolio = models.ForeignKey(Portfolio, related_name='item')
     date = models.CharField(max_length=8)
     code = models.ForeignKey(Ticker, related_name='portfolio_record')
     status = models.CharField(max_length=1, choices=STATUS)

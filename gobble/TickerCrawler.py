@@ -56,7 +56,10 @@ class TickerCrawler(Crawler):
                             ticker_inst = Ticker(name=name,
                                                  code=code,
                                                  market_type=market_type)
-                            ticker_list.append(ticker_inst)
+                            if ticker_inst not in ticker_list:
+                                ticker_list.append(ticker_inst)
+                            else:
+                                pass
                     page = page + 1
             for i in range(len(table)):
                 code = table[i].find('a').attrs['href'][-6:]
@@ -74,5 +77,8 @@ class TickerCrawler(Crawler):
                     ticker_inst = Ticker(name=name,
                                          code=code,
                                          market_type=market_type)
-                    ticker_list.append(ticker_inst)
+                    if ticker_inst not in ticker_list:
+                        ticker_list.append(ticker_inst)
+                    else:
+                        pass
             page = page + 1
