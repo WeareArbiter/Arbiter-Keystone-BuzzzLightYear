@@ -11,3 +11,4 @@ chromedriver
 phantomjs/
 *.log
 req.txt
+node_modules/
