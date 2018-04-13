@@ -4,8 +4,18 @@ from rest_framework import generics, permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from portfolio.api.serializers import PortfolioSerializer, PortfolioItemSerializer
-from portfolio.models import Portfolio, PortfolioItem
+from portfolio.api.serializers import (
+    PortfolioSerializer,
+    PortfolioItemSerializer,
+    PortfolioSpecsSerializer,
+    )
+
+from portfolio.models import (
+    Portfolio,
+    PortfolioItem,
+    PortfolioSpecs,
+    )
+
 from stockapi.models import Ticker
 
 from utils.paginations import UserResultPagination, StandardResultPagination
@@ -65,3 +75,10 @@ class PortfolioItemDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = PortfolioItem.objects.all()
     serializer_class = PortfolioItemSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+
+class PortfolioSpecsAPIView(generics.ListAPIView):
+    queryset = PortfolioSpecs.objects.all()
+    serializer_class = PortfolioItemDetailAPIView
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    pagination_class = StandardResultPagination
