@@ -7,4 +7,7 @@ class ProjectStateSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProjectState
         fields = ('date',
-                  'ticker_task_done',)
+                  'task_name',
+                  'status',
+                  'log',
+                  'time',)
