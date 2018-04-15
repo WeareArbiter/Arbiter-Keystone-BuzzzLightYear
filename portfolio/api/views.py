@@ -79,6 +79,6 @@ class PortfolioItemDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
 
 class PortfolioSpecsAPIView(generics.ListAPIView):
     queryset = PortfolioSpecs.objects.all()
-    serializer_class = PortfolioItemDetailAPIView
+    serializer_class = PortfolioSpecsSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     pagination_class = StandardResultPagination

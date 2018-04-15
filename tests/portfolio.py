@@ -61,7 +61,7 @@ class PortfolioTestCase(TestCase):
                                                                          sharp_ratio = 1,
                                                                          w_ret = 24.5,
                                                                          m_ret = 10.5,
-                                                                         q_ret = 5,5,
+                                                                         q_ret = 5.5,
                                                                          h_ret = 4.5,
                                                                          y_ret = 14,
                                                                          kp_w_ret = 2.4,
@@ -76,8 +76,8 @@ class PortfolioTestCase(TestCase):
 
         portfolio_inst = self.new_user.profile.portfolio.first().name
         portfolio_item_inst = self.new_user.profile.portfolio.first().item.first().code.code
-        portfolio_specs_inst = self.new_user.pofile.portfolio.first().portfolio_ret.code.name
+        portfolio_specs_inst = self.new_user.profile.portfolio.first().portfolio_ret.first().portfolio.name
 
         self.assertEqual(portfolio_inst, 'etf-optimize', msg='portfolio not created properly')
         self.assertEqual(portfolio_item_inst, '005930', msg='portfolio_item data not created properly')
-        self.assertEqual(portfolio_specs_inst, '삼성전자', msg='portfolio_spec data not created properly')
+        self.assertEqual(portfolio_specs_inst, 'etf-optimize', msg='portfolio_spec data not created properly')
