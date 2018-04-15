@@ -3,7 +3,7 @@
 <script src="{% static 'js/socket.io.js' %}"></script>
 <script>
     WEB_SOCKET_SWF_LOCATION = 'inc/WebSocketMain.swf'
-    var socket = io.connect('http://localhost:3000')
+    var socket = io.connect('http://45.32.59.138:3000')
     socket.on('connected', function (data) {
         if (data.connected == true) {
           console.log('webpage ready to load with changes in DB')
