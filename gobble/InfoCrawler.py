@@ -28,7 +28,7 @@ import requests
 import re
 import time
 
-from stockapi.models import Info
+from stockapi.models import Ticker, Info
 from gobble.Crawler import Crawler
 
 class InfoCrawler(Crawler):

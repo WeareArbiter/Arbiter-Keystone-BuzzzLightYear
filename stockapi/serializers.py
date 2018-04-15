@@ -47,7 +47,8 @@ class TickerSerializer(serializers.ModelSerializer):
 class KospiOHLCVSerializer(serializers.ModelSerializer):
     class Meta:
         model = KospiOHLCV
-        fields = ('date',
+        fields = ('id',
+                  'date',
                   'code',
                   'open_price',
                   'high_price',
@@ -59,7 +60,8 @@ class KospiOHLCVSerializer(serializers.ModelSerializer):
 class KosdaqOHLCVSerializer(serializers.ModelSerializer):
     class Meta:
         model = KosdaqOHLCV
-        fields = ('date',
+        fields = ('id',
+                  'date',
                   'code',
                   'open_price',
                   'high_price',
@@ -71,7 +73,8 @@ class KosdaqOHLCVSerializer(serializers.ModelSerializer):
 class RecentKospiOHLCVSerializer(serializers.ModelSerializer):
     class Meta:
         model = RecentKospiOHLCV
-        fields = ('date',
+        fields = ('id',
+                  'date',
                   'code',
                   'open_price',
                   'high_price',
@@ -83,7 +86,8 @@ class RecentKospiOHLCVSerializer(serializers.ModelSerializer):
 class RecentKosdaqOHLCVSerializer(serializers.ModelSerializer):
     class Meta:
         model = RecentKosdaqOHLCV
-        fields = ('date',
+        fields = ('id',
+                  'date',
                   'code',
                   'open_price',
                   'high_price',

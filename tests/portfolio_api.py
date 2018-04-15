@@ -23,7 +23,6 @@ class PortfolioAPITestCase(TestCase):
                                                        market_type='KOSPI',
                                                        state=1)
         self.ticker = ticker
-
         self.client = APIClient()
 
         # create new user to send post requests
@@ -40,8 +39,8 @@ class PortfolioAPITestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
         # check created user specs
-        self.assertEqual(User.objects.get(pk=1).username, self.user['username'])
-        self.assertEqual(User.objects.get(pk=1).email, self.user['email'])
+        self.assertEqual(User.objects.first().username, self.user['username'])
+        self.assertEqual(User.objects.first().email, self.user['email'])
 
 
     def test_Portfolio_post_API(self):
