@@ -16,7 +16,7 @@ SECRET_KEY = sensitives['SECRET_KEY']
 IP_ADDRESS = '45.32.59.138'
 DB_NAME = 'arbiter'
 DB_USER = 'arbiter'
-DB_PW = 'projectargogo!'
+DB_PW = 'makeitpopweAR!1'
 DEBUG = True
 
 ALLOWED_HOSTS = ['buzzz.co.kr',
