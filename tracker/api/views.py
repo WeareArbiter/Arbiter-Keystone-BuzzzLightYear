@@ -4,6 +4,8 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 from tracker.models import ProjectState
 from tracker.api.serializers import ProjectStateSerializer
 
+from utils.paginations import StandardResultPagination, OHLCVPagination
+
 
 class ProjectStateAPIView(generics.ListAPIView):
     serializer_class = ProjectStateSerializer
