@@ -7,12 +7,17 @@ with open(os.path.join(BASE_DIR, 'sensitives.pickle'), 'rb') as f:
     sensitives = pickle.load(f)
 
 SECRET_KEY = sensitives['SECRET_KEY']
-IP_ADDRESS = sensitives['IP_ADDRESS']
-DB_NAME = sensitives['DB_NAME']
-DB_USER = sensitives['DB_USER']
-DB_PW = sensitives['DB_PW']
-DEBUG = sensitives['DEBUG']
+# IP_ADDRESS = sensitives['IP_ADDRESS']
+# DB_NAME = sensitives['DB_NAME']
+# DB_USER = sensitives['DB_USER']
+# DB_PW = sensitives['DB_PW']
+# DEBUG = sensitives['DEBUG']
 # APP_STATUS = sensitives['APP_STATUS']
+IP_ADDRESS = '45.32.59.138'
+DB_NAME = 'arbiter'
+DB_USER = 'arbiter'
+DB_PW = 'makeitpopweAR!1'
+DEBUG = True
 
 ALLOWED_HOSTS = ['buzzz.co.kr',
                  'www.buzzz.co.kr',
