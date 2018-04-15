@@ -7,12 +7,17 @@ with open(os.path.join(BASE_DIR, 'sensitives.pickle'), 'rb') as f:
     sensitives = pickle.load(f)
 
 SECRET_KEY = sensitives['SECRET_KEY']
-IP_ADDRESS = sensitives['IP_ADDRESS']
-DB_NAME = sensitives['DB_NAME']
-DB_USER = sensitives['DB_USER']
-DB_PW = sensitives['DB_PW']
-DEBUG = sensitives['DEBUG']
+# IP_ADDRESS = sensitives['IP_ADDRESS']
+# DB_NAME = sensitives['DB_NAME']
+# DB_USER = sensitives['DB_USER']
+# DB_PW = sensitives['DB_PW']
+# DEBUG = sensitives['DEBUG']
 # APP_STATUS = sensitives['APP_STATUS']
+IP_ADDRESS = '45.32.59.138'
+DB_NAME = 'arbiter'
+DB_USER = 'arbiter'
+DB_PW = 'makeitpopweAR!1'
+DEBUG = True
 
 ALLOWED_HOSTS = ['buzzz.co.kr',
                  'www.buzzz.co.kr',
@@ -42,6 +47,7 @@ INSTALLED_APPS = [
     'portfolio',
     # 'rms',
     'stockapi',
+    'tracker',
 ]
 
 MIDDLEWARE = [
@@ -74,6 +80,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'arbiter.wsgi.application'
 
+<<<<<<< HEAD
 if DEBUG == False:
     DATABASES = {
         'default': {
@@ -105,8 +112,37 @@ else:
 #         'PASSWORD': DB_PW,
 #         'HOST': IP_ADDRESS,
 #         'PORT': '',
+=======
+# if DEBUG == False:
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#             'NAME': DB_NAME,
+#             'USER': DB_USER,
+#             'PASSWORD': DB_PW,
+#             'HOST': IP_ADDRESS,
+#             'PORT': '',
+#         }
+>>>>>>> e18af009e9e82bd63c81e9840bb20274c3b70077
 #     }
-# }
+# else:
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.sqlite3',
+#             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#         }
+#     }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': DB_NAME,
+        'USER': DB_USER,
+        'PASSWORD': DB_PW,
+        'HOST': IP_ADDRESS,
+        'PORT': '',
+    }
+}
 
 AUTH_PASSWORD_VALIDATORS = [
     {
