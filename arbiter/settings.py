@@ -80,7 +80,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'arbiter.wsgi.application'
 
-<<<<<<< HEAD
 if DEBUG == False:
     DATABASES = {
         'default': {
@@ -104,15 +103,7 @@ else:
         }
     }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': DB_NAME,
-#         'USER': DB_USER,
-#         'PASSWORD': DB_PW,
-#         'HOST': IP_ADDRESS,
-#         'PORT': '',
-=======
+
 # if DEBUG == False:
 #     DATABASES = {
 #         'default': {
@@ -123,7 +114,6 @@ else:
 #             'HOST': IP_ADDRESS,
 #             'PORT': '',
 #         }
->>>>>>> e18af009e9e82bd63c81e9840bb20274c3b70077
 #     }
 # else:
 #     DATABASES = {
@@ -133,16 +123,6 @@ else:
 #         }
 #     }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': DB_NAME,
-        'USER': DB_USER,
-        'PASSWORD': DB_PW,
-        'HOST': IP_ADDRESS,
-        'PORT': '',
-    }
-}
 
 AUTH_PASSWORD_VALIDATORS = [
     {
