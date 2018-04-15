@@ -8,7 +8,7 @@
 echo -e "makeitpopwear!1\nmakeitpopwear!1" | passwd root
 
 # STEP 2: create new user and set password
-echo -e "projectargogo!\nprojectargogo!" | adduser arbiter
+echo -e "makeitpopweAR!1\nmakeitpopweAR!1" | adduser arbiter
 usermod -aG sudo arbiter
 groups arbiter
 

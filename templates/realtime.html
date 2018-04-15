@@ -11,6 +11,10 @@
         socket.emit('ready for data', {})
     })
     socket.on('update', function (data) {
-        console.log(data.message.payload)
+        console.log('Today date: ' + data.today_date.payload)
+        console.log('Task just update: ' + data.task_just_updated.payload)
+        console.log('Task status: ' + data.task_status.payload)
+        console.log('Task log: ' + data.task_log.payload)
+        console.log('Task took: ' + data.task_processed_time.payload + ' seconds')
     })
 </script>
