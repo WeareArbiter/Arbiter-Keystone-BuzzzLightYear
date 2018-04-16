@@ -1,8 +1,8 @@
-import random, time
-from datetime import datetime
-
 from __future__ import absolute_import, unicode_literals
 from celery.decorators import task
+
+import random, time
+from datetime import datetime
 
 from stockapi.models import Ticker
 from gobble.TickerCrawler import TickerCrawler
