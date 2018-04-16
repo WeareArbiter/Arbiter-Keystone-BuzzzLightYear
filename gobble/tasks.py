@@ -10,26 +10,30 @@ from tracker.models import ProjectState
 
 @task(name="scrape_stock_ticker")
 def scrape_stock_ticker():
-    start = time.time()
-    tc = TickerCrawler()
-    tc.scrape_ticker()
-    end = time.time()
+    try:
+        start = time.time()
+        tc = TickerCrawler()
+        tc.scrape_ticker()
+        end = time.time()
 
-    # log process result
-    today_date = datetime.today().strftime('%Y%m%d')
-    todays_tickers_count = Ticker.objects.filter(date=today_date).count()
-    if todays_tickers_count != 0:
+        # log process result
+        today_date = datetime.today().strftime('%Y%m%d')
+        ticker_count = Ticker.objects.all().count()
         log = ProjectState(date=today_date,
                            task_name='TICKERS',
                            status=1,
-                           log='scraped {} tickers'.format(todays_tickers_count),
+                           log='finished scraping tickers. Total ticker count: {}'.format(ticker_count),
                            time=end-start)
-    else:
+
+    except:
+        # log process error
+        today_date = datetime.today().strftime('%Y%m%d')
         log = ProjectState(date=today_date,
                            task_name='TICKERS',
                            status=0,
-                           log='error scraping tickers, no tickers',
-                           time=end-start)
+                           log='error scraping tickers, check again',
+                           time=0)
+
 
 @task(name="sum_two_numbers")
 def add(x, y):
