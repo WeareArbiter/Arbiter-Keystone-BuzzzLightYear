@@ -1,6 +1,7 @@
 import random, time
 from datetime import datetime
 
+from __future__ import absolute_import, unicode_literals
 from celery.decorators import task
 
 from stockapi.models import Ticker
