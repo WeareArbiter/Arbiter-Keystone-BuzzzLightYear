@@ -2,7 +2,7 @@ CREATE FUNCTION notify_projectstate() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 BEGIN
-    PERFORM pg_notify('projectstate', NEW.date, NEW.task_name, NEW.status, NEW.log, NEW.time);
+    PERFORM pg_notify('projectstate', NEW.id);
     RETURN NULL;
 END;
 $$;
