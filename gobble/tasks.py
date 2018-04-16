@@ -1,7 +1,6 @@
 import random, time
 from datetime import datetime
 
-from __future__ import absolute_import, unicode_literals
 from celery.decorators import task
 
 from stockapi.models import Ticker
@@ -29,7 +28,7 @@ def scrape_stock_ticker():
                            task_name='TICKERS',
                            status=0,
                            log='error scraping tickers, no tickers',
-                           time=end-start)           
+                           time=end-start)
 
 @task(name="sum_two_numbers")
 def add(x, y):

@@ -80,7 +80,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'arbiter.wsgi.application'
 
-if DEBUG == False:
+if DEBUG == True:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
