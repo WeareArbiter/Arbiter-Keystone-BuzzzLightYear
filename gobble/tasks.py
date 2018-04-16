@@ -24,6 +24,7 @@ def scrape_stock_ticker():
                            status=1,
                            log='finished scraping tickers. Total ticker count: {}'.format(ticker_count),
                            time=end-start)
+        log.save()
 
     except:
         # log process error
@@ -33,6 +34,7 @@ def scrape_stock_ticker():
                            status=0,
                            log='error scraping tickers, check again',
                            time=0)
+        log.save()
 
 
 @task(name="sum_two_numbers")
