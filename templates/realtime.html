@@ -3,7 +3,7 @@
 <script src="{% static 'js/socket.io.js' %}"></script>
 <script>
     WEB_SOCKET_SWF_LOCATION = 'inc/WebSocketMain.swf'
-    var socket = io.connect('http://45.76.197.221:3000')
+    var socket = io.connect('http://8.9.31.201:3000')
     socket.on('connected', function (data) {
         if (data.connected == true) {
           console.log('webpage ready to load with changes in DB')
@@ -11,6 +11,7 @@
         socket.emit('ready for data', {})
     })
     socket.on('update', function (data) {
+        console.log('project state updated')
         console.log(data.message.payload)
     })
 </script>
