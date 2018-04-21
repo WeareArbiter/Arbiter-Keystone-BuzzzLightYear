@@ -42,7 +42,3 @@ sudo touch /var/log/celery/arbiter_beat.log
 
 sudo supervisorctl reread
 sudo supervisorctl update
-
-# STEP 5: set up Node.js/Socket.io application with Docker
-git clone https://github.com/ppark9553/nodedep.git /home/arbiter/nodedep
-sudo bash /home/arbiter/nodedep/setup.sh
