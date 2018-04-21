@@ -1,4 +1,4 @@
-DROP FUNCTION IF EXISTS notify_projectstate()
+DROP FUNCTION IF EXISTS notify_projectstate();
 
 CREATE FUNCTION notify_projectstate() RETURNS trigger
     LANGUAGE plpgsql
