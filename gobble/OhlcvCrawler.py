@@ -37,7 +37,7 @@ class OhlcvCrawler(Crawler):
         if exist_ohlcv:
             pass
         else:
-            for market in ['KOSPI', 'ETF', 'ETN']:
+            for market in ['KOSPI', 'ETF', 'ETN','KOSDAQ']:
                 upt_n = 0
                 tickers = Ticker.objects.filter(market_type=market).filter(state=True).order_by('code')
                 #holiday check
