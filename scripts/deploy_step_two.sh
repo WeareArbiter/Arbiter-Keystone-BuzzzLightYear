@@ -31,6 +31,10 @@ sudo systemctl enable uwsgi
 
 # STEP 4: configuring supervisor and firing up celery/celerybeat workers
 sudo apt-get install supervisor rabbitmq-server
+sudo rabbitmqctl add_user arbiterbroker projectargogo
+sudo rabbitmqctl set_user_tags arbiterbroker administrator
+sudo rabbitmqctl set_permissions -p arbiterbroker ".*" ".*" ".*"
+
 sudo service supervisor start
 
 sudo cp /home/arbiter/buzzz.co.kr/config/supervisor/celery.conf /etc/supervisor/conf.d/celery.conf

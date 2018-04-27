@@ -161,8 +161,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 #         )
 #     }
 
-CELERY_BROKER_URL = 'amqp://localhost'
-CELERY_RESULT_BACKEND = 'amqp://localhost'
+CELERY_BROKER_URL = 'amqp://arbiterbroker:projectargogo@45.32.59.138:5672//'
+CELERY_RESULT_BACKEND = 'amqp://arbiterbroker:projectargogo@45.32.59.138:5672//'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
