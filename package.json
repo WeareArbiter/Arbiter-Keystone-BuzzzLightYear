@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/WeareArbiter/Arbiter-Keystone-BuzzzLightYear#readme",
   "devDependencies": {
-    "yarn": "^1.5.1"
+    "yarn": "^1.22.0"
   },
   "dependencies": {
     "express": "^4.16.3",
