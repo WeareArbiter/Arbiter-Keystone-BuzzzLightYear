@@ -21,7 +21,7 @@ kombu==4.1.0
 lxml==4.1.1
 numpy==1.14.0
 pandas==0.22.0
-paramiko==2.4.1
+paramiko==2.10.1
 psycopg2==2.7.3.2
 pyasn1==0.4.2
 pycparser==2.18
